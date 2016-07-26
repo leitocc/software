@@ -9,15 +9,15 @@ require_once '../../Conexion2.php';?>
     <head>
         <meta charset="UTF-8">
         <title>Sistema de Gestion de Incidentes</title>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-ui.js"></script>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
         <script>
             $(document).ready(function() {
                 $( "#anio" ).spinner();
                 $("#volver").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/Gestion_Incidentes_SW/Administracion/PrincipalAdministracion.php';
+                    window.location = '/IncidentesSoftware/Administracion/PrincipalAdministracion.php';
                 });
             });
         </script>

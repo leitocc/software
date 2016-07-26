@@ -14,8 +14,8 @@ if(isset($_SESSION['usuario'])){
             <meta name="description" content="Universidad Tecnológica Nacional - Facultad Regional Córdoba - Departamento Ingeniería en Sistemas de Información .: Laboratorio de Sistemas :." />
             <meta name="keywords" content="Laboratorio de Sistemas, labsis, Congresos, Investigación, Biblioteca LabSis" />
             <meta name="author" content="" />
-            <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" media="screen" />
-            <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-1.11.1.js"></script>
+            <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" media="screen" />
+            <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
             <title>.: Departamento de Sistemas - LabSis - Sistema de Gestion de Incidentes :.</title>
     </head>
 

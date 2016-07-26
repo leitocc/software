@@ -96,6 +96,9 @@ echo "hasta: ".$hasta."<br/>";*/
             <th>
                 Estado
             </th>
+            <th>
+                Prioridad
+            </th>
         </tr>
     </thead>
     <tbody>

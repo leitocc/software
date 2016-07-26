@@ -10,15 +10,15 @@ require_once '../../Conexion2.php';
     <head>
         <meta charset="UTF-8">
         <title>Componentes</title>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/ajax.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/ajax.js"></script>
         <script type="text/javascript">
 
             window.onload = function () {
                 document.getElementById("sala").onchange = function (e) {
                     var nrosala = document.getElementById('sala').value;
                     if (nrosala !== "") {
-                        valida("/Gestion_Incidentes_SW/Administracion/Componente/ajax/mostrarComponente.php");
+                        valida("/IncidentesSoftware/Administracion/Componente/ajax/mostrarComponente.php");
                     } else {
                         document.getElementById('sistemaInformatico').innerHTML = "";
                     }

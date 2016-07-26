@@ -9,8 +9,8 @@ include_once '../limpiarSesion.php';
     <head>
         <meta charset="UTF-8">
         <title>Incidentes</title>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-1.11.1.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
         <?php 
         //echo "Pruebo y .. ";
         if(isset($_REQUEST['mjs']) && $_REQUEST['mjs'] != ''){

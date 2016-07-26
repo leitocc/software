@@ -183,8 +183,8 @@ if ($mysqli->query($insertQuery) === TRUE) {
 //mysqli_commit($insert);
 /**/
 if(mysql_errno() == 0){
-   header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=1'); 
+   header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=1'); 
 }else{
-   header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=0'); 
+   header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0'); 
 }
 

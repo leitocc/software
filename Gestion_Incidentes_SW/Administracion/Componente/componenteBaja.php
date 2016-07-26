@@ -15,7 +15,7 @@ try{
     $mensajecomponente = "Error general: ". $e;
 }
 echo $mensajecomponente;
-header('Location: /Gestion_Incidentes_SW/Administracion/PrincipalAdministracion.php');
+header('Location: /IncidentesSoftware/Administracion/PrincipalAdministracion.php');
 $_SESSION['mensaje'] = $mensajecomponente;
 /* 
  * To change this license header, choose License Headers in Project Properties.

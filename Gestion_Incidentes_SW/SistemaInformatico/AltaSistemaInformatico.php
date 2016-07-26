@@ -9,9 +9,9 @@ require_once '../Conexion.php';
     <head>
         <meta charset="UTF-8">
         <title>Sistemas Informaticos - Alta</title>
-        <script type="text/javascript" src="/incidentes/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/incidentes/js/jquery-ui.js"></script>
-        <link rel="stylesheet" type="text/css" href="/incidentes/css/estilo.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
         <script type="text/javascript">
             $(document).ready(function() {
                 $("#volver").click(function(mievento){

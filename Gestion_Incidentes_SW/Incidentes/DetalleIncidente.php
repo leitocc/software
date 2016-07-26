@@ -39,14 +39,14 @@ $incidente = $buscarIncidentes->fetch_assoc();
     <head>
         <meta charset="UTF-8">
         <title>Buscar Incidentes</title>
-        <script type="text/javascript" src="/incidentes/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/incidentes/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/incidentes/js/jquery.datetimepicker.js"></script>
-        <script type="text/javascript" src="/incidentes/js/jquery.datepicker-es.js"></script>
-        <script type="text/javascript" src="/incidentes/js/jquery.validate.js"></script>
-        <link rel="stylesheet" type="text/css" href="/incidentes/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/incidentes/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="/incidentes/css/jquery.datetimepicker.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datepicker-es.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.validate.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
         <script>
             $(document).ready(function () {
                 $("#finicio").datepicker({
@@ -81,16 +81,16 @@ $incidente = $buscarIncidentes->fetch_assoc();
                 $("#volver").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/incidentes/Incidentes/BuscarIncidente.php';
+                    window.location = '/IncidentesSoftware/Incidentes/BuscarIncidente.php';
                 });
                 $("#cancelar").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/incidentes/Incidentes/BuscarIncidente.php';
+                    window.location = '/IncidentesSoftware/Incidentes/BuscarIncidente.php';
                 });
                 $("#agregarComponente").click(function (mievento) {
                     mievento.preventDefault();
-                    window.location = '/incidentes/SistemaInformatico/ModificarComponentesSI.php?si=<?php echo $incidente['si'] ?>&idIncidente=<?php echo $id ?>';
+                    window.location = '/IncidentesSoftware/SistemaInformatico/ModificarComponentesSI.php?si=<?php echo $incidente['si'] ?>&idIncidente=<?php echo $id ?>';
                 });
                 $("#formulario").validate({
                     submitHandler: function (form) {
@@ -156,7 +156,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                     alert("aidsfhsd");
                     var ultimo = document.getElementById("tipoDocumento").lastElementChild;
                     $.ajax({
-                        url: "/incidentes/Incidentes/cargarAccionCorrectiva.php",
+                        url: "/IncidentesSoftware/Incidentes/cargarAccionCorrectiva.php",
                         type: "POST",
                         data: "tipoComponente=" + ultimo.value,
                         success: function (opciones) {

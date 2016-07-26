@@ -259,7 +259,7 @@ for ($index = 0; $index < count($accion); $index++) {
         echo print_r($accion);
         echo "ERROR: No se grabo el detalle de accion" . mysql_errno() . "; " . $accion[$index] . "</br>";
         mysql_query('ROLLBACK');
-        header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=0');
+        header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0');
         exit();
     }
 }
@@ -270,7 +270,7 @@ if ($estado != 1) {
     if (!mysql_query($updateIncidente)) {
         echo "ERROR: No se actualizo el estado del incidente" . mysql_errno() . "</br>";
         mysql_query('ROLLBACK');
-        header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=0');
+        header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0');
         exit();
     }
 }

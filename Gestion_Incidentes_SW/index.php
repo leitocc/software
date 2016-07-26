@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Sistema de Gestion de Incidentes</title>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
     </head>
     <body id="top">
         <?php

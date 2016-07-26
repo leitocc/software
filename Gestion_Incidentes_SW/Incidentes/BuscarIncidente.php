@@ -9,14 +9,14 @@ require_once '../Conexion.php';
     <head>
         <meta charset="UTF-8">
         <title>Buscar Incidentes</title>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery.datetimepicker.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery.datepicker-es.js"></script>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/tabla.css" />
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/jquery.datetimepicker.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datepicker-es.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/tabla.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
         <script>
             function irDetalle(id){
                 window.location = 'DetalleIncidente.php?id='+id;
@@ -25,7 +25,7 @@ require_once '../Conexion.php';
                 $("#sala").change(function(e) {
                     if ($("#sala").val() !== "") {
                         $.ajax({
-                            url: "/incidentes/SistemaInformatico/cargarSI.php",
+                            url: "/IncidentesSoftware/SistemaInformatico/cargarSI.php",
                             type: "POST",
                             data: "sala=" + $("#sala").val(),
                             success: function(opciones) {
@@ -64,7 +64,7 @@ require_once '../Conexion.php';
                 $("#buscar").click(function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "/Gestion_Incidentes_SW/Incidentes/ajax/buscarIncidente.php",
+                        url: "/IncidentesSoftware/Incidentes/ajax/buscarIncidente.php",
                         type: "POST",
                         data: "estado=" + $("#estado").val() + "&desde=" + $("#desde").val()
                               + "&hasta=" + $("#hasta").val() + "&sala=" + $("#sala").val()

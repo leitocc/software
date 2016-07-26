@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario'])) {
     ?>
     <script languaje="javascript">
     //alert("Debe registrarse primero");
-        location.href = "/Gestion_Incidentes_SW/login.php";
+        location.href = "/IncidentesSoftware/login.php";
     </script>
     <?php
 

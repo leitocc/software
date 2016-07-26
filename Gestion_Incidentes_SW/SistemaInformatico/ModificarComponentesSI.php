@@ -16,9 +16,9 @@ require_once '../Conexion.php';
     <head>
         <meta charset="UTF-8">
         <title>Sistemas Informaticos - Modificar Componentes</title>
-        <script type="text/javascript" src="/incidentes/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/incidentes/js/jquery-ui.js"></script>
-        <link rel="stylesheet" type="text/css" href="/incidentes/css/estilo.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
         <?php 
             if(isset($_SESSION['mensaje'])){      
                 $mensaje = $_SESSION['mensaje'];
@@ -35,7 +35,7 @@ require_once '../Conexion.php';
                 $("#volver").click(function(mievento){
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/incidentes/SistemaInformatico/ModificarSisitemaInformatico.php';
+                    window.location = '/IncidentesSoftware/SistemaInformatico/ModificarSisitemaInformatico.php';
                 });
                 <?php if(isset($_SESSION['idIncidente'])){?>
                 $("#volverIncidentes").click(function(mievento){

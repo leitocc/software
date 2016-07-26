@@ -9,7 +9,7 @@ include_once '../limpiarSesion.php';
     <head>
         <meta charset="UTF-8">
         <title>Sistemas Informaticos</title>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
         <?php 
             if(isset($_SESSION['mensaje'])){      
                 $mensaje = $_SESSION['mensaje'];

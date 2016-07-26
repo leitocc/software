@@ -8,20 +8,20 @@ include_once '../verificarPermisos.php';
     <head>
         <meta charset="UTF-8">
         <title>Incidentes - Registrar Nuevo Incidente</title>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery.datetimepicker.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery.datepicker-es.js"></script>
-        <script type="text/javascript" src="/Gestion_Incidentes_SW/js/jquery.validate.js"></script>
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="/Gestion_Incidentes_SW/css/jquery.datetimepicker.css" />
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datepicker-es.js"></script>
+        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.validate.js"></script>
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
         <script>
             $(document).ready(function () {
                 $("#sala").change(function (e) {
                     if ($("#sala").val() !== "Seleccione...") {
                         $.ajax({
-                            url: "/Gestion_Incidentes_SW/SistemaInformatico/cargarSI.php",
+                            url: "/IncidentesSoftware/SistemaInformatico/cargarSI.php",
                             type: "POST",
                             data: "sala=" + $("#sala").val(),
                             success: function (opciones) {
@@ -36,7 +36,7 @@ include_once '../verificarPermisos.php';
                 $("#componenteAfectado").change(function (e) {
                     if ($("#componenteAfectado").val() !== "Seleccione...") {
                         $.ajax({
-                            url: "/Gestion_Incidentes_SW/Incidentes/ajax/cargarIndicioIncidentes.php",
+                            url: "/IncidentesSoftware/Incidentes/ajax/cargarIndicioIncidentes.php",
                             type: "POST",
                             data: "componenteAfectado=" + $("#componenteAfectado").val(),
                             success: function (opciones) {
@@ -81,7 +81,7 @@ include_once '../verificarPermisos.php';
                 $("#cancelar").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/Gestion_Incidentes_SW/Incidentes/InicioIncidentes.php';
+                    window.location = '/IncidentesSoftware/Incidentes/InicioIncidentes.php';
                 });
             });
         </script>
@@ -277,7 +277,7 @@ include_once '../verificarPermisos.php';
                                      <tr>
                                         <td>Prioridad</td>
                                         <td colspan="3">
-                                            <select id="prioridad" name="prioridad">
+                                            <select id="prioridad" name="prioridad"  required>
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $queryPrioridad = "SELECT Pr.idPrioridad, Pr.nombre FROM prioridad Pr";
