@@ -9,12 +9,12 @@ if (!isset($_SESSION['usuario'])) {
     </script>
     <?php
 
-    //header('Location: /incidentes/login.php'); 
+    //header('Location: /IncidentesSoftware/login.php'); 
     exit();
 } elseif (isset($_SESSION['permisos'])) {
     //hacer una busqueda que contenga el rol del usuario
     if (!in_array($_SESSION['idRolUS'], $_SESSION['permisos'])) {
-        //header('Location: /incidentes/login.php'); 
+        //header('Location: /IncidentesSoftware/login.php'); 
         ?>
         <script languaje="javascript">
             alert("No tiene permisos para acceder a esta página");

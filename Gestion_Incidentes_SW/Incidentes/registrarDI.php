@@ -3,7 +3,7 @@
 session_start();
 
 function paginaError($nroError, $mjs) {
-    header('Location: /incidentes/error.php?error=' . $nroError . '&mjs=' . $mjs . '');
+    header('Location: /IncidentesSoftware/error.php?error=' . $nroError . '&mjs=' . $mjs . '');
     exit();
 }
 
@@ -13,7 +13,7 @@ require_once '../formatoFecha.class.php';
 if ($_REQUEST['nroInterv'] != "") {
     $nroInterv = $_REQUEST['nroInterv'];
 } else {
-    //header('Location: /incidentes/error.php?error=1'); 
+    //header('Location: /IncidentesSoftware/error.php?error=1'); 
     paginaError(1, "1");
 }
 
@@ -206,7 +206,7 @@ if (mysql_errno() != 0) {
 
     mysql_query('ROLLBACK');
     exit();
-    header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=0');
+    header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0');
 }
 
 
@@ -219,7 +219,7 @@ for ($index = 0; $index < count($componente); $index++) {
     $buscar = mysql_query($buscarComponente);
     if (mysql_errno() != 0) {
         mysql_query('ROLLBACK');
-        header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=0');
+        header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0');
         exit();
     }
     $idComponente = mysql_fetch_assoc($buscar);
@@ -239,7 +239,7 @@ for ($index = 0; $index < count($componente); $index++) {
     if (mysql_errno() != 0) {
         echo "ERROR: No se grabo el detalle" . mysql_errno() . "</br>";
         mysql_query('ROLLBACK');
-        header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=0');
+        header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0');
         exit();
     }
 }
@@ -276,4 +276,4 @@ if ($estado != 1) {
 }
 
 mysql_query('COMMIT');
-//header('Location: /incidentes/Incidentes/InicioIncidentes.php?mjs=1');
+//header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=1');

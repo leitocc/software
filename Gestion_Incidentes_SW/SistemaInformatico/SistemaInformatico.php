@@ -46,4 +46,4 @@ if(isset($_REQUEST['modo']) && $_REQUEST['modo'] =="del"){
         $mjs = 0;
     }
 }
-header('Location: /incidentes/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 
+header('Location: /IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 

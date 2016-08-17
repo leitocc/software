@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Sistema de Gestion de Incidentes</title>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <title>Sistema de Gestion de Incidentes de Software</title>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
     </head>
     <body id="top">
         <?php
@@ -21,7 +21,7 @@
                 <?php include_once './menu.php';?>
                 <div class="main">
                     <div class="post">
-                        <li class="no_lista"><h2>Bienvenido al Sistema de Gestion de Incidentes</h2></li>
+                        <li class="no_lista"><h2>Bienvenido al Sistema de Gestion de Incidentes de Software</h2></li>
                         <br/>
                         <h3>Para comenzar seleccione una de las opciones del menu principal</h3>
                         <br/>

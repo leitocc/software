@@ -17,7 +17,7 @@ $hoy = getdate();
         <span class="text-separator">|</span>
         <span class="quiet">Bienvenido: <?php echo $_SESSION['rolUS']?> - <?php echo $_SESSION['apellidoUS'].", ".$_SESSION['nombreUS']?></span>
         <span class="text-separator">|</span>
-        <!--<span class="quiet"><a href="/incidentes/logout.php" id="logout" class="more">Salir</a></span>-->
+        <!--<span class="quiet"><a href="/IncidentesSoftware/logout.php" id="logout" class="more">Salir</a></span>-->
         <?php }?>
     </div>
     <div class="clearer">&nbsp;</div>

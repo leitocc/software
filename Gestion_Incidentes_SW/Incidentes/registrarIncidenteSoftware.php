@@ -8,7 +8,7 @@ require_once '../formatoFecha.class.php';
 if ($_REQUEST['nroIncidente'] != "") {
     $nroIncidente = $_REQUEST['nroIncidente'];
 } else {
-    //header('Location: /incidentes/error.php?error=1'); 
+    //header('Location: /IncidentesSoftware/error.php?error=1'); 
     //paginaError(1);
 }
 

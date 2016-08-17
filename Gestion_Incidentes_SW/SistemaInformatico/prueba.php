@@ -11,7 +11,7 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        header('Location: /incidentes/SistemaInformatico/PrincipalSistemaInformatico.php'); 
+        header('Location: /IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php'); 
         ?>
     </body>
 </html>
