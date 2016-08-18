@@ -35,7 +35,7 @@ echo "hasta: ".$hasta."<br/>";*/
     require_once '../../Conexion2.php';
     //echo "entro: 1<br/>";
     $buscarIncidentes = "SELECT I.idIncidente AS id, I.fecha, I.id_sistema_informatico AS SI,S.nombre AS sala, CS.nombre AS causa, E.nombre_estado AS estado, P.nombre as Prioridad
-                         FROM incidente_software I INNER JOIN sistema_informatico SI on I.id_sistema_informatico=SI.id_sistema_informatico INNER JOIN Sala s on SI.id_sala=S.id_Sala 
+                         FROM incidente_software I INNER JOIN sistema_informatico SI on I.id_sistema_informatico=SI.id_sistema_informatico INNER JOIN sala S on SI.id_sala=S.id_Sala 
                          INNER JOIN causa_incidente_software CS ON I.id_causa_incidente = CS.idCausa INNER JOIN estado E ON I.id_estado = E.id_estado INNER JOIN prioridad P on I.id_prioridad=P.idPrioridad";
     //echo "bsq: ".$buscarIncidentes."<br/>";
     
@@ -63,11 +63,11 @@ echo "hasta: ".$hasta."<br/>";*/
         //$buscarIncidentes = $buscarIncidentes."AND I.fecha <= \"".date_format($hasta, 'Y-m-d')."\" ";
         $buscarIncidentes = $buscarIncidentes."AND I.fecha <= \"".$hasta." 23:59:59\" ";
     }
-    $buscarIncidentes = $buscarIncidentes."ORDER BY I.idIncidente ASC";
+    $buscarIncidentes = $buscarIncidentes." ORDER BY I.idIncidente ASC";
     //echo "query: ".$buscarIncidentes."<br/>";
 
     $resultadoBuscarIncidentes = $mysqli->query($buscarIncidentes);
-    
+    echo $buscarIncidentes;
     //if(mysql_errno() == 0 &&  ($resultadoBuscarIncidentes->num_rows > 0)){
     if(($resultadoBuscarIncidentes->num_rows > 0)){
     ?>

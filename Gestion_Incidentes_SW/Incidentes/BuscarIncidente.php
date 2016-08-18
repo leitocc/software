@@ -17,7 +17,7 @@ require_once '../Conexion.php';
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/tabla.css" />
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
-        <script>
+        <script type="text/javascript">
             function irDetalle(id){
                 window.location = 'DetalleIncidente.php?id='+id;
             }

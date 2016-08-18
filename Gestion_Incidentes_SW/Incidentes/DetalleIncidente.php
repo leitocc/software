@@ -7,19 +7,20 @@ $id = filter_input(INPUT_GET, "id");
 require_once '../formatoFecha.class.php';
 //require_once '../Conexion.php';
 require_once '../Conexion2.php';
-$queryIncidente = "SELECT I.id_incidente, I.id_sistema_informatico_afectado AS si, I.fecha, T.nombre_turno AS turno,
+$queryIncidente = "SELECT I.idIncidente, I.id_sistema_informatico AS si, I.fecha, T.nombre_turno AS turno,
                     S.nombre AS sala, I.descripcion, CI.nombre AS causa_incidente, I.id_estado AS idEstado, E.nombre_estado AS estado,
                     A.nombre_actividad, A.nivel_actividad, A.responsable1, A.responsable2, P.apellido AS apellido_reporto,
-                    P.nombre AS nombre_reporto, R.nombre AS rol_reporto, I.id_tipo_componente_afectado
-                    FROM incidente I 
-                    INNER JOIN persona P ON I.id_persona_reporto = P.id_persona
-                    INNER JOIN causa_incidente CI ON I.id_causa_incidente = CI.id_tipo_incidente
-                    INNER JOIN rol R ON I.id_rol_persona_reporto = R.id_rol
+                    P.nombre AS nombre_reporto
+                    FROM incidente_software I 
+                    INNER JOIN persona P ON I.id_persona_reporte = P.id_persona
+                    INNER JOIN causa_incidente_software CI ON I.id_causa_incidente = CI.idCausa
                     INNER JOIN estado E ON I.id_estado = E.id_estado
-                    LEFT JOIN actividad A ON I.id_actividad_en_desarrollo = A.id_actividad
+                    LEFT JOIN actividad A ON I.id_actividad_desarollo = A.id_actividad
                     INNER JOIN turno T ON I.id_turno = T.id_turno
-                    INNER JOIN sala S ON I.id_sala = S.id_sala
-                    WHERE I.id_incidente = " . $id;
+                    INNER JOIN sistema_informatico SI ON SI.id_sistema_informatico = I.id_sistema_informatico
+                    INNER JOIN sala S ON SI.id_sala = S.id_sala
+                    WHERE I.idIncidente = " . $id;
+
 //echo $queryIncidente . "</br>";
 $buscarIncidentes = $mysqli->query($queryIncidente);
 if (!$buscarIncidentes) {
