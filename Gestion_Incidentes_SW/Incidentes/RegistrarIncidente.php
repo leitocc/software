@@ -256,7 +256,7 @@ include_once '../verificarPermisos.php';
                                     </tr>
                                     
                                     <tr>
-                                        <td>Causa de incidente:</td>
+                                        <td>Indicio Incidente:</td>
                                         <td colspan="3">
                                             <select id="causaIncidente" name="causaIncidente" required>
                                                 <option value="">Seleccione...</option>

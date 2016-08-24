@@ -118,7 +118,7 @@ echo "hasta: ".$hasta."<br/>";*/
                 <?php echo substr($row['fecha'], 11, 5) ?>
             </td>
             <td>
-                <?php echo $row['si']?>
+                <?php echo $row['SI']?>
             </td>
             <td>
                 <?php echo $row['sala']?>

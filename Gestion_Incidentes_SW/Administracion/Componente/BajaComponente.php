@@ -63,7 +63,7 @@ require_once '../../Conexion2.php';?>
                                         ?>
                                         </select>         
                                     </li>
-                                    <li> <button class="submit" type="submit">Guardar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
+                                    <li> <button class="submit" type="submit">Eliminar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
                                 </ul>                                
                             </div>
                         </form>
