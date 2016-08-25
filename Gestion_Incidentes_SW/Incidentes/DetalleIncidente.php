@@ -18,7 +18,7 @@ $queryIncidente = "SELECT I.idIncidente, I.id_sistema_informatico AS si, I.fecha
                     LEFT JOIN actividad A ON I.id_actividad_desarollo = A.id_actividad
                     INNER JOIN turno T ON I.id_turno = T.id_turno
                     INNER JOIN sistema_informatico SI ON SI.id_sistema_informatico = I.id_sistema_informatico
-                    INNER JOIN sala S ON SI.id_sala = S.id_sala INNER JOIN Rol R  on  P.id_rol=R.id_rol
+                    INNER JOIN sala S ON SI.id_sala = S.id_sala INNER JOIN rol R on P.id_rol = R.id_rol
                     WHERE I.idIncidente = " . $id;
 
 //echo $queryIncidente . "</br>";
@@ -507,10 +507,13 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                       WHERE SI.id_sistema_informatico = " . $incidente['si'];-->
                                                             <select id="softwareAfectado" name="softwareAfectado">
                                                                 <?php
-                                                                $consultaSoftwareAfectado = "SELECT  sx.id_componente_software as id, concat(cs.descripcion, ' ',IFNULL(cs.version,'')) as descripcionSoftware
-                                                                         FROM gestion_incidentes.salaxcomponente_software sx inner join componente_software cs on sx.id_componente_software=cs.idComponente_software inner join sala s on SX.id_sala = S.id_sala 
-                                                                         inner join Sistema_informatico SI on SI.id_sala=S.id_sala 
-                                                                         where SI.id_sistema_informatico= " . $incidente['si'];
+                                                                $consultaSoftwareAfectado = "SELECT  sx.id_componente_software as id, concat(cs.descripcion, 
+                                                                    ' ',IFNULL(cs.version,'')) as descripcionSoftware 
+                                                                    FROM gestion_incidentes.salaxcomponente_software sx inner join componente_software cs 
+                                                                    on sx.id_componente_software=cs.idComponente_software 
+                                                                    inner join sala s on sx.id_sala = s.id_sala 
+                                                                    inner join sistema_informatico SI on SI.id_sala=s.id_sala 
+                                                                    where SI.id_sistema_informatico= " . $incidente['si'];
                                                                 $resultadoSoftwareAfectado = $mysqli->query($consultaSoftwareAfectado);
                                                                 if (mysql_errno() == 0) {
                                                                     while ($row = $resultadoSoftwareAfectado->fetch_assoc()) {
@@ -533,8 +536,10 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                                 <?php
                                                                 echo $incidente['causa_incidente'];
                                                                 $consultaAccionesCorrectivas = "SELECT acs.idAccion as id, acs.nombre 
-                                                                                                FROM accion_softwarexcausa_software ascs INNER JOIN accion_correctiva_software acs  on ascs.id_accion=acs.idAccion 
-                                                                                                inner join causa_incidente_software cs on ascs.id_causa=cs.idCausa where cs.nombre='". $incidente['causa_incidente'] ."'";
+                                                                                                FROM accion_softwarexcausa_software ascs 
+                                                                                                INNER JOIN accion_correctiva_software acs  on ascs.id_accion=acs.idAccion 
+                                                                                                inner join causa_incidente_software cs on ascs.id_causa=cs.idCausa 
+                                                                                                where cs.nombre='". $incidente['causa_incidente'] ."'";
                                                                 //$query3 = mysql_query($consultaInstitucion);
                                                                 $resultadoAcccionesCorrectivas = $mysqli->query($consultaAccionesCorrectivas);
                                                                 if ($resultadoAcccionesCorrectivas ) {
