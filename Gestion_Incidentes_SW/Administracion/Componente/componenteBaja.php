@@ -4,11 +4,21 @@ try{
     require_once '../../Conexion2.php';
     $mensajecomponente= "";
     $idComponenteSoftware=filter_input(INPUT_POST, "componenteSoftware");
-    
-    $query24="DELETE from componente_software where idComponente_Software=".$idComponenteSoftware.";"; 
+    $descripcion=filter_input(INPUT_POST, "descripcion");
+    $tComponente=filter_input(INPUT_POST, "tipo_componente_software");
+    $tVersion=filter_input(INPUT_POST, "version");
+    $query24="UPDATE componente_software set descripcion= '".$descripcion."', id_tipo_componente=".$tComponente.", version=".$tVersion." where idComponente_Software=".$idComponenteSoftware.";"; 
     echo $query24;
     $consulta=$mysqli->query($query24);
-    $mensajecomponente="Se elimino correctamente";
+    if($consulta){
+        $mensajecomponente="Se Actualizo correctamente";
+        echo"<script type=\"text/javascript\">alert('Se actualizo correctamente'); "
+        . "window.location='/IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
+        
+    }else{
+        
+    }
+    
 }catch (mysqli_sql_exception $myE){
     $mensajecomponente = "Error al eliminar en la BD: ".$myE;
 }catch (Exception $e){

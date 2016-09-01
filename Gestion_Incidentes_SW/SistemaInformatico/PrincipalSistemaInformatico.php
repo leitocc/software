@@ -22,7 +22,7 @@ include_once '../limpiarSesion.php';
                         <div style="clear: both">
                             <li class="no_lista"><h2>Sistemas Informáticos</h2></li>
                             <li class="no_lista"><h3><a href="AltaSistemaInformatico.php">Agregar Sistema Informático</a></h3></li>
-                            <li class="no_lista"><h3><a href="BajaSistemaInformatico.php">Dar de baja Sistema Informatico</a></h3></li>                            
+                            <li class="no_lista"><h3><a href="ModificarSistemaInformatico.php">Modificar Sistema Informatico</a></h3></li>                            
                         </div>
                     </div>
                 </div>

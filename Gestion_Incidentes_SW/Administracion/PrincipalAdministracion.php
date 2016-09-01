@@ -37,8 +37,9 @@ include_once '../limpiarSesion.php';
                         <div style="clear: both">
                             <li class="no_lista"><h2>Administración</h2></li>
                             <li class="no_lista"><h3><a href="Componente/RegistrarComponente.php">Registrar Componente</a></h3></li>
-                            <li class="no_lista"><h3><a href="Componente/BajaComponente.php">Dar Baja Componente</a></h3></li>
+                            <li class="no_lista"><h3><a href="Componente/ModificarComponente.php">Modificar Componente</a></h3></li>
                             <li class="no_lista"><h3><a href="Componente/cargaComponenteXAula.php">Carga Componente por Aula</a></h3></li>
+                             <li class="no_lista"><h3><a href="Componente/EliminarComponenteXAula.php">Eliminar Componente por aula</a></h3></li>
                         </div>
                     </div>
                 </div>

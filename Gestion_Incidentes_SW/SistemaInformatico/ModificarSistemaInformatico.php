@@ -42,7 +42,7 @@ include_once '../verificarPermisos.php';
                 $("#confirmar").click(function(mievento){
                     mievento.preventDefault();
                     //if(!$("#formulario").validate()){
-                        if(confirm("¿Está seguro que desea dar de baja el SI "+$("#si").val()+"?")){
+                        if(confirm("¿Está seguro que quiere modificar el SI "+$("#si").val()+"?")){
                             $("#formulario").submit();
                         }
                     //}
@@ -59,7 +59,7 @@ include_once '../verificarPermisos.php';
 
                 <div class="main">
                     <div class="post">
-                        <form name="formulario" id="formulario" action="SistemaInformatico.php?modo=del" method="post" class="contact_form">
+                        <form name="formulario" id="formulario" action="SistemaInformatico.php?modo=modi" method="post" class="contact_form">
                             <?php
                             require_once '../Conexion.php';
                             ?>
@@ -84,8 +84,12 @@ include_once '../verificarPermisos.php';
                                 </select>
                             </li>
                             <li>
-                                <button class="submit" type="submit" name="Baja" id="confirmar">Confirmar</button>
-                                <button class="submit" type="submit" name="Submit" id="Volver">Volver</button>
+                                 <label for="siDestino">SIDestino</label>
+                                 <input  type="text" id="siDestino" name="siDestino" required> 
+                            </li>                           
+                            <li>
+                                <button class="submit" type="submit" name="confirmar" id="confirmar">Confirmar</button>
+                                <button class="submit" type="submit" name="Volver" id="Volver">Volver</button>
                             </li>
                         </form>
                     </div>

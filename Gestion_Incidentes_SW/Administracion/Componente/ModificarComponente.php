@@ -63,7 +63,32 @@ require_once '../../Conexion2.php';?>
                                         ?>
                                         </select>         
                                     </li>
-                                    <li> <button class="submit" type="submit">Eliminar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
+                                    
+                                    <li> <label>(*)Nombre:</label> 
+                                        <input name="descripcion" id="descripcion" type="text">
+                                    </li>
+                                    <li> <label>(*)tipo componente</label>
+                                           <select id="tipo_componente_software" name="tipo_componente_software"> 
+                                               <option value="">Seleccione...</option>   
+                                        <?php
+                                           $query="select tc.idtipocomponente AS id, tc.descripcion from tipo_componente_software tc";
+                                           $resultado100=$mysqli->query($query);
+                                           if($resultado100){
+                                              while ($row = $resultado100->fetch_assoc()) {
+                                                ?>
+                                                 <option value ="<?php echo $row['id'] ?>"><?php echo $row['descripcion'] ?></option>
+                                            <?php
+                                              }
+                                           }
+                                        ?>
+                                        </select>         
+                                    </li>
+                                    <li>
+                                        <label>( )Version</label>
+                                        <input name="version" id="version" type="text"> 
+                                    </li>
+                                   
+                                    <li> <button class="submit" type="submit">Modificar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
                                 </ul>                                
                             </div>
                         </form>

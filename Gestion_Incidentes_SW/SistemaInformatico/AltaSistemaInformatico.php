@@ -39,7 +39,8 @@ require_once '../Conexion.php';
                           <option value ="<?php echo $row['id_sala'] ?>"><?php echo $row['nombre'] ?></option>
                           <?php } ?>
                        </select> </li> 
-                       <li> <button class="submit" type="submit">Guardar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
+                       <li> <button class="submit" type="submit" id="volver">Volver</button>
+                            <button class="submit" type="submit">Guardar</button> </li> 
                    </ul> 
                </div>
               </form>

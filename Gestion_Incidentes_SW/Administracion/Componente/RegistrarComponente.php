@@ -72,7 +72,7 @@ require_once '../../Conexion2.php';?>
                                         </select>         
                                     </li>
                                     <li>
-                                        <label>( )Version</label>
+                                        <label>(*)Version</label>
                                         <input name="version" id="version" type="text"> 
                                     </li>
                                     <li> <button class="submit" type="submit">Guardar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
