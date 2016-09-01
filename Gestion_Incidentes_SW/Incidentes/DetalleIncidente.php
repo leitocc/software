@@ -5,7 +5,6 @@ $_SESSION['permisos'] = $permisos;
 include_once '../verificarPermisos.php';
 $id = filter_input(INPUT_GET, "id");
 require_once '../formatoFecha.class.php';
-//require_once '../Conexion.php';
 require_once '../Conexion2.php';
 $queryIncidente = "SELECT I.idIncidente, I.id_sistema_informatico AS si, I.fecha, T.nombre_turno AS turno,
                     S.nombre AS sala, I.descripcion, CI.nombre AS causa_incidente, I.id_estado AS idEstado, E.nombre_estado AS estado,
@@ -18,7 +17,7 @@ $queryIncidente = "SELECT I.idIncidente, I.id_sistema_informatico AS si, I.fecha
                     LEFT JOIN actividad A ON I.id_actividad_desarollo = A.id_actividad
                     INNER JOIN turno T ON I.id_turno = T.id_turno
                     INNER JOIN sistema_informatico SI ON SI.id_sistema_informatico = I.id_sistema_informatico
-                    INNER JOIN sala S ON SI.id_sala = S.id_sala INNER JOIN Rol R  on  P.id_rol=R.id_rol
+                    INNER JOIN sala S ON SI.id_sala = S.id_sala INNER JOIN rol R on P.id_rol = R.id_rol
                     WHERE I.idIncidente = " . $id;
 
 //echo $queryIncidente . "</br>";
@@ -27,14 +26,7 @@ if (!$buscarIncidentes) {
     printf("Error en la consulta %s\n", mysql_error());
     exit();
 }
-//$query1 = mysql_query($buscarIncidente);
-//if (mysql_errno() || mysql_affected_rows() <= 0) {
-//    printf("Error en la consulta %s\n", mysql_error());
-//    exit();
-//}
-
 $incidente = $buscarIncidentes->fetch_assoc();
-//$incidente = mysql_fetch_array($query1);
 ?>
 <html>
     <head>
@@ -50,31 +42,28 @@ $incidente = $buscarIncidentes->fetch_assoc();
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
         <script>
             $(document).ready(function () {
-                $("#finicio").datepicker({
+                /*$("#finicio").datepicker({
+                 dateFormat: 'dd/mm/yy',
+                 maxDate: "+0D",
+                 changeMonth: true,
+                 onClose: function (selectedDate) {
+                 $("#ffin").datepicker("option", "minDate", selectedDate);
+                 }
+                 });
+                 $("#hinicio").datetimepicker({
+                 lang: 'es',
+                 format: 'H:i',
+                 datepicker: false
+                 });
+                 $("#fecha").change(function (e) {
+                 $("#ffin").val($("#finicio").val());
+                 });*/
+                $("#fecha").datepicker({
                     dateFormat: 'dd/mm/yy',
                     maxDate: "+0D",
                     changeMonth: true,
-                    onClose: function (selectedDate) {
-                        $("#ffin").datepicker("option", "minDate", selectedDate);
-                    }
                 });
-                $("#ffin").datepicker({
-                    dateFormat: 'dd/mm/yy',
-                    maxDate: "+0D",
-                    changeMonth: true,
-                    onClose: function (selectedDate) {
-                        $("#finicio").datepicker("option", "maxDate", selectedDate);
-                    }
-                });
-                $("#finicio").change(function (e) {
-                    $("#ffin").val($("#finicio").val());
-                });
-                $("#hinicio").datetimepicker({
-                    lang: 'es',
-                    format: 'H:i',
-                    datepicker: false
-                });
-                $("#hfin").datetimepicker({
+                $("#hora").datetimepicker({
                     lang: 'es',
                     format: 'H:i',
                     datepicker: false
@@ -93,77 +82,34 @@ $incidente = $buscarIncidentes->fetch_assoc();
                     mievento.preventDefault();
                     window.location = '/IncidentesSoftware/SistemaInformatico/ModificarComponentesSI.php?si=<?php echo $incidente['si'] ?>&idIncidente=<?php echo $id ?>';
                 });
-                $("#formulario").validate({
-                    submitHandler: function (form) {
-                        //if ($("#estado").val() !== "Seleccione...") {
-                        if (verificarComponentes()) {
-                            if (verificarAcciones()) {
-                                if (verificarFechas()) {
-                                    //alert("submit");
-                                    $(form).submit();
-                                } else {
-                                    alert("Fecha y hora de incio es mayor que fecha y hora de fin");
-                                }
-                            } else {
-                                alert("Seleccione al menos una accion");
-                            }
-                        } else {
-                            alert("Seleccione al menos un componente");
-                        }
-                        /*} else {
-                         alert("Seleccione un estado");
-                         }*/
-                    }
-                });
-                function verificarComponentes() {
-                    var ban = false;
-                    var componentes = document.getElementsByClassName("componentes");
-                    for (var i = 0; i < componentes.length; i++) {
-                        if (componentes[i].checked) {
-                            ban = true;
-                            break;
-                        }
-                    }
-                    return ban;
-                }
-                ;
-                function verificarAcciones() {
-                    var ban = false;
-                    var acciones = document.getElementsByClassName("acciones");
-                    for (var i = 0; i < acciones.length; i++) {
-                        if (acciones[i].checked) {
-                            ban = true;
-                            break;
-                        }
-                    }
-                    return ban;
-                }
-                ;
-                function verificarFechas() {
-                    var hinicio = $("#hinicio").val() + "";
-                    var hfin = $("#hfin").val() + "";
-                    if ($("#finicio").val() === $("#ffin").val()) {
-                        if (hinicio >= hfin) {
-                            //alert("mal");
-                            return false;
-                        }
-                    }
-                    //alert("bien");
-                    return true;
-                }
-                
-                $("#tipoComponente[]").change(function (mievento) {
+
+                $("#tipoSoftware").change(function (mievento) {
                     mievento.preventDefault();
-                    alert("aidsfhsd");
-                    var ultimo = document.getElementById("tipoDocumento").lastElementChild;
+                    var ts = document.getElementById("tipoSoftware");
                     $.ajax({
-                        url: "/IncidentesSoftware/Incidentes/cargarAccionCorrectiva.php",
+                        url: "/IncidentesSoftware/Incidentes/ajax/cargarComponenteSW.php",
                         type: "POST",
-                        data: "tipoComponente=" + ultimo.value,
+                        data: "tipoSoftware=" + ts.value,
                         success: function (opciones) {
-                            $("#accion").html(opciones).show("slow");
+                            $("#softwareAfectado").html(opciones).show("slow");
                         }
                     });
+                });
+                $("#ninguno").click(function (mievento) {
+                    var ninguno = document.getElementById("ninguno");
+                    if (ninguno.checked) {
+                        document.getElementById("accion").disabled = true;
+                        document.getElementById("tipoSoftware").disabled = true;
+                        document.getElementById("softwareAfectado").disabled = true;
+                        document.getElementById("agregarAccion").disabled = true;
+                        document.getElementById("agregarAccion").hidden = true;
+                    } else {
+                        document.getElementById("accion").disabled = false;
+                        document.getElementById("tipoSoftware").disabled = false;
+                        document.getElementById("softwareAfectado").disabled = false;
+                        document.getElementById("agregarAccion").disabled = false;
+                        document.getElementById("agregarAccion").hidden = false;
+                    }
                 });
             });
         </script>
@@ -185,19 +131,19 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                     <tr>
                                         <td>Nro:</td>
                                         <td colspan="3">
-                                            <input type="text" id="nro" name="nro" readonly="true" value="<?php echo $id ?>" size="4"/>
+                                            <input type="text" readonly="true" value="<?php echo $id ?>" size="4"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fecha:</td>
                                         <td>
-                                            <input type="text" id="fecha" name="fecha" value="<?php echo formatoFecha::convertirAFechaWeb($incidente['fecha']) ?>" readonly="true"/>
+                                            <input type="text" value="<?php echo formatoFecha::convertirAFechaWeb($incidente['fecha']) ?>" readonly="true"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Turno:</td>
                                         <td colspan="3">
-                                            <input type="text" id="turno" name="turno" value="<?php echo $incidente['turno'] ?>" readonly="true"/>
+                                            <input type="text" value="<?php echo $incidente['turno'] ?>" readonly="true"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -208,21 +154,21 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                 <tr>
                                     <td>Institución:</td>
                                     <td>
-                                        <input type="text" id="institucion" name="institucion" value="UTN-FRC" readonly="true"/>
+                                        <input type="text" value="UTN-FRC" readonly="true"/>
                                     </td>
                                     <td>Edificio:</td>
                                     <td>
-                                        <input type="text" id="edificio" name="edificio" value="Ing. Maders" readonly="true"/>
+                                        <input type="text" value="Ing. Maders" readonly="true"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Sala:</td>
                                     <td>
-                                        <input type="text" id="sala" name="sala" value="<?php echo $incidente['sala'] ?>" readonly="true"/>
+                                        <input type="text" value="<?php echo $incidente['sala'] ?>" readonly="true"/>
                                     </td>
                                     <td>Sistema Informatico:</td>
                                     <td>
-                                        <input type="text" id="si" name="si" value="<?php echo $incidente['si'] ?>" readonly="true"/>
+                                        <input type="text" value="<?php echo $incidente['si'] ?>" readonly="true"/>
                                     </td>
                                 </tr>
                             </table>
@@ -231,57 +177,27 @@ $incidente = $buscarIncidentes->fetch_assoc();
                             <div class="archive-separator"></div>
                             <div style="width: 700px;">
                                 <table>
-                                  <!-- <tr>
-                                        <td>Software afectado:</td> 
-                                       <!-- <td colspan="3">
-                                            <input type="text" id="componenteAfectado" 
-                                                   name="componenteAfectado" value="<?php echo $incidente['id_tipo_componente_afectado'] ?>" 
-                                                   readonly="true"/>
-                                        </td>-->
-<!--                                        
-                                 <td colspan="3">
-                                    <select id="softwareAfectado" name="softwareAfectado">
-                                        /* //<?php 
-//                                            $consultaSoftwareAfectado = "SELECT  sx.id_componente_software as id, concat(cs.descripcion, ' ',IFNULL(cs.version,'')) as descripcionSoftware
-//                                                                         FROM gestion_incidentes.salaxcomponente_software sx inner join componente_software cs on sx.id_componente_software=cs.idComponente_software inner join sala s on SX.id_sala = S.id_sala 
-//                                                                         inner join Sistema_informatico SI on SI.id_sala=S.id_sala 
-//                                                                         where SI.id_sistema_informatico= " . $incidente['si'];
-//                                            $resultadoSoftwareAfectado =  $mysqli->query($consultaSoftwareAfectado);
-//                                            if(mysql_errno() == 0){
-//                                            while ($row = $resultadoSoftwareAfectado->fetch_assoc()) { ?>
-                                            <option value ="//<?php echo $row['id'] ?>"><?php echo $row['descripcionSoftware'] ?></option>
-                                            // } <?php
-                                      //  } ?>
-                                    </select>
-                                </td>
-                                <td>-->
-                                    
-                                </td>
-                              </tr> -->
                                     <tr>
                                         <td>Indicio de incidente:</td>
                                         <td colspan="3">
-                                            <input type="text" id="causa" name="causa" 
-                                                   value="<?php echo $incidente['causa_incidente'] ?>" 
-                                                   readonly="true" disable="true"/>
+                                            <input type="text" value="<?php echo $incidente['causa_incidente'] ?>" readonly="true"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Reportó:</td>
                                         <td>
-                                            <input type="text" id="reporto" name="reporto" 
-                                                   value="<?php echo $incidente['apellido_reporto'] ?>, <?php echo $incidente['nombre_reporto'] ?>" 
-                                                   readonly="true" disabled="true"/>
+                                            <input type="text" value="<?php echo $incidente['apellido_reporto'] ?>, <?php echo $incidente['nombre_reporto'] ?>" 
+                                                   readonly="true"/>
                                         </td>
                                         <td>Área:</td>
                                         <td>
-                                            <input type="text" id="area" name="area" value="<?php echo $incidente['nombre_rol'] ?>" readonly="true" disabled="true"/>
+                                            <input type="text" value="<?php echo $incidente['nombre_rol'] ?>" readonly="true"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Descripción del incidente:</td>
                                         <td colspan="3">
-                                            <textarea id="descripcion" name="descripcion" cols="40" rows="4" readonly="true"><?php echo $incidente['descripcion'] ?></textarea>
+                                            <textarea cols="40" rows="4" readonly="true"><?php echo $incidente['descripcion'] ?></textarea>
                                         </td>
                                     </tr>
                                 </table>
@@ -315,150 +231,86 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                         </td>
                                     </tr>
                                 </table>
-                                <!-- Aqui van los detalles ya cargados del incidente-->
                                 <?php
                             } else {
                                 ?>
                                 <h4>No hay actividad especificada</h4>
                                 <div class="archive-separator"></div>
-                                <?php
-                            }
-                            /*$queryDetalles = "SELECT DI.id_detalle_intervencion AS id, DI.descripcion, DI.fecha_inicio, DI.hora_inicio, DI.fecha_fin, DI.hora_fin, 
-                        DI.motivo_no_finalizacion AS motivo, P.nombre, P.apellido
-                        FROM detalle_intervencion DI 
-                        INNER JOIN persona P ON P.id_persona = DI.id_persona_detalle_intervencion
-                        WHERE DI.id_incidente = " . $id;*/
-                            $queryDetalles="SELECT DI.id_detalle AS id, DI.descripcion, DI.fecha_inicio, DI.hora_inicio, DI.fecha_fin, DI.hora_fin, P.nombre, P.apellido 
-                                FROM detalle_intervencion_software DI INNER JOIN persona P ON P.id_persona = DI.id_responsable 
-                                WHERE DI.id_incidente = " . $id;
-                               $idDetalle = 0;
-
-                            $buscarDetalles = $mysqli->query($queryDetalles);
-                            if ($buscarDetalles && $mysqli->affected_rows > 0) {
-
-//                            $result = mysql_query($queryDetalles);
-//                            if (mysql_errno() == 0 && mysql_affected_rows() > 0) {
+                            <?php }
+                            ?>
+                            <!-- **-->
+                            <!-- **-->
+                            <!-- **-->
+                            <!-- **-->
+                            <!-- Aqui van los detalles ya cargados del incidente-->
+                            <?php
+                            $idDetalle = 1;
+                            $buscarDetallesIncidentes = "SELECT  DIS.fecha_fin AS fecha, DIS.hora_fin AS hora, P.nombre, P.apellido, 
+                                ACS.nombre AS accion, concat(CS.descripcion,' ',IFNULL(CS.version,'')) as descripcionSoftware, 
+                                TCS.descripcion AS tipoComponente, DIS.descripcion AS descripcionDetalle, DIS.id_detalle
+                                FROM detalle_intervencion_software DIS
+                                INNER JOIN incidente_software I ON DIS.id_incidente = I.idIncidente
+                                INNER JOIN accion_correctiva_software ACS ON DIS.id_accion = ACS.idAccion
+                                INNER JOIN componente_software CS ON DIS.id_componente_software = CS.idComponente_Software
+                                INNER JOIN tipo_componente_software TCS ON CS.id_tipo_componente = TCS.idtipoComponente
+                                INNER JOIN persona P ON DIS.id_responsable = P.id_persona
+                                WHERE DIS.id_incidente = " . $incidente['si'];
+                            $resultadoDetallesIncidentes = $mysqli->query($buscarDetallesIncidentes);
+                            if ($resultadoDetallesIncidentes && $mysqli->affected_rows > 0) {
                                 ?>
                                 <fieldset><legend><h4>Intervenciones</h4></legend>
                                     <div class="archive-separator"></div>
                                     <?php
-                                    while ($detalles = $buscarDetalles->fetch_assoc()) {
-//                                    while ($detalles = mysql_fetch_array($result)) {
-                                        $idDetalle = $idDetalle + 1;
+                                    while ($detalles = $resultadoDetallesIncidentes->fetch_assoc()) {
+                                        //date_default_timezone_set('America/Argentina/Buenos_Aires');
                                         ?>
-                                            <?php
-                                            date_default_timezone_set('America/Argentina/Buenos_Aires');
-                                            ?>
-                                        <fieldset><legend><h5>Intervención nro. <?php echo $idDetalle ?> - Reportado por: <?php echo $detalles['apellido'] . ", " . $detalles['nombre'] ?></h5></legend>
+                                        <fieldset><legend><h5>Intervención nro. <?php echo $detalles['id_detalle'] ?> - Reportado por: <?php echo $detalles['apellido'] . ", " . $detalles['nombre'] ?></h5></legend>
                                             <div class="archive-separator"></div>
                                             <table>
-                                                <!--<tr>
-                                                    <td>Fecha inicio:</td>
-                                                    <td>
-                                                        <input type="text" id="finicioInterv<?php echo $idDetalle ?>" value="<?php echo formatoFecha::convertirAFechaSolaWeb($detalles['fecha_inicio']) ?>" readonly/>
-                                                    </td>
-                                                    <td>Hora inicio:</td>
-                                                    <td>
-                                                        <input type="text" id="hinicioInterv<?php echo $idDetalle ?>" value="<?php echo substr($detalles['hora_inicio'], 0, 5) ?>" readonly/>
-                                                    </td>
-                                                </tr> -->
                                                 <tr>
-                                                    <td>Fecha fin:</td>
+                                                    <td>Fecha registro:</td>
                                                     <td>
-                                                        <input type="text" id="ffinInterv<?php echo $idDetalle ?>" value="<?php  echo date('d/m/y') /*echo formatoFecha::convertirAFechaSolaWeb($detalles['fecha_fin'])*/ ?>" readonly/>
+                                                        <input type="text" value="<?php echo formatoFecha::convertirAFechaSolaWeb($detalles['fecha']) ?>" readonly/>
+                                                        <?php /* <input type="text" id="ffinInterv<?php echo $idDetalle ?>" value="<?php echo date('d/m/y') /* echo formatoFecha::convertirAFechaSolaWeb($detalles['fecha_fin']) * ?>" readonly/> */ ?>
                                                     </td>
-                                                    <td>Hora fin:</td>
+                                                    <td>Hora registro:</td>
                                                     <td>
-                                                        <input type="text" id="hfinInterv<?php echo $idDetalle ?>" value="<?php echo substr($detalles['hora_fin'], 0, 5) ?>" readonly="true"/>
+                                                        <input type="text" value="<?php echo substr($detalles['hora'], 0, 5) ?>" readonly="true"/>
+                                                        <?php /* <input type="text" id="hfinInterv<?php echo $idDetalle ?>" value="<?php echo substr($detalles['hora_fin'], 0, 5) ?>" readonly="true"/> */ ?>
                                                     </td>
                                                 </tr>
-                                                <!-- aqui debe ir la consulta de los componentes-->
-                                                <?php
-                                                $queryComponentes = "SELECT TC.*
-                                                                     FROM detalle_intervencion DI
-                                    INNER JOIN componentexdetalle_intervencion CXDI ON DI.id_detalle_intervencion = CXDI.id_detalle_intervencion 
-                                    AND DI.id_incidente = CXDI.id_incidente
-                                    INNER JOIN componente C ON C.id_componente = CXDI.id_componente
-                                    INNER JOIN tipo_componente TC ON C.id_tipo_componente = TC.id_tipo_componente
-                                    WHERE DI.id_detalle_intervencion = " . $detalles['id'] .
-                                                        " AND DI.id_incidente = " . $id;
-
-                                                $buscarComponentes = $mysqli->query($queryComponentes);
-                                                if ($buscarComponentes && $mysqli->affected_rows > 0) {
-
-//                                                $resultComponentes = mysql_query($queryComponentes);
-//                                                if (mysql_errno() == 0 && mysql_affected_rows() > 0) {
-                                                    ?>
-                                                    <tr>
-                                                        <td>Componente afectado:</td>
-                                                        <td colspan="3">
-                                                            <?php
-                                                            while ($componentes = $buscarComponentes->fetch_assoc()) {
-//                                                            while ($componentes = mysql_fetch_array($resultComponentes)) {
-                                                                ?>
-                                                                <input type="text" readonly="true"
-                                                                       id="<?php echo $componentes['descripcion'] ?>_det<?php echo $detalles['id'] ?>" 
-                                                                       value="<?php echo $componentes['descripcion'] ?>"/><br/>
-                                                                       <?php
-                                                                   }
-                                                                   ?>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                }
-                                                ?>
 
                                                 <tr>
-                                                    <td>Descripción:</td>
-                                                    <td colspan="3">
-                                                        <textarea id="descripcion" name="descripcionInterv" id="descripcionInterv" cols="100" rows="4" readonly><?php echo $detalles['descripcion'] ?></textarea>
+                                                    <td>*Software tratado:</td>
+                                                    <td colspan="2">
+                                                        Tipo Componente: <input type="text" value="<?php echo $row['tipoComponente'] ?>" readonly="true"/>
+                                                        Nombre Componente: <input type="text" value="<?php echo $row['descripcionSoftware'] ?>" readonly="true"/>
                                                     </td>
                                                 </tr>
-                                                <!-- aqui debe ir la consulta de las acciones-->
-                                                <?php
-                                                $queryAcciones = "SELECT AC.nombre AS descripcion
-                                FROM detalle_intervencion DI 
-                                INNER JOIN accion_correctivaxdetalle_intervencion ACXDI ON DI.id_detalle_intervencion = ACXDI.id_detalle_intervencion
-                                AND DI.id_incidente = ACXDI.id_incidente
-                                INNER JOIN accion_correctiva AC ON AC.id_accion = ACXDI.id_accion
-                                WHERE DI.id_detalle_intervencion = " . $detalles['id'] .
-                                                        " AND DI.id_incidente = " . $id;
-                                               
-
-                                                $buscarAcciones = $mysqli->query($queryAcciones);
-                                                if ($buscarAcciones && $mysqli->affected_rows > 0) {
-
-//                                                $resultAcciones = mysql_query($queryAcciones);
-//                                                if (mysql_errno() == 0 && mysql_affected_rows() > 0) {
-                                                    ?>
-                                                    <tr>
-                                                        <td>Acciones correctivas:</td>
-                                                        <td colspan="3">
-                                                            <?php
-                                                            while ($acciones = $buscarAcciones->fetch_assoc()) {
-//                                                            while ($acciones = mysql_fetch_array($resultAcciones)) {
-                                                                ?>
-                                                                <input type="text" readonly="true"
-                                                                       id="<?php echo $acciones['descripcion'] ?>_det<?php echo $acciones['id'] ?>" 
-                                                                       value="<?php echo $acciones['descripcion'] ?>" size="40"/><br/>
-                                                                       <?php
-                                                                   }
-                                                                   ?>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                }
-                                                ?>
+                                                <tr>
+                                                    <td>*Descripci&oacute;n:</td>
+                                                    <td colspan="2">
+                                                        <textarea cols="50" rows="4"><?php echo $row['descripcionDetalle'] ?></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>*Accion correctiva<br/>realizada:</td>
+                                                    <td colspan="2">
+                                                        <input type="text" value="<?php echo $row['accion'] ?>" readonly="true"/>
+                                                    </td>
+                                                </tr>
                                             </table>
                                         </fieldset>
                                         <?php
                                     }
+                                    $idDetalle = $detalles['id_detalle'] + 1;
                                 }
                                 ?>
                             </fieldset>    
+
+                            <!-----------------------------------------------------------------------------------------------------------------!>
+                            
                             <?php if ($incidente['idEstado'] == 1) { ?>
-
-
                                 <!-- Aqui se coloca el nuevo detalle de incidente ------------------------------------------------------>
                                 <fieldset><legend><h4>Nueva intervención</h4></legend>
                                     <fieldset><legend>Detalle de intervención</legend>
@@ -467,27 +319,17 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                 <tr>
                                                     <td>Nro:</td>
                                                     <td colspan="3">
-                                                        <input type="text" id="nroInterv" name="nroInterv" value="<?php echo $idDetalle = $idDetalle + 1; ?>" required/>
+                                                        <input type="text" id="nroInterv" name="nroInterv" value="<?php echo $idDetalle ?>" required/>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                  <!--  <td>*Fecha inicio:</td>
+                                                    <td>*Fecha registro:</td>
                                                     <td>
-                                                        <input type="text" id="finicio" name="finicio" value="" placeholder="__/__/__" required/>
+                                                        <input type="text" id="fecha" name="fecha" value="<?php echo date('d/m/Y') ?>" placeholder="__/__/__"  required/>
                                                     </td>
-                                                    <td>*Hora inicio:</td>
+                                                    <td>*Hora registro:</td>
                                                     <td>
-                                                        <input type="text" id="hinicio" name="hinicio" value="" placeholder="__:__" class="time" required/>
-                                                    </td>-->
-                                                </tr>
-                                                <tr>
-                                                    <td>*Fecha fin:</td>
-                                                    <td>
-                                                        <input type="text" id="ffin" name="ffin" value="<?php echo date('d/m/y') ?>" placeholder="__/__/__"  required/>
-                                                    </td>
-                                                    <td>*Hora fin:</td>
-                                                    <td>
-                                                        <input type="text" id="hfin" name="hfin" value="<?php substr(date('d/m/y g:i'), 9, 13) ?>" placeholder="__:__" class="time" required/>
+                                                        <input type="text" id="hora" name="hora" value="<?php echo substr(date('d/m/y H:i'), 9, 13) ?>" placeholder="__:__" class="time" required/>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -497,144 +339,80 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                         <div style="width: 800px;">
                                             <table id="componentesTratados">
                                                 <tr>
-                                                        <td>*Software tratado:</td>
-                                                        <td>
-
-                                                            <!-- $qComponentesSI =  "SELECT TC.id_tipo_componente AS id, TC.descripcion AS nombre 
-                                                      FROM sistema_informatico SI 
-                                                      INNER JOIN componente C ON C.id_sistema_informatico = SI.id_sistema_informatico
-                                                      INNER JOIN tipo_componente TC ON C.id_tipo_componente = TC.id_tipo_componente
-                                                      WHERE SI.id_sistema_informatico = " . $incidente['si'];-->
-                                                            <select id="softwareAfectado" name="softwareAfectado">
-                                                                <?php
-                                                                $consultaSoftwareAfectado = "SELECT  sx.id_componente_software as id, concat(cs.descripcion, ' ',IFNULL(cs.version,'')) as descripcionSoftware
-                                                                         FROM gestion_incidentes.salaxcomponente_software sx inner join componente_software cs on sx.id_componente_software=cs.idComponente_software inner join sala s on SX.id_sala = S.id_sala 
-                                                                         inner join Sistema_informatico SI on SI.id_sala=S.id_sala 
-                                                                         where SI.id_sistema_informatico= " . $incidente['si'];
-                                                                $resultadoSoftwareAfectado = $mysqli->query($consultaSoftwareAfectado);
-                                                                if (mysql_errno() == 0) {
-                                                                    while ($row = $resultadoSoftwareAfectado->fetch_assoc()) {
-                                                                        ?>
-                                                                        <option value ="<?php echo $row['id'] ?>"><?php echo $row['descripcionSoftware'] ?></option>
-                                                                    <?php }
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <div><input type="checkbox" name="componente0" id="comp0" value="0" class="componentes" style="height: 30px"/><label for="comp0">Ninguno</label></div>
-                                                        </td>
-                                                    </tr>
-                                                <tr>
-                                                    <td>*Accion correctiva<br/>realizada:</td>
+                                                    <td>*Tipo de software:</td>
                                                     <td colspan="2">
-                                                            <select name="accion" id="accion" required>
-                                                                <option value="">Seleccione...</option>
-                                                                <?php
-                                                                echo $incidente['causa_incidente'];
-                                                                $consultaAccionesCorrectivas = "SELECT acs.idAccion as id, acs.nombre 
-                                                                                                FROM accion_softwarexcausa_software ascs INNER JOIN accion_correctiva_software acs  on ascs.id_accion=acs.idAccion 
-                                                                                                inner join causa_incidente_software cs on ascs.id_causa=cs.idCausa where cs.nombre='". $incidente['causa_incidente'] ."'";
-                                                                //$query3 = mysql_query($consultaInstitucion);
-                                                                $resultadoAcccionesCorrectivas = $mysqli->query($consultaAccionesCorrectivas);
-                                                                if ($resultadoAcccionesCorrectivas ) {
-                                                                    //while ($row = mysql_fetch_array($query3)) {
-                                                                    while ($row = $resultadoAcccionesCorrectivas->fetch_assoc()) {
-                                                                        ?>
-                                                                        <option value="<?php echo $row['id'] ?>" selected="true"><?php echo $row['nombre'] ?></option>
-                                                                        <?php
-                                                                    }
+                                                        <select id="tipoSoftware" name="tipoSoftware">
+                                                            <option value="">Seleccione...</option>
+                                                            <?php
+                                                            $consultaTS = "SELECT tipo_componente_software.idtipoComponente, 
+                                                                tipo_componente_software.descripcion 
+                                                                FROM tipo_componente_software";
+                                                            $resultadoTS = $mysqli->query($consultaTS);
+                                                            if (mysql_errno() == 0) {
+                                                                while ($row = $resultadoTS->fetch_assoc()) {
+                                                                    ?>
+                                                                    <option value ="<?php echo $row['idtipoComponente'] ?>"><?php echo $row['descripcion'] ?></option>
+                                                                    <?php
                                                                 }
-                                                                ?>
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>*Software tratado:</td>
+                                                    <td>
+                                                        <select id="softwareAfectado" name="softwareAfectado">
+                                                            <option value="">Seleccione...</option>
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        
+                                                        <div>
+                                                            <input type="checkbox" name="ninguno" id="ninguno" value="0" 
+                                                                   class="componentes" style="height: 30px"/>
+                                                            <label for="ninguno">Ninguno</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>*Descripci&oacute;n:</td>
+                                                    <td colspan="2">
+                                                        <textarea name="descripcion" cols="50" rows="4"></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>*Accion correctiva<br/>realizada:</td>
+                                                    <td colspan="2">
+                                                        <select name="accion" id="accion" required>
+                                                            <option value="">Seleccione...</option>
+                                                            <?php
+                                                            echo $incidente['causa_incidente'];
+                                                            $consultaAccionesCorrectivas = "SELECT acs.idAccion as id, acs.nombre 
+                                                                FROM accion_softwarexcausa_software ascs 
+                                                                INNER JOIN accion_correctiva_software acs  on ascs.id_accion=acs.idAccion 
+                                                                inner join causa_incidente_software cs on ascs.id_causa=cs.idCausa 
+                                                                where cs.nombre='" . $incidente['causa_incidente'] . "'";
+                                                            $resultadoAcccionesCorrectivas = $mysqli->query($consultaAccionesCorrectivas);
+                                                            if ($resultadoAcccionesCorrectivas) {
+                                                                while ($row = $resultadoAcccionesCorrectivas->fetch_assoc()) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row['id'] ?>">
+                                                                        <?php echo $row['nombre'] ?>
+                                                                    </option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        <button class="submit" name="agregarAccion" id="agregarAccion">+</button>
                                                     </td>
                                                 </tr>
                                             </table>
                                         </div>
                                     </fieldset>
                                     <!----------------------------------------------------------------------------------------------------------------------------->
-                                    <?php /*
-                                    <fieldset><legend>Componente</legend>
-                                        <div style="float: left; width: 750px">
-                                            <?php
-                                            $qTipoComponente = "SELECT TC.id_tipo_componente AS id, TC.descripcion AS nombre FROM tipo_componente TC";
-                                            $buscarTC = $mysqli->query($qTipoComponente);
-                                            if ($buscarTC) {
-
-//                                            $query1 = mysql_query($consulta);
-//                                            if (mysql_errno() == 0) {
-                                                $qComponentesSI = "SELECT TC.id_tipo_componente AS id, TC.descripcion AS nombre 
-                                                FROM sistema_informatico SI 
-                                                INNER JOIN componente C ON C.id_sistema_informatico = SI.id_sistema_informatico
-                                                INNER JOIN tipo_componente TC ON C.id_tipo_componente = TC.id_tipo_componente
-                                                WHERE SI.id_sistema_informatico = " . $incidente['si'];
-                                                //echo $componentesSI."</br>";
-
-                                                $buscarComponenteSI = $mysqli->query($qComponentesSI);
-                                                while ($rowSI = $buscarComponenteSI->fetch_assoc()) {
-                                                    $compSI[] = $rowSI['nombre'];
-                                                }
-
-//                                                $query2 = mysql_query($componentesSI);
-//                                                while ($rowSI = mysql_fetch_assoc($query2)) {
-//                                                    $compSI[] = $rowSI['nombre'];
-//                                                }
-                                                //echo print_r($compSI)."</br>";
-
-                                                while ($row = $buscarTC->fetch_assoc()) {
-
-
-//                                                while ($row = mysql_fetch_array($query1)) {
-                                                    //echo print_r($row['nombre'])."</br>";
-                                                    if (!empty($compSI) && in_array($row['nombre'], $compSI)) {
-                                                        ?>
-                                                        <div style="float: left; height: 30px"><input type="checkbox" name="componente[<?php echo $row['id'] ?>]" id="componente[<?php echo $row['id'] ?>]" value="<?php echo $row['id'] ?>" class="componentes"/>
-                                                            <label for="componente[<?php echo $row['id'] ?>]"><?php echo $row['nombre'] ?></label><br/></div>
-                                                    <?php } else { ?>
-                                                        <div style="float: left; height: 30px"><input type="checkbox" name="componente[<?php echo $row['id'] ?>]" id="componente[<?php echo $row['id'] ?>]" value="<?php echo $row['id'] ?>" disabled="true"/><label for="componente[<?php echo $row['id'] ?>]" style="color: red;"><?php echo $row['nombre'] ?></label><br/></div>
-                                                        <?php
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                            <div><input type="checkbox" name="componente0" id="comp0" value="0" class="componentes" style="height: 30px"/><label for="comp0">Ninguno</label></div>
-                                        </div>
-                                        <div><button class="submitComponente" align="left" type="button" name="agregarComponente" id="agregarComponente">Cargar Componente</button></div>
-                                        <div style="clear: both;"><p style="color: red; font-size: 13px">(**) Los componentes en ROJO no se encuentran cargados en el sistema</p></div>
-                                    </fieldset>
-
-
-                                    <fieldset><legend>Descripción</legend>
-                                        <textarea id="descripcion" name="descripcionInterv" id="descripcionInterv" value="" cols="80" rows="4" required></textarea>
-                                    </fieldset>
-
-                                    <fieldset><legend>Acción correctiva</legend>
-                                        <div style="width: 750px;">
-                                            <?php
-                                            $qConsultaAccion = "SELECT AC.id_accion AS id, AC.nombre FROM accion_correctiva AC";
-                                            $buscarAcciones = $mysqli->query($qComponentesSI);
-                                            if ($buscarAcciones) {
-                                                while ($row = $buscarAcciones->fetch_assoc()) {
-
-//                                            $query1 = mysql_query($consulta);
-//                                            if (mysql_errno() == 0) {
-//                                                while ($row = mysql_fetch_array($query1)) {
-                                                    ?>
-                                                    <div style="float: left; height: 50px;"><input type="checkbox" name="accion<?php echo $row['id'] ?>" id="accion<?php echo $row['id'] ?>" value="<?php echo $row['id'] ?>" class="acciones"/><label for="accion<?php echo $row['id'] ?>"><?php echo $row['nombre'] ?></label><br/></div>
-
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </div>
-                                    </fieldset>
-                                    */ ?>
                                     <!----------------------------------------------------------------------------------------------------------------------------->
                                     <!----------------------------------------------------------------------------------------------------------------------------->
-                                    <!--<div><button  type="button" name="agregarComponente" id="agregarComponente">Agregar</button></div>-->
                                     <fieldset><legend>Actualización estado Incidente</legend>
                                         <div style="width: 250px;">
                                             <table>
@@ -644,15 +422,11 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                         <select id="estado" name="estado" required>
                                                             <option value="">Seleccione...</option>
                                                             <?php
-                                                            $qConsultaEstado = "SELECT E.nombre_estado AS nombre, E.id_estado AS id
-                            FROM estado E";
+                                                            $qConsultaEstado = "SELECT E.nombre_estado AS nombre, E.id_estado AS id 
+                                                                FROM estado E";
                                                             $buscarEstado = $mysqli->query($qConsultaEstado);
                                                             if ($buscarEstado) {
                                                                 while ($row = $buscarEstado->fetch_assoc()) {
-
-//                                                            $query1 = mysql_query($consultaEstado);
-//                                                            if (mysql_errno() == 0) {
-//                                                                while ($row = mysql_fetch_array($query1)) {
                                                                     ?>
                                                                     <option value ="<?php echo $row['id'] ?>"><?php echo $row['nombre'] ?></option>
                                                                     <?php
@@ -668,12 +442,13 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                     <input type="hidden" value="<?php echo $id ?>" name="idIncidente"/>
                                     <input type="hidden" value="<?php echo $incidente['si'] ?>" name="idSI"/>
                                     <!-- Por ultimo los botones-->
-                                    <button class="submit" name="registrar" type="submit" id="modificar">Registrar</button>
                                     <button class="submit" name="cancelar" id="cancelar">Cancelar</button>
+                                    <button class="submit" name="registrar" type="submit" id="modificar">Registrar</button>
                                 <?php } else { ?>
                                     <h4>Estado del Incidente: <?php echo $incidente['estado'] ?></h4>
                                     <button class="submit" name="volver" id="volver">Volver</button>
-                                <?php } ?></fieldset>
+                                <?php } ?>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
