@@ -41,6 +41,18 @@ $incidente = $buscarIncidentes->fetch_assoc();
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
         <script>
+            function ocultarVentana(){
+                var ventana = document.getElementById('miVentana');
+                ventana.style.display = 'none';
+            }
+            function mostrarVentana(e){
+                e.preventDefault();
+                alert("entro!!");
+                var ventana = document.getElementById('miVentana');
+                ventana.style.marginTop = "100px";
+                ventana.style.left = ((document.body.clientWidth-350) / 2) +  "px";
+                ventana.style.display = 'block';
+            }   
             $(document).ready(function () {
                 /*$("#finicio").datepicker({
                  dateFormat: 'dd/mm/yy',
@@ -404,7 +416,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                             }
                                                             ?>
                                                         </select>
-                                                        <button class="submit" name="agregarAccion" id="agregarAccion">+</button>
+                                                        <button class="submit" name="agregarAccion" id="agregarAccion" onclick="javascript:mostrarVentana();">+</button>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -450,6 +462,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                 <?php } ?>
                             </fieldset>
                         </form>
+                        <?php include_once './agregarAccionXIndicio.php'; ?>
                     </div>
                 </div>
                 <?php include_once './../foot.php'; ?>
