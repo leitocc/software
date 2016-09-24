@@ -10,16 +10,16 @@ include_once '../limpiarSesion.php';
         <meta charset="UTF-8">
         <title>Sistemas Informaticos</title>
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <?php 
-            if(isset($_SESSION['mensaje'])){      
-                $mensaje = $_SESSION['mensaje'];
-            }else {
-                $mensaje = "";
-            }
+        <?php
+        if (isset($_SESSION['mensaje'])) {
+            $mensaje = $_SESSION['mensaje'];
+        } else {
+            $mensaje = "";
+        }
         ?>
         <script>
-            $(document).ready(function() {
-                var mensaje = "<?php echo $mensaje?>";
+            $(document).ready(function () {
+                var mensaje = "<?php echo $mensaje ?>";
                 if (mensaje !== "") {
                     alert(mensaje);
                 }
@@ -27,23 +27,23 @@ include_once '../limpiarSesion.php';
         </script>
     </head>
     <body id="top">
-        <?php include_once '../master.php';?>
+        <?php include_once '../master.php'; ?>
         <div id="site">
             <div class="center-wrapper">
-                <?php include_once '../menu.php';?>
-                
+                <?php include_once '../menu.php'; ?>
+
                 <div class="main">
                     <div class="post">
                         <div style="clear: both">
                             <li class="no_lista"><h2>Administración</h2></li>
                             <li class="no_lista"><h3><a href="Componente/RegistrarComponente.php">Registrar Componente</a></h3></li>
                             <li class="no_lista"><h3><a href="Componente/ModificarComponente.php">Modificar Componente</a></h3></li>
-                            <li class="no_lista"><h3><a href="Componente/cargaComponenteXAula.php">Carga Componente por Aula</a></h3></li>
-                             <li class="no_lista"><h3><a href="Componente/EliminarComponenteXAula.php">Eliminar Componente por aula</a></h3></li>
+                            <li class="no_lista"><h3><a href="Componente/cargaComponenteXAula.php">Agregar Componente a Aula</a></h3></li>
+                            <li class="no_lista"><h3><a href="Componente/EliminarComponenteXAula.php">Quitar Componente a aula</a></h3></li>
                         </div>
                     </div>
                 </div>
-                <?php include_once './../foot.php';?>
+                <?php include_once './../foot.php'; ?>
             </div>
         </div>
     </body>

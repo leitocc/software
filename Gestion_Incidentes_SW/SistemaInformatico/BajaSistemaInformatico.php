@@ -7,21 +7,21 @@ include_once '../verificarPermisos.php';
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Sistemas Informaticos - Modificar</title>
+        <title>Sistemas Informaticos - Baja</title>
         <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
         <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
         <script type="text/javascript" src="/IncidentesSoftware/js/jquery.validate.js"></script>
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
         <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
         <script>
-            $(document).ready(function () {
-                $("#sala").change(function (e) {
+            $(document).ready(function() {
+                $("#sala").change(function(e) {
                     if ($("#sala").val() !== "Seleccione...") {
                         $.ajax({
                             url: "/IncidentesSoftware/SistemaInformatico/cargarSI.php",
                             type: "POST",
                             data: "sala=" + $("#sala").val(),
-                            success: function (opciones) {
+                            success: function(opciones) {
                                 $("#si").html(opciones).show("slow");
                                 //$("#agregarProvincia").attr("hidden", false);
                                 //$("#boton").attr("disabled", true);
@@ -34,17 +34,17 @@ include_once '../verificarPermisos.php';
                         //$("#boton").attr("disabled", true);
                     }
                 });
-                $("#Volver").click(function (mievento) {
+                $("#Volver").click(function(mievento){
                     mievento.preventDefault();
                     //history.back();
                     window.location = 'PrincipalSistemaInformatico.php';
                 });
-                $("#confirmar").click(function (mievento) {
+                $("#confirmar").click(function(mievento){
                     mievento.preventDefault();
                     //if(!$("#formulario").validate()){
-                    if (confirm("¿Está seguro que quiere modificar el SI " + $("#si").val() + "?")) {
-                        $("#formulario").submit();
-                    }
+                        if(confirm("¿Está seguro que quiere dar de baja el SI "+$("#si").val()+"?")){
+                            $("#formulario").submit();
+                        }
                     //}
                     //window.location = 'PrincipalSistemaInformatico.php';
                 });
@@ -59,11 +59,11 @@ include_once '../verificarPermisos.php';
 
                 <div class="main">
                     <div class="post">
-                        <form name="formulario" id="formulario" action="SistemaInformatico.php?modo=modi" method="post" class="contact_form">
+                        <form name="formulario" id="formulario" action="SistemaInformatico.php?modo=del" method="post" class="contact_form">
                             <?php
                             require_once '../Conexion.php';
                             ?>
-                            <li><h2>Modificar Sistema Informático</h2></li>
+                            <li><h2>Dar baja Sistema Informático</h2></li>
                             <li>
                                 <label for="sala">Sala:</label>
                                 <?php $consultaSala = "select id_sala, nombre from sala" ?>
@@ -82,11 +82,7 @@ include_once '../verificarPermisos.php';
                                 <select name="si" id="si" required>
                                     <option value="">Seleccione...</option>
                                 </select>
-                            </li>
-                            <li>
-                                <label for="siDestino">Nva. Identificaci&oacute;n</label>
-                                <input  type="text" id="siDestino" name="siDestino" required> 
-                            </li>                           
+                            </li>                         
                             <li>
                                 <button class="submit" type="submit" name="Volver" id="Volver">Volver</button>
                                 <button class="submit" type="submit" name="confirmar" id="confirmar">Confirmar</button>

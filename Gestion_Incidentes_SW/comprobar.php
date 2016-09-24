@@ -8,7 +8,7 @@ $usuario = filter_input(INPUT_POST, "usuario");
 $password = filter_input(INPUT_POST, "clave");
 //$usuario = $_POST["usuario"];   
 //$password = $_POST["clave"];
-$query = "SELECT U.usuario, U.password, P.nombre, P.apellido, R.nombre AS rol, R.id_rol "
+$query = "SELECT U.id_persona, U.usuario, U.password, P.nombre, P.apellido, R.nombre AS rol, R.id_rol "
         . "FROM usuario U INNER JOIN persona P "
         . "ON U.id_persona = P.id_persona "
         . "INNER JOIN rol R ON P.id_rol = R.id_rol "
@@ -31,6 +31,7 @@ if ($row = $resultUsuario->fetch_assoc()) {
         $_SESSION['apellidoUS'] = $row["apellido"];
         $_SESSION['rolUS'] = $row["rol"];
         $_SESSION['idRolUS'] = $row["id_rol"];
+        $_SESSION['idPersona'] = $row["id_persona"];
 
         //Redireccionamos a la pagina: index.php
         header("Location: index.php");

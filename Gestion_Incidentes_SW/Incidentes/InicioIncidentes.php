@@ -54,7 +54,7 @@ include_once '../limpiarSesion.php';
                     <div class="post">
                         <div style="clear: both">
                             <li class="no_lista"><h2>Incidentes</h2></li>
-                            <li class="no_lista"><h3><a href="RegistrarIncidente.php">Registrar Nuevo Incidente</a></h3></li>
+                            <li class="no_lista"><h3><a href="RegistrarIncidente.php">Registrar Incidente</a></h3></li>
                             <li class="no_lista"><h3><a href="BuscarIncidente.php">Buscar Incidentes</a></h3></li>
                         </div>
                     </div>

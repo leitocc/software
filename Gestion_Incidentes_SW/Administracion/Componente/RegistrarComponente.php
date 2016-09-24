@@ -55,7 +55,7 @@ require_once '../../Conexion2.php';?>
                                     <li> <label>(*)Nombre:</label> 
                                         <input name="descripcion" id="descripcion" type="text">
                                     </li>
-                                    <li> <label>(*)tipo componente</label>
+                                    <li> <label>(*)Tipo componente</label>
                                            <select id="tipo_componente_software" name="tipo_componente_software"> 
                                                <option value="">Seleccione...</option>   
                                         <?php
@@ -75,7 +75,7 @@ require_once '../../Conexion2.php';?>
                                         <label>(*)Version</label>
                                         <input name="version" id="version" type="text"> 
                                     </li>
-                                    <li> <button class="submit" type="submit">Guardar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
+                                    <li> <button class="submit" type="submit" id="volver">Volver</button><button class="submit" type="submit">Guardar</button></li> 
                                 </ul>                                
                             </div>
                         </form>

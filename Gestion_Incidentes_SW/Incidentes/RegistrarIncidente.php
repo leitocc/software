@@ -99,7 +99,7 @@ include_once '../verificarPermisos.php';
                         require_once '../Conexion2.php';
                         ?>
                         <form id="formulario" name="formulario" method="post" action="registrarIncidenteSoftware.php" class="contact_form">
-                            <li><h2>Registrar Nuevo Incidente</h2><span class="required_notification">Los campos con (*) son requeridos</span></li>
+                            <li><h2>Registrar Incidente</h2><span class="required_notification">Los campos con (*) son requeridos</span></li>
                             <div class="clearer">&nbsp;</div>
                             <h4>Datos incidentes</h4>
                             <div class="archive-separator"></div>
@@ -112,7 +112,7 @@ include_once '../verificarPermisos.php';
                                             $consultaNroInc = "SELECT MAX(I.idincidente) AS id
                                             FROM incidente_software I";
                                             $resultado1 = $mysqli->query($consultaNroInc);
-                                            if ($row=$resultado1->fetch_assoc()) {
+                                            if ($row = $resultado1->fetch_assoc()) {
                                                 $id['id'] = $row["id"];
                                                 //echo "Entro y Id vale: ".$id['id']."<br/>";
                                             } else {
@@ -124,13 +124,13 @@ include_once '../verificarPermisos.php';
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>*Fecha:</td>
+                                        <td>(*)Fecha:</td>
                                         <td>
                                             <input type="datetime" id="fecha" name="fecha" placeholder="__/__/____ __:__" required/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>*Turno:</td>
+                                        <td>(*)Turno:</td>
                                         <td colspan="3">
                                             <select id="turno" name="turno" required>
                                                 <option value="">Seleccione...</option>
@@ -138,15 +138,15 @@ include_once '../verificarPermisos.php';
                                                 $consultaTurno = "SELECT T.nombre_turno AS nombre, T.id_Turno AS id
                                                 FROM turno T";
                                                 //$query2 = mysql_query($consultaTurno);
-                                                $resultado2=$mysqli->query($consultaTurno);
+                                                $resultado2 = $mysqli->query($consultaTurno);
                                                 // if (mysql_errno() == 0) {
                                                 if ($resultado2) {
-                                                    
+
                                                     //while ($row = mysql_fetch_array($query2)) {
-                                                      while ($row = $resultado2->fetch_assoc()) {
+                                                    while ($row = $resultado2->fetch_assoc()) {
                                                         ?>
                                                         <option value ="<?php echo $row['id'] ?>"><?php echo $row['nombre'] ?></option>
-                                                    <?php
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
@@ -160,7 +160,7 @@ include_once '../verificarPermisos.php';
                             <div style="width: 800px;">
                                 <table>
                                     <tr>
-                                        <td>*Institución:</td>
+                                        <td>(*)Institución:</td>
                                         <td>
                                             <select id="institucion" name="institucion" required>
                                                 <option value="">Seleccione...</option>
@@ -168,19 +168,19 @@ include_once '../verificarPermisos.php';
                                                 $consultaInstitucion = "SELECT I.nombre, I.id_institucion AS id
                                                 FROM institucion I";
                                                 //$query3 = mysql_query($consultaInstitucion);
-                                                $resultado3=$mysqli->query($consultaInstitucion);
+                                                $resultado3 = $mysqli->query($consultaInstitucion);
                                                 if ($resultado3) {
                                                     //while ($row = mysql_fetch_array($query3)) {
                                                     while ($row = $resultado3->fetch_assoc()) {
                                                         ?>
                                                         <option value="<?php echo $row['id'] ?>" selected="true"><?php echo $row['nombre'] ?></option>
-                                                    <?php
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
                                             </select>
                                         </td>
-                                        <td>*Edificio:</td>
+                                        <td>(*)Edificio:</td>
                                         <td>
                                             <select id="edificio" name="edificio" required>
                                                 <option value="">Seleccione...</option>
@@ -193,7 +193,7 @@ include_once '../verificarPermisos.php';
                                                     while ($row = $resultado4->fetch_assoc()) {
                                                         ?>
                                                         <option value="<?php echo $row['id'] ?>" selected="true"><?php echo $row['nombre'] ?></option>
-                                                    <?php
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
@@ -201,7 +201,7 @@ include_once '../verificarPermisos.php';
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>*Sala:</td>
+                                        <td>(*)Sala:</td>
                                         <td>
                                             <select id="sala" name="sala" required>
                                                 <option value="">Seleccione...</option>
@@ -221,7 +221,7 @@ include_once '../verificarPermisos.php';
                                                 ?>
                                             </select>
                                         </td>
-                                        <td>*Sistema Informatico:</td>
+                                        <td>(*)Sistema Informatico:</td>
                                         <td>
                                             <select id="si" name="si" required>
                                                 <option value="">Seleccione...</option>
@@ -239,22 +239,22 @@ include_once '../verificarPermisos.php';
                                         <td colspan="3">
                                             <select id="componenteAfectado" name="componenteAfectado">
                                                 <option value="">Seleccione...</option>
+                                        <?php
+                                        $consulta123 = "SELECT tc.id_tipo_componente AS id ,tc.descripcion FROM tipo_componente tc";
+                                        //$query13 = mysql_query($consulta123);
+                                        $resultado6 = $mysqli->query($consulta123);
+                                        if ($resultado6) {
+                                            while ($row = $resultado6->fetch_assoc()) {
+                                                ?>
+                                                                <option value="<?php echo $row['id'] ?>"><?php echo $row['descripcion'] ?></option>
                                                 <?php
-                                                $consulta123 = "SELECT tc.id_tipo_componente AS id ,tc.descripcion FROM tipo_componente tc";
-                                                //$query13 = mysql_query($consulta123);
-                                                $resultado6 = $mysqli->query($consulta123);
-                                                if ($resultado6) {
-                                                    while ($row = $resultado6->fetch_assoc()) {
-                                                        ?>
-                                                        <option value="<?php echo $row['id'] ?>"><?php echo $row['descripcion'] ?></option>
-        <?php
-                                                            }
-                                                        }
-                                                        ?>
+                                            }
+                                        }
+                                        ?>
                                             </select>
                                         </td>     -->
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Indicio Incidente:</td>
                                         <td colspan="3">
@@ -262,19 +262,19 @@ include_once '../verificarPermisos.php';
                                                 <option value="">Seleccione...</option>
                                                 <?php
                                                 $consultaIndicio = "SELECT idCausa, nombre FROM causa_incidente_software";
-                                                $resultadoIndicio= $mysqli->query($consultaIndicio);
+                                                $resultadoIndicio = $mysqli->query($consultaIndicio);
                                                 if ($resultadoIndicio) {
                                                     while ($row = $resultadoIndicio->fetch_assoc()) {
                                                         ?>
                                                         <option value="<?php echo $row['idCausa'] ?>"><?php echo $row['nombre'] ?></option>
-                                                    <?php
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
                                             </select>
                                         </td>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td>Prioridad</td>
                                         <td colspan="3">
                                             <select id="prioridad" name="prioridad"  required>
@@ -294,26 +294,26 @@ include_once '../verificarPermisos.php';
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>*Reportó:</td>
+                                        <td>(*)Reportó:</td>
                                         <td>
                                             <select id="reporto" name="reporto" required>
                                                 <?php
                                                 $consultaReporto = "SELECT P.apellido, P.nombre, P.id_persona AS id
                                                 FROM persona P INNER JOIN usuario U ON P.id_persona = U.id_persona 
-                                                AND U.usuario = \"" . $_SESSION['usuario'] ."\"";
-                                               // $query7 = mysql_query($consultaReporto);
+                                                AND U.usuario = \"" . $_SESSION['usuario'] . "\"";
+                                                // $query7 = mysql_query($consultaReporto);
                                                 $resultado7 = $mysqli->query($consultaReporto);
                                                 if ($resultado7) {
-                                                    while ($row =$resultado7->fetch_assoc()) {
+                                                    while ($row = $resultado7->fetch_assoc()) {
                                                         ?>
-                                                <option value="<?php echo $row['id'] ?>"><?php echo $row['apellido'] . ", " . $row['nombre'] ?></option>
-                                                    <?php
+                                                        <option value="<?php echo $row['id'] ?>"><?php echo $row['apellido'] . ", " . $row['nombre'] ?></option>
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
                                             </select>
                                         </td>
-                                        <td>*Área:</td>
+                                        <td>(*)Área:</td>
                                         <td>
                                             <select id="area" name="area" required>
                                                 <option value="">Seleccione...</option>
@@ -321,17 +321,17 @@ include_once '../verificarPermisos.php';
                                                 $consultaArea = "SELECT R.nombre, R.id_rol AS id
                                                 FROM rol R";
                                                 //$query8 = mysql_query($consultaArea);
-                                                $resultado8=$mysqli->query($consultaArea);
+                                                $resultado8 = $mysqli->query($consultaArea);
                                                 if ($resultado8) {
                                                     while ($row = $resultado8->fetch_assoc()) {
                                                         if ($row['nombre'] !== "Administrador" && $row['nombre'] !== "Admin" && $row['nombre'] !== "Administrator") {
                                                             ?>
                                                             <option value="<?php echo $row['id'] ?>"><?php echo $row['nombre'] ?></option>
                                                             <?php
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
+                                                        }
+                                                    }
+                                                }
+                                                ?>
                                             </select>
                                         </td>
                                     </tr>
@@ -386,12 +386,12 @@ include_once '../verificarPermisos.php';
                                     </tr>
                                 </table>
                             </div>
-                            <button class="submit" name="registrar" type="submit" id="registrar">Registrar</button>
                             <button class="submit" type="submit" name="cancelar" id="cancelar">Cancelar</button>
+                            <button class="submit" name="registrar" type="submit" id="registrar">Registrar</button>
                         </form>
                     </div>
                 </div>
-<?php include_once './../foot.php'; ?>
+                <?php include_once './../foot.php'; ?>
             </div>
         </div>
     </body>

@@ -9,7 +9,7 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
     } else {
         $id = $_POST['si'];
     }
-    $consulta = mysql_query("UPDATE Sistema_Informatico SET baja=1 WHERE id_sistema_informatico=" . $id);
+    $consulta = mysql_query("UPDATE sistema_informatico SET baja=1 WHERE id_sistema_informatico=" . $id);
     $mjs = 3;
 } else {
     
@@ -70,5 +70,4 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
         }
     }
 }
-
-//header('Location: /IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 
+header('Location: /IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 
