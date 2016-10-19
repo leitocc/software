@@ -149,8 +149,8 @@ html {
 }
 
 body {
-	background: #FFF;
-	color: #334;
+	/*background: #FFF;
+	color: #334;*/
 	font: normal 75% sans-serif;
 	line-height: 1.5;
 }
@@ -1253,4 +1253,23 @@ ul.menu_h li a:hover {color:#000; background-color:#FF9; border-left-color:#FF9;
 }
 [type="checkbox"]:checked + label:after {
   /*background: url('check_on.png') left center no-repeat;*/
+}
+
+.msj_ok{
+border:solid 2px #158E15;
+background:#9FD99F;
+color:#158E15;
+font-weight: bold;
+font-size: 16px;
+padding:4px;    
+text-align:center;
+}
+.msj_error{
+border:solid 2px #EA4646;
+background:#F7C3C3;
+color:#EA4646;
+font-weight: bold;
+font-size: 16px;
+padding:4px;
+text-align:center;
 }

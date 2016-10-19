@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-echo "usuario: " . $_SESSION['idPersona'] . "<br/>";
+include_once '../verificarPermisos.php';
 
 function paginaError($nroError, $mjs) {
     header('Location: /IncidentesSoftware/error.php?error=' . $nroError . '&mjs=' . $mjs . '');
@@ -16,10 +16,16 @@ try {
     $fecha = formatoFecha::convertirAFechaSolaBD($fecha);
     $hora = filter_input(INPUT_POST, "hora");
     //$tipoSoftware = filter_input(INPUT_POST, "tipoSoftware");
-    $softwareAfectado = filter_input(INPUT_POST, "softwareAfectado");
     $ninguno = filter_input(INPUT_POST, "ninguno");
+    echo "ninguno: " . $ninguno . "<br/>";
+    if($ninguno != 0){
+        $softwareAfectado = filter_input(INPUT_POST, "softwareAfectado");
+        $accion = filter_input(INPUT_POST, "accion");
+    }else{
+        $softwareAfectado = "NULL";
+        $accion = 28; //id accion: No se realizo ninguna accion
+    }
     $descripcion = filter_input(INPUT_POST, "descripcion");
-    $accion = filter_input(INPUT_POST, "accion");
     $estado = filter_input(INPUT_POST, "estado");
 } catch (Exception $ex) {
     echo "se rompio por aqui<br/>";
@@ -40,10 +46,7 @@ if (mysql_errno() == 0) {
 }
 
 try {
-    $mysqli->autocommit(FALSE);
-
-    
-    
+    $mysqli->autocommit(FALSE);    
     $queryInsert = "INSERT INTO `detalle_intervencion_software`
             (`id_incidente`,
             `id_responsable`,
@@ -61,15 +64,25 @@ try {
             . $hora . "','"
             . $descripcion . "');";
     if ($mysqli->query($queryInsert) === TRUE) {
-        echo "nueva ComponenteXaula insertada " . $mysqli->insert_id;
+        echo "nueva ComponenteXaula insertada " . $mysqli->insert_id . "<br/>";
     } else {
-        echo "sql: " . $queryInsert . "<br/>";
+        echo "sql mal: " . $queryInsert . "<br/>";
         throw new Exception ();
         $mysqli->rollback();
         die();
     }
+    $queryUpdate = "UPDATE `incidente_software` SET `id_estado` = ". $estado 
+            . " WHERE `idIncidente` = " . $idIncidente;
+    if ($mysqli->query($queryUpdate) === TRUE) {
+        printf($mysqli->affected_rows ." Filas afectadas<br/>");
+    }
+    else{
+        echo "Error al ejecutar el comando:".$mysqli->error;
+        $mysqli->rollback();
+        $mysqli->close();
+        die();
+    }
 } catch (Exception $ex) {
-
     echo "todo mal: " . $e;
     $mysqli->rollback();
     $mysqli->close();

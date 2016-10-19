@@ -8,18 +8,17 @@ require_once '../formatoFecha.class.php';
 require_once '../Conexion2.php';
 $queryIncidente = "SELECT I.idIncidente, I.id_sistema_informatico AS si, I.fecha, T.nombre_turno AS turno,
                     S.nombre AS sala, I.descripcion, CI.nombre AS causa_incidente, I.id_estado AS idEstado, E.nombre_estado AS estado,
-                    A.nombre_actividad, A.nivel_actividad, A.responsable1, A.responsable2, P.apellido AS apellido_reporto,
-                    P.nombre AS nombre_reporto, R.nombre as nombre_rol
+                    P.apellido AS apellido_reporto, P.nombre AS nombre_reporto, R.nombre as nombre_rol
                     FROM incidente_software I 
                     INNER JOIN persona P ON I.id_persona_reporte = P.id_persona
                     INNER JOIN causa_incidente_software CI ON I.id_causa_incidente = CI.idCausa
                     INNER JOIN estado E ON I.id_estado = E.id_estado
-                    LEFT JOIN actividad A ON I.id_actividad_desarollo = A.id_actividad
                     INNER JOIN turno T ON I.id_turno = T.id_turno
                     INNER JOIN sistema_informatico SI ON SI.id_sistema_informatico = I.id_sistema_informatico
-                    INNER JOIN sala S ON SI.id_sala = S.id_sala INNER JOIN rol R on P.id_rol = R.id_rol
+                    INNER JOIN sala S ON SI.id_sala = S.id_sala 
+                    INNER JOIN rol R on I.id_rol_persona_reporte = R.id_rol
                     WHERE I.idIncidente = " . $id;
-
+// A.nombre_actividad, A.nivel_actividad, A.responsable1, A.responsable2,    LEFT JOIN actividad A ON I.id_actividad_desarollo = A.id_actividad
 //echo $queryIncidente . "</br>";
 $buscarIncidentes = $mysqli->query($queryIncidente);
 if (!$buscarIncidentes) {
@@ -155,7 +154,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                     <tr>
                                         <td>Turno:</td>
                                         <td colspan="3">
-                                            <input type="text" value="<?php echo $incidente['turno'] ?>" readonly="true"/>
+                                            <input type="text" value="<?php echo utf8_encode($incidente['turno']) ?>" readonly="true"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -209,7 +208,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                     <tr>
                                         <td>Descripción del incidente:</td>
                                         <td colspan="3">
-                                            <textarea cols="40" rows="4" readonly="true"><?php echo $incidente['descripcion'] ?></textarea>
+                                            <textarea cols="80" rows="8" readonly="true"><?php echo $incidente['descripcion'] ?></textarea>
                                         </td>
                                     </tr>
                                 </table>
@@ -257,18 +256,19 @@ $incidente = $buscarIncidentes->fetch_assoc();
                             <!-- Aqui van los detalles ya cargados del incidente-->
                             <?php
                             $idDetalle = 1;
-                            $buscarDetallesIncidentes = "SELECT  DIS.fecha_fin AS fecha, DIS.hora_fin AS hora, P.nombre, P.apellido, 
+                            $buscarDetallesIncidentes = "SELECT  DIS.fecha_inicio AS fecha, DIS.hora_inicio AS hora, P.nombre, P.apellido, 
                                 ACS.nombre AS accion, concat(CS.descripcion,' ',IFNULL(CS.version,'')) as descripcionSoftware, 
                                 TCS.descripcion AS tipoComponente, DIS.descripcion AS descripcionDetalle, DIS.id_detalle
                                 FROM detalle_intervencion_software DIS
                                 INNER JOIN incidente_software I ON DIS.id_incidente = I.idIncidente
                                 INNER JOIN accion_correctiva_software ACS ON DIS.id_accion = ACS.idAccion
-                                INNER JOIN componente_software CS ON DIS.id_componente_software = CS.idComponente_Software
+                                LEFT JOIN componente_software CS ON DIS.id_componente_software = CS.idComponente_Software
                                 INNER JOIN tipo_componente_software TCS ON CS.id_tipo_componente = TCS.idtipoComponente
                                 INNER JOIN persona P ON DIS.id_responsable = P.id_persona
-                                WHERE DIS.id_incidente = " . $incidente['si'];
+                                WHERE DIS.id_incidente = " . $id . " ORDER BY DIS.id_detalle";
+                            //echo $buscarDetallesIncidentes;
                             $resultadoDetallesIncidentes = $mysqli->query($buscarDetallesIncidentes);
-                            if ($resultadoDetallesIncidentes && $mysqli->affected_rows > 0) {
+                            if ($resultadoDetallesIncidentes /*&& $mysqli->affected_rows > 0*/) {
                                 ?>
                                 <fieldset><legend><h4>Intervenciones</h4></legend>
                                     <div class="archive-separator"></div>
@@ -283,32 +283,44 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                     <td>Fecha registro:</td>
                                                     <td>
                                                         <input type="text" value="<?php echo formatoFecha::convertirAFechaSolaWeb($detalles['fecha']) ?>" readonly/>
-                                                        <?php /* <input type="text" id="ffinInterv<?php echo $idDetalle ?>" value="<?php echo date('d/m/y') /* echo formatoFecha::convertirAFechaSolaWeb($detalles['fecha_fin']) * ?>" readonly/> */ ?>
                                                     </td>
                                                     <td>Hora registro:</td>
                                                     <td>
                                                         <input type="text" value="<?php echo substr($detalles['hora'], 0, 5) ?>" readonly="true"/>
-                                                        <?php /* <input type="text" id="hfinInterv<?php echo $idDetalle ?>" value="<?php echo substr($detalles['hora_fin'], 0, 5) ?>" readonly="true"/> */ ?>
                                                     </td>
                                                 </tr>
-
+                                                <?php
+                                                if($detalles['descripcionSoftware'] != null){
+                                                    ?>
                                                 <tr>
-                                                    <td>*Software tratado:</td>
+                                                    <!--<td>*Software tratado:</td>-->
+                                                    
+                                                    <td>
+                                                        Tipo Componente: 
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value="<?php echo $detalles['tipoComponente'] ?>" readonly="true"/>
+                                                    </td>
+                                                    <td>
+                                                        Nombre Componente: 
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value="<?php echo $detalles['descripcionSoftware'] ?>" readonly="true"/>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                                <tr>
+                                                    <td>*Accion correctiva<br/>realizada:</td>
                                                     <td colspan="2">
-                                                        Tipo Componente: <input type="text" value="<?php echo $row['tipoComponente'] ?>" readonly="true"/>
-                                                        Nombre Componente: <input type="text" value="<?php echo $row['descripcionSoftware'] ?>" readonly="true"/>
+                                                        <input type="text" value="<?php echo $detalles['accion'] ?>" readonly="true"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>*Descripci&oacute;n:</td>
-                                                    <td colspan="2">
-                                                        <textarea cols="50" rows="4"><?php echo $row['descripcionDetalle'] ?></textarea>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>*Accion correctiva<br/>realizada:</td>
-                                                    <td colspan="2">
-                                                        <input type="text" value="<?php echo $row['accion'] ?>" readonly="true"/>
+                                                    <td colspan="3">
+                                                        <textarea cols="100" rows="8"><?php echo $detalles['descripcionDetalle'] ?></textarea>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -387,12 +399,6 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>*Descripci&oacute;n:</td>
-                                                    <td colspan="2">
-                                                        <textarea name="descripcion" cols="50" rows="4"></textarea>
-                                                    </td>
-                                                </tr>
-                                                <tr>
                                                     <td>*Accion correctiva<br/>realizada:</td>
                                                     <td colspan="2">
                                                         <select name="accion" id="accion" required>
@@ -417,6 +423,12 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                             ?>
                                                         </select>
                                                         <button class="submit" name="agregarAccion" id="agregarAccion" onclick="javascript:mostrarVentana();">+</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>*Descripci&oacute;n:</td>
+                                                    <td colspan="2">
+                                                        <textarea name="descripcion" cols="100" rows="8"></textarea>
                                                     </td>
                                                 </tr>
                                             </table>

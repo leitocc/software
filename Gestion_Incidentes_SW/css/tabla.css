@@ -4,92 +4,94 @@ www.roscripts.com
 ----------------------------------------------- */
 
 table.listado {
-		border-collapse:collapse;
-		background:#EFF4FB url(http://www.roscripts.com/images/teaser.gif) repeat-x;
-		border-left:1px solid #686868;
-		border-right:1px solid #686868;
-		font:1.4em/145% 'Trebuchet MS',helvetica,arial,verdana;
-		color: #333;
+    border-collapse:collapse;
+    background:#EFF4FB;
+    border-left:1px solid #686868;
+    border-right:1px solid #686868;
+    font:1.4em/145% 'Trebuchet MS',helvetica,arial,verdana;
+    color: #333;
 }
 
 table.listado td, table.listado th {
-		padding:5px;
-                text-align:center
+    padding:5px;
+    text-align:center
 }
 
 table.listado caption {
-		/*//padding: 0 0 .5em 0;*/
-		text-align: center;
-		font-size: 1.4em;
-		font-weight: bold;
-/*                
-		//text-transform: uppercase;
-		//color: #333;
-		//background: transparent;*/
-                background:-o-linear-gradient(bottom, #005fbf 5%, #003f7f 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, red), color-stop(1, #003f7f) );
-	background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
-		/*//color:#fff;*/
-		color:whitesmoke;
+    /*//padding: 0 0 .5em 0;*/
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    /*                
+                    //text-transform: uppercase;
+                    //color: #333;
+                    //background: transparent;*/
+    /*background:-o-linear-gradient(bottom, #005fbf 5%, #9C9C9C 100%);	*/
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9bc96c), color-stop(1, #007f00) );
+    background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
+    /*//color:#fff;*/
+    color:whitesmoke;
 }
 
 /* =links
 ----------------------------------------------- */
 
 table.listado a {
-		color:#950000;
-		text-decoration:none;
+    color:#950000;
+    text-decoration:none;
 }
 
 table.listado a:link {}
 
 table.listado a:visited {
-		font-weight:normal;
-		color:#666;
-		text-decoration: line-through;
+    font-weight:normal;
+    color:#666;
+    text-decoration: line-through;
 }
 
 table.listado a:hover {
-		border-bottom: 1px dashed #bbb;
+    border-bottom: 1px dashed #bbb;
 }
 
 /* =head =foot
 ----------------------------------------------- */
 
- table.listado thead th, table.listado tfoot th, table.listado tfoot td {
-		/*/background:#333 url(http://www.roscripts.com/images/llsh.gif) repeat-x;*/
-                background:-o-linear-gradient(bottom, #005fbf 5%, #003f7f 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, red), color-stop(1, #003f7f) );
-	background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
-		/*/color:#fff;*/
-		color:whitesmoke;
-                    text-align:center
+table.listado thead th, table.listado tfoot th, table.listado tfoot td {
+    /*/background:#333 url(http://www.roscripts.com/images/llsh.gif) repeat-x;*/
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9bc96c), color-stop(1, #007f00) );
+    background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	
+    background: -o-linear-gradient(top,#005fbf,003f7f);
+    /*/color:#fff;*/
+    color:whitesmoke;
+    text-align:center
 }
 
 table.listado tfoot td {
-		text-align:center
+    text-align:center
 }
 
 /* =body
 ----------------------------------------------- */
 
 table.listado tbody th, table.listado tbody td {
-		border-bottom: dotted 1px #333;
+    border-bottom: dotted 1px #333;
 }
 
 table.listado tbody th {
-		white-space: nowrap;
+    white-space: nowrap;
 }
 
 table.listado tbody th a {
-		color:#333;
+    color:#333;
 }
 
 .odd {}
 
 table.listado tbody tr:hover {
-		background:#003f7f;
-                    color: white
+    background:#003f7f;
+    color: white
 }
 
 /* roScripts
@@ -98,89 +100,91 @@ www.roscripts.com
 ----------------------------------------------- */
 
 table.listado2 {
-		border-collapse:collapse;
-		background:#EFF4FB url(http://www.roscripts.com/images/teaser.gif) repeat-x;
-		border-left:1px solid #686868;
-		border-right:1px solid #686868;
-		font:1.0em/145% 'Trebuchet MS',helvetica,arial,verdana;
-		color: #333;
+    border-collapse:collapse;
+    background:#EFF4FB url(http://www.roscripts.com/images/teaser.gif) repeat-x;
+    border-left:1px solid #686868;
+    border-right:1px solid #686868;
+    font:1.0em/145% 'Trebuchet MS',helvetica,arial,verdana;
+    color: #333;
 }
 
 table.listado2 td, table.listado2 th {
-		padding:5px;
-                text-align:center
+    padding:5px;
+    text-align:center
 }
 
 table.listado2 caption {
-		padding: 0 0 .5em 0;
-		text-align: center;
-		font-size: 1.4em;
-		font-weight: bold;
-		text-transform: uppercase;
-		/*/color: #333;
-		//background: transparent;*/
-                background:-o-linear-gradient(bottom, #005fbf 5%, #003f7f 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, red), color-stop(1, #003f7f) );
-	background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
-		/*/color:#fff;*/
-		color:whitesmoke;
+    padding: 0 0 .5em 0;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-transform: uppercase;
+    /*/color: #333;
+    //background: transparent;*/
+    background:-o-linear-gradient(bottom, #005fbf 5%, #003f7f 100%);	
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9bc96c), color-stop(1, #007f00) );
+    background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
+    /*/color:#fff;*/
+    color:whitesmoke;
 }
 
 /* =links
 ----------------------------------------------- */
 
 table.listado2 a {
-		color:#950000;
-		text-decoration:none;
+    color:#950000;
+    text-decoration:none;
 }
 
 table.listado2 a:link {}
 
 table.listado2 a:visited {
-		font-weight:normal;
-		color:#666;
-		text-decoration: line-through;
+    font-weight:normal;
+    color:#666;
+    text-decoration: line-through;
 }
 
 table.listado2 a:hover {
-		border-bottom: 1px dashed #bbb;
+    border-bottom: 1px dashed #bbb;
 }
 
 /* =head =foot
 ----------------------------------------------- */
 
- table.listado2 thead th, table.listado2 tfoot th, table.listado2 tfoot td {
-		/*/background:#333 url(http://www.roscripts.com/images/llsh.gif) repeat-x;*/
-                background:-o-linear-gradient(bottom, #005fbf 5%, #003f7f 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, red), color-stop(1, #003f7f) );
-	background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
-		/*/color:#fff;*/
-		color:whitesmoke;
-                    text-align:center
+table.listado2 thead th, table.listado2 tfoot th, table.listado2 tfoot td {
+    /*/background:#333 url(http://www.roscripts.com/images/llsh.gif) repeat-x;*/
+    background:-o-linear-gradient(bottom, #005fbf 5%, #003f7f 100%);	
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9bc96c), color-stop(1, #007f00) );
+    background:-moz-linear-gradient( center top, #9bc96c 5%, #007f00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#005fbf", endColorstr="#003f7f");	background: -o-linear-gradient(top,#005fbf,003f7f);
+    /*/color:#fff;*/
+    color:whitesmoke;
+    text-align:center
 }
 
 table.listado2 tfoot td {
-		text-align:center
+    text-align:center
 }
 
 /* =body
 ----------------------------------------------- */
 
 table.listado2 tbody th, table.listado2 tbody td {
-		border-bottom: dotted 1px #333;
+    border-bottom: dotted 1px #333;
 }
 
 table.listado2 tbody th {
-		white-space: nowrap;
+    white-space: nowrap;
 }
 
 table.listado2 tbody th a {
-		color:#333;
+    color:#333;
 }
 
 .odd {}
 
 table.listado2 tbody tr:hover {
-		background:#003f7f;
-                    color: white
+    background:#003f7f;
+    color: white
 }

@@ -74,9 +74,10 @@ id_estado,
 id_actividad_desarollo,
 id_persona_reporte,
 id_prioridad,
-descripcion)
+descripcion,
+id_rol_persona_reporte)
 VALUES(" . $si . ",\"" . $fecha . "\", " . $turno . ", " . $causaIncidente . ",1, " 
-        . $idActividad['id'] . ", " . $reporto . ", " . $prioridad . ", '" . $descripcion . "');";
+        . $idActividad['id'] . ", " . $reporto . ", " . $prioridad . ", '" . $descripcion . "', " . $area . ");";
 //$insert = mysql_query($insertQuery);
 echo $insertQuery;
 if ($mysqli->query($insertQuery) === TRUE) {
