@@ -34,18 +34,15 @@ try{
     }
     * 
     */
-    
+    $msj = 1;
 }catch (mysqli_sql_exception $myE){
     $mensajecomponente = "Error al grabar en la BD: ".$myE;
+    $msj = 2;
 }catch (Exception $e){
     $mensajecomponente = "Error general: ". $e;
+    $msj = 2;
 }
 echo $mensajecomponente;
-header('Location: /IncidentesSoftware/Administracion/PrincipalAdministracion.php');
+header('Location: /IncidentesSoftware/Administracion/PrincipalAdministracion.php?msj=' . $msj . '');
 $_SESSION['mensaje'] = $mensajecomponente;
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+//echo $mensajecomponente . ": ". $msj ;

@@ -10,9 +10,9 @@ require_once '../Conexion2.php';
     <head>
         <meta charset="UTF-8">
         <title>Componentes</title>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/ajax.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/ajax.js"></script>
         <script type="text/javascript">
             function crea_query_string() {
                 var idTipoComponente = document.getElementById("tipoComponente");
@@ -42,7 +42,7 @@ require_once '../Conexion2.php';
                 document.getElementById("siguiente").onclick = function (mievento) {
                     mievento.preventDefault();
                     if (document.getElementById("tipoComponente").value !== "") {
-                        valida("http://localhost/IncidentesSoftware/SistemaInformatico/ajax/nuevoComponente.php");
+                        valida("http://localhost/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/ajax/nuevoComponente.php");
                     } else {
                         alert("Ingrese un tipo de componente");
                     }

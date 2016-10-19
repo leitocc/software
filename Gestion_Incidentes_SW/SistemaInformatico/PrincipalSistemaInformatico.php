@@ -9,7 +9,7 @@ include_once '../limpiarSesion.php';
     <head>
         <meta charset="UTF-8">
         <title>Sistemas Informaticos</title>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
     </head>
     <body id="top">
         <?php include_once '../master.php'; ?>
@@ -20,6 +20,21 @@ include_once '../limpiarSesion.php';
                 <div class="main">
                     <div class="post">
                         <div style="clear: both">
+                            <?php
+                            $msj = filter_input(INPUT_GET, "msj");
+                            if (isset($msj)) {
+                                switch ($msj) {
+                                    case 1:
+                                        echo '<div class="msj_ok">Se grabó correctamente</div>';
+                                        break;
+                                    case 2:
+                                        echo '<div class="msj_error">Se produjo un error al grabar</div>';
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            ?>
                             <li class="no_lista"><h2>Sistemas Informáticos</h2></li>
                             <li class="no_lista"><h3><a href="AltaSistemaInformatico.php">Agregar Sistema Informático</a></h3></li>
                             <li class="no_lista"><h3><a href="ModificarSistemaInformatico.php">Modificar Sistema Informatico</a></h3></li>

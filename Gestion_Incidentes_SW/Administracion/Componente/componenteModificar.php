@@ -12,26 +12,19 @@ try{
     $consulta=$mysqli->query($query24);
     if($consulta){
         $mensajecomponente="Se Actualizo correctamente";
-        echo"<script type=\"text/javascript\">alert('Se actualizo correctamente'); "
-        . "window.location='/IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
-        
+        $msj = 1;
     }else{
-        
+        $msj = 2;
     }
-    
 }catch (mysqli_sql_exception $myE){
     $mensajecomponente = "Error al eliminar en la BD: ".$myE;
+    $msj = 2;
 }catch (Exception $e){
     $mensajecomponente = "Error general: ". $e;
+    $msj = 2;
 }
 echo $mensajecomponente;
-header('Location: /IncidentesSoftware/Administracion/PrincipalAdministracion.php');
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Administracion/PrincipalAdministracion.php?msj=' . $msj . '');
 $_SESSION['mensaje'] = $mensajecomponente;
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 

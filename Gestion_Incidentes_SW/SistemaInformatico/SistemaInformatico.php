@@ -23,10 +23,10 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
             $update_row = $mysqli->query($queryModificacion);
             if ($update_row) {
                 echo"<script type=\"text/javascript\">alert('Se ha modificado el sistema informatico'); "
-                . "window.location='/IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php';</script>"; 
+                . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>"; 
             }else{
                 echo"<script type=\"text/javascript\">alert('No se a podido modificar el sistema informatico por que ya tiene asignada un incidente'); "
-                . "window.location='/IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
+                . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
             }
         }
     } else {
@@ -57,12 +57,12 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
                 $darAlta = mysql_query("UPDATE sistema_informatico SET baja = 0 WHERE id_sistema_informatico=" . $id);
                 $mjs = 1;
                 echo"<script type=\"text/javascript\">alert('Ha ingresado un sistema informatico ya existente'); "
-                . "window.location='/IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
+                . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
             } else {
                 $query = "insert into sistema_informatico (id_sistema_informatico, id_sala,baja) values (" . $id . " , " . $sala . ", 0)";
                 $consulta = mysql_query($query);
                 $mjs = 1;
-                header('Location: /IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php?mjs=' . $mjs . '');
+                header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/SistemaInformatico/PrincipalSistemaInformatico.php?mjs=' . $mjs . '');
             }
         } else {
 
@@ -70,4 +70,4 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
         }
     }
 }
-header('Location: /IncidentesSoftware/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 

@@ -75,9 +75,9 @@ $mysqli->close();
     <head>
         <meta charset="UTF-8">
         <title>RegistrarNuevo</title>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/ajax.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/ajax.js"></script>
     </head>
     <body id="top">
         <?php include_once '../master.php'; ?>

@@ -1,5 +1,6 @@
 <?php
 $hoy = getdate();
+$_SESSION['RELATIVE_PATH'] = explode("/", dirname($_SERVER["PHP_SELF"]))[1];
 ?>
 <div id="network">
     <div class="center-wrapper">
@@ -17,7 +18,7 @@ $hoy = getdate();
         <span class="text-separator">|</span>
         <span class="quiet">Bienvenido: <?php echo $_SESSION['rolUS']?> - <?php echo $_SESSION['apellidoUS'].", ".$_SESSION['nombreUS']?></span>
         <span class="text-separator">|</span>
-        <span class="quiet"><a href="/IncidentesSoftware/logout.php" id="logout" class="more">Salir</a></span>
+        <span class="quiet"><a href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/logout.php" id="logout">Salir</a></span>
         <?php }?>
     </div>
     <div class="clearer">&nbsp;</div>
