@@ -24,10 +24,10 @@ require_once '../../Conexion2.php';
     </head>
 
     <body id="top">
-<?php include_once '../../master.php'; ?>
+        <?php include_once '../../master.php'; ?>
         <div id="site">
             <div class="center-wrapper">
-<?php include_once '../../menu.php'; ?>
+                <?php include_once '../../menu.php'; ?>
                 <div class="main">
                     <div class="post">
                         <form action="componenteModificar.php" method="post" name="formulario" class="contact_form">
@@ -76,13 +76,16 @@ require_once '../../Conexion2.php';
                                         </li>
                                     </div>
 
-                                    <li> <button class="submit" type="submit">Modificar</button> <button class="submit" type="submit" id="volver">Volver</button></li> 
+                                    <li> 
+                                        <button class="submit" type="submit" id="volver">Volver</button>
+                                        <button class="submit" type="submit">Modificar</button>
+                                    </li> 
                                 </ul>                                
                             </div>
                         </form>
                     </div>
                 </div>
-<?php include_once '../../foot.php'; ?>
+                <?php include_once '../../foot.php'; ?>
             </div>
         </div>
     </body>

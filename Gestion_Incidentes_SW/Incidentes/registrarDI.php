@@ -3,8 +3,8 @@
 session_start();
 include_once '../verificarPermisos.php';
 
-function paginaError($nroError, $mjs) {
-    header('Location: /IncidentesSoftware/error.php?error=' . $nroError . '&mjs=' . $mjs . '');
+function paginaError($nroError, $msj) {
+    header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/error.php?error=' . $nroError . '&msj=' . $msj . '');
     exit();
 }
 
@@ -91,4 +91,4 @@ try {
 
 $mysqli->commit();
 $mysqli->close();
-//header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=1');
+//header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Incidentes/InicioIncidentes.php?msj=1');

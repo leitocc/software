@@ -16,9 +16,9 @@ require_once '../Conexion.php';
     <head>
         <meta charset="UTF-8">
         <title>Sistemas Informaticos - Modificar Componentes</title>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
         <?php 
             if(isset($_SESSION['mensaje'])){      
                 $mensaje = $_SESSION['mensaje'];
@@ -35,84 +35,84 @@ require_once '../Conexion.php';
                 $("#volver").click(function(mievento){
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/IncidentesSoftware/SistemaInformatico/ModificarSisitemaInformatico.php';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/ModificarSisitemaInformatico.php';
                 });
                 <?php if(isset($_SESSION['idIncidente'])){?>
                 $("#volverIncidentes").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Incidentes/DetalleIncidente.php?id=<?php echo $_SESSION['idIncidente'] ?>';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/DetalleIncidente.php?id=<?php echo $_SESSION['idIncidente'] ?>';
                 });
                 <?php } ?>
                 $("#agregarMonitor").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/Monitor/PaginaMonitor.php?modo=ins';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Monitor/PaginaMonitor.php?modo=ins';
                 });
                 
                 $("#modificarMonitor").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/Monitor/PaginaMonitor.php?modo=mod';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Monitor/PaginaMonitor.php?modo=mod';
                 });
                 
                 $("#quitarMonitor").click(function(mievento){
                     mievento.preventDefault();
                     if(confirm("¿Esta seguro que desea quitar el Monitor del SI <?php echo $SI ?>?")){
-                        window.location = '/IncidentesSoftware/Componentes/Monitor/Monitor.php?modo=del';
+                        window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Monitor/Monitor.php?modo=del';
                     }
                 });
                 
                 $("#agregarMouse").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/Mouse/PaginaMouse.php?modo=ins';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Mouse/PaginaMouse.php?modo=ins';
                 });
                 
                $("#modificarMouse").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/Mouse/PaginaMouse.php?modo=mod';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Mouse/PaginaMouse.php?modo=mod';
                 });
                 
                 $("#quitarMouse").click(function(mievento){
                     mievento.preventDefault();
                     if(confirm("¿Esta seguro que desea quitar el Mouse del SI <?php echo $SI ?>?")){
-                        window.location = '/IncidentesSoftware/Componentes/Mouse/Mouse.php?modo=del';
+                        window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Mouse/Mouse.php?modo=del';
                     }
                  });
                 
                 $("#agregarTeclado").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/Teclado/PaginaTeclado.php?modo=ins';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Teclado/PaginaTeclado.php?modo=ins';
                 });
                 
                 $("#modificarTeclado").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/Teclado/PaginaTeclado.php?modo=mod';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Teclado/PaginaTeclado.php?modo=mod';
                 });
                 
                 $("#quitarTeclado").click(function(mievento){
                     mievento.preventDefault();
                     if(confirm("¿Está seguro que desea quitar el Teclado del SI <?php echo $SI ?>?")){
-                        window.location = '/IncidentesSoftware/Componentes/Teclado/Teclado.php?modo=del';
+                        window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/Teclado/Teclado.php?modo=del';
                     }
                 });
                  $("#agregarCpu").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/CPU/PaginaCPU.php?modo=ins';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/CPU/PaginaCPU.php?modo=ins';
                 }); 
                 
                 $("#modificarCpu").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/CPU/PaginaCPU.php?modo=mod';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/CPU/PaginaCPU.php?modo=mod';
                 });
                 
                 $("#quitarCpu").click(function(mievento){
                     mievento.preventDefault();
                     if(confirm("¿Está seguro que desea quitar el CPU del SI <?php echo $SI ?> con todos sus componentes internos?")){
-                        window.location = '/IncidentesSoftware/Componentes/CPU/CpuPrimero.php?modo=del';
+                        window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/CPU/CpuPrimero.php?modo=del';
                     }
                 });    
                 
                 $("#agregarDetalle").click(function(mievento){
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/Componentes/CPU/PaginaCPUSegunda.php';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Componentes/CPU/PaginaCPUSegunda.php';
                 });
             });
         </script>

@@ -8,20 +8,20 @@ include_once '../verificarPermisos.php';
     <head>
         <meta charset="UTF-8">
         <title>Sistemas Informaticos - Baja</title>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.validate.js"></script>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.validate.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery-ui.css" />
         <script>
-            $(document).ready(function() {
-                $("#sala").change(function(e) {
+            $(document).ready(function () {
+                $("#sala").change(function (e) {
                     if ($("#sala").val() !== "Seleccione...") {
                         $.ajax({
-                            url: "/IncidentesSoftware/SistemaInformatico/cargarSI.php",
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/cargarSI.php",
                             type: "POST",
                             data: "sala=" + $("#sala").val(),
-                            success: function(opciones) {
+                            success: function (opciones) {
                                 $("#si").html(opciones).show("slow");
                                 //$("#agregarProvincia").attr("hidden", false);
                                 //$("#boton").attr("disabled", true);
@@ -34,17 +34,17 @@ include_once '../verificarPermisos.php';
                         //$("#boton").attr("disabled", true);
                     }
                 });
-                $("#Volver").click(function(mievento){
+                $("#Volver").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
                     window.location = 'PrincipalSistemaInformatico.php';
                 });
-                $("#confirmar").click(function(mievento){
+                $("#confirmar").click(function (mievento) {
                     mievento.preventDefault();
                     //if(!$("#formulario").validate()){
-                        if(confirm("¿Está seguro que quiere dar de baja el SI "+$("#si").val()+"?")){
-                            $("#formulario").submit();
-                        }
+                    if (confirm("¿Está seguro que quiere dar de baja el SI " + $("#si").val() + "?")) {
+                        $("#formulario").submit();
+                    }
                     //}
                     //window.location = 'PrincipalSistemaInformatico.php';
                 });

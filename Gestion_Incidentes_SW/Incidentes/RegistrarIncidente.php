@@ -8,20 +8,20 @@ include_once '../verificarPermisos.php';
     <head>
         <meta charset="UTF-8">
         <title>Incidentes - Registrar Nuevo Incidente</title>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datetimepicker.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datepicker-es.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.validate.js"></script>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.datepicker-es.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.validate.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery.datetimepicker.css" />
         <script>
             $(document).ready(function () {
                 $("#sala").change(function (e) {
                     if ($("#sala").val() !== "Seleccione...") {
                         $.ajax({
-                            url: "/IncidentesSoftware/SistemaInformatico/cargarSI.php",
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/cargarSI.php",
                             type: "POST",
                             data: "sala=" + $("#sala").val(),
                             success: function (opciones) {
@@ -36,7 +36,7 @@ include_once '../verificarPermisos.php';
                 $("#componenteAfectado").change(function (e) {
                     if ($("#componenteAfectado").val() !== "Seleccione...") {
                         $.ajax({
-                            url: "/IncidentesSoftware/Incidentes/ajax/cargarIndicioIncidentes.php",
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/ajax/cargarIndicioIncidentes.php",
                             type: "POST",
                             data: "componenteAfectado=" + $("#componenteAfectado").val(),
                             success: function (opciones) {
@@ -60,7 +60,7 @@ include_once '../verificarPermisos.php';
                 $("#nombreAct").change(function (ev) {
                     if ($("#nombreAct").val() !== "") {
                         $.ajax({
-                            url: "/IncidentesSoftware/Incidentes/ajax/nivelActividad.php",
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/ajax/nivelActividad.php",
                             type: "POST",
                             data: "id=" + $("#nombreAct").val(),
                             success: function (opciones) {
@@ -96,7 +96,7 @@ include_once '../verificarPermisos.php';
                 $("#cancelar").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/IncidentesSoftware/Incidentes/InicioIncidentes.php';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/InicioIncidentes.php';
                 });
             });
         </script>

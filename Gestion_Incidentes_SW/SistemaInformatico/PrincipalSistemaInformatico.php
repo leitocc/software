@@ -30,6 +30,9 @@ include_once '../limpiarSesion.php';
                                     case 2:
                                         echo '<div class="msj_error">Se produjo un error al grabar</div>';
                                         break;
+                                    case 3:
+                                        echo '<div class="msj_ok">Se realizaron los cambios correctamente</div>';
+                                        break;
                                     default:
                                         break;
                                 }

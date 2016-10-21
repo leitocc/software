@@ -13,8 +13,8 @@
         //si no se ha hecho la sesion nos regresará a login.php
         $permisos = array(1,2,3,4,5,6);
         $_SESSION['permisos'] = $permisos;
-        include_once './verificarPermisos.php';
         include_once './master.php';
+        include_once './verificarPermisos.php';
          ?>
         <div id="site">
             <div class="center-wrapper">

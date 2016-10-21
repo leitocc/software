@@ -31,14 +31,14 @@ $incidente = $buscarIncidentes->fetch_assoc();
     <head>
         <meta charset="UTF-8">
         <title>Buscar Incidentes</title>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datetimepicker.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datepicker-es.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.validate.js"></script>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.datepicker-es.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.validate.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery.datetimepicker.css" />
         <script>
             function ocultarVentana(){
                 var ventana = document.getElementById('miVentana');
@@ -82,23 +82,23 @@ $incidente = $buscarIncidentes->fetch_assoc();
                 $("#volver").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/IncidentesSoftware/Incidentes/BuscarIncidente.php';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/BuscarIncidente.php';
                 });
                 $("#cancelar").click(function (mievento) {
                     mievento.preventDefault();
                     //history.back();
-                    window.location = '/IncidentesSoftware/Incidentes/BuscarIncidente.php';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/BuscarIncidente.php';
                 });
                 $("#agregarComponente").click(function (mievento) {
                     mievento.preventDefault();
-                    window.location = '/IncidentesSoftware/SistemaInformatico/ModificarComponentesSI.php?si=<?php echo $incidente['si'] ?>&idIncidente=<?php echo $id ?>';
+                    window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/ModificarComponentesSI.php?si=<?php echo $incidente['si'] ?>&idIncidente=<?php echo $id ?>';
                 });
 
                 $("#tipoSoftware").change(function (mievento) {
                     mievento.preventDefault();
                     var ts = document.getElementById("tipoSoftware");
                     $.ajax({
-                        url: "/IncidentesSoftware/Incidentes/ajax/cargarComponenteSW.php",
+                        url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/ajax/cargarComponenteSW.php",
                         type: "POST",
                         data: "tipoSoftware=" + ts.value,
                         success: function (opciones) {

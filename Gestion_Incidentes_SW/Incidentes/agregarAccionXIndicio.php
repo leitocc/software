@@ -17,28 +17,6 @@ $consultaTodasAccionesCorrectivas = "SELECT acs.idAccion as id, acs.nombre
     FROM accion_softwarexcausa_software ascs";
 $resultadoTodasAcccionesCorrectivas = $mysqli->query($consultaTodasAccionesCorrectivas);
 ?>
-<!--
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Agregar nueva acción correctiva</title>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
-        <script>
-            $(document).ready(function () {
-
-            });
-        </script>
-    </head>
-    <body id="top">
-<?php // include_once '../../master.php'; ?>
-        <div id="site">
-            <div class="center-wrapper">
-                <div class="main">
-                    <div class="post">
--->
 <div id="miVentana" style="position: fixed; width: 350px; height: 190px; top: 0; left: 0; 
      font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: normal; 
      border: #333333 3px solid; background-color: #FAFAFA; color: #000000; display:none;">

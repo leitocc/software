@@ -87,8 +87,8 @@ if ($mysqli->query($insertQuery) === TRUE) {
 //mysqli_commit($insert);
 /**/
 if (mysql_errno() == 0) {
-    header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=1');
+    header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Incidentes/InicioIncidentes.php?msj=1');
 } else {
-    header('Location: /IncidentesSoftware/Incidentes/InicioIncidentes.php?mjs=0');
+    header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Incidentes/InicioIncidentes.php?msj=0');
 }
 

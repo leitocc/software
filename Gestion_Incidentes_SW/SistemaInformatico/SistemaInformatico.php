@@ -1,7 +1,8 @@
 <?php
 
+session_start();
 require_once '../Conexion.php';
-$mjs = "";
+$msj = "";
 if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
     if ($_POST['si'] === '') {
         $id = null;
@@ -10,9 +11,8 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
         $id = $_POST['si'];
     }
     $consulta = mysql_query("UPDATE sistema_informatico SET baja=1 WHERE id_sistema_informatico=" . $id);
-    $mjs = 3;
+    $msj = 3;
 } else {
-    
     if ($_REQUEST['modo'] == "modi") {
         echo "entre";
         if ($_POST['si'] !== '' && $_POST['siDestino'] !== '') {
@@ -23,8 +23,8 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
             $update_row = $mysqli->query($queryModificacion);
             if ($update_row) {
                 echo"<script type=\"text/javascript\">alert('Se ha modificado el sistema informatico'); "
-                . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>"; 
-            }else{
+                . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
+            } else {
                 echo"<script type=\"text/javascript\">alert('No se a podido modificar el sistema informatico por que ya tiene asignada un incidente'); "
                 . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
             }
@@ -55,19 +55,19 @@ if (isset($_REQUEST['modo']) && $_REQUEST['modo'] == "del") {
             if (mysql_errno() == 0 && mysql_affected_rows() > 0) {
                 //Dar de alta si ya existia el SI
                 $darAlta = mysql_query("UPDATE sistema_informatico SET baja = 0 WHERE id_sistema_informatico=" . $id);
-                $mjs = 1;
+                $msj = 1;
                 echo"<script type=\"text/javascript\">alert('Ha ingresado un sistema informatico ya existente'); "
                 . "window.location='/" . $_SESSION['RELATIVE_PATH'] . "/SistemaInformatico/PrincipalSistemaInformatico.php';</script>";
             } else {
                 $query = "insert into sistema_informatico (id_sistema_informatico, id_sala,baja) values (" . $id . " , " . $sala . ", 0)";
                 $consulta = mysql_query($query);
-                $mjs = 1;
-                header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/SistemaInformatico/PrincipalSistemaInformatico.php?mjs=' . $mjs . '');
+                $msj = 1;
+                header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/SistemaInformatico/PrincipalSistemaInformatico.php?msj=' . $msj . '');
             }
         } else {
 
-            $mjs = 0;
+            $msj = 0;
         }
     }
 }
-header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/SistemaInformatico/PrincipalSistemaInformatico.php?mjs='.$mjs.''); 
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/SistemaInformatico/PrincipalSistemaInformatico.php?msj=' . $msj . '');

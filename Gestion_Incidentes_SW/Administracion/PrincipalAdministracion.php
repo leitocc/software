@@ -30,12 +30,15 @@ include_once '../limpiarSesion.php';
                                     case 2:
                                         echo '<div class="msj_error">Se produjo un error al grabar</div>';
                                         break;
+                                    case 3:
+                                        echo '<div class="msj_ok">Se realizaron los cambios correctamente</div>';
+                                        break;
                                     default:
                                         break;
                                 }
                             }
                             ?>
-                            <li class="no_lista"><h2>Administración</h2></li>
+                            <li class="no_lista"><h2>Administraci&oacute;n</h2></li>
                             <li class="no_lista"><h3><a href="Componente/RegistrarComponente.php">Registrar Componente</a></h3></li>
                             <li class="no_lista"><h3><a href="Componente/ModificarComponente.php">Modificar Componente</a></h3></li>
                             <li class="no_lista"><h3><a href="Componente/cargaComponenteXAula.php">Agregar Componente a Aula</a></h3></li>

@@ -9,14 +9,14 @@ require_once '../Conexion.php';
     <head>
         <meta charset="UTF-8">
         <title>Buscar Incidentes</title>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-ui.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datetimepicker.js"></script>
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery.datepicker-es.js"></script>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/tabla.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/jquery.datetimepicker.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery.datepicker-es.js"></script>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/tabla.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery.datetimepicker.css" />
         <script type="text/javascript">
             function irDetalle(id) {
                 window.location = 'DetalleIncidente.php?id=' + id;
@@ -25,7 +25,7 @@ require_once '../Conexion.php';
                 $("#sala").change(function (e) {
                     if ($("#sala").val() !== "") {
                         $.ajax({
-                            url: "/IncidentesSoftware/SistemaInformatico/cargarSI.php",
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/cargarSI.php",
                             type: "POST",
                             data: "sala=" + $("#sala").val(),
                             success: function (opciones) {
@@ -64,7 +64,7 @@ require_once '../Conexion.php';
                 $("#buscar").click(function (e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "/IncidentesSoftware/Incidentes/ajax/buscarIncidente.php",
+                        url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Incidentes/ajax/buscarIncidente.php",
                         type: "POST",
                         data: "estado=" + $("#estado").val() + "&desde=" + $("#desde").val()
                                 + "&hasta=" + $("#hasta").val() + "&sala=" + $("#sala").val()
@@ -122,9 +122,10 @@ require_once '../Conexion.php';
                                             while ($row = mysql_fetch_array($resultadoPrioridad)) {
                                                 ?>
                                                 <option value ="<?php echo $row['id'] ?>"><?php echo $row['nombre'] ?></option>
-    <?php }
-}
-?>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </td>
                             </tr>
@@ -133,10 +134,10 @@ require_once '../Conexion.php';
                                     <label for="sala">Sala:</label>
                                 </td>
                                 <td>
-                                        <?php $consulta = mysql_query("select * from sala"); ?>
+<?php $consulta = mysql_query("select * from sala"); ?>
                                     <select name="sala" id="sala">
-                                        <option value="">Seleccione...</option>
-<?php while ($row = mysql_fetch_array($consulta)) { ?>
+                                        <option value="">Todas</option>
+                                        <?php while ($row = mysql_fetch_array($consulta)) { ?>
                                             <option value ="<?php echo $row['id_sala'] ?>"><?php echo $row['nombre'] ?></option>
 <?php } ?>
                                     </select>
@@ -146,7 +147,7 @@ require_once '../Conexion.php';
                                 </td>
                                 <td>
                                     <select name="si" id="si">
-                                        <option value="">Seleccione...</option>
+                                        <option value="">Todos</option>
                                     </select>
                                 </td>
                             </tr>

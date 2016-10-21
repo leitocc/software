@@ -1,5 +1,5 @@
 <?php
-
+$_SESSION['RELATIVE_PATH'] = explode("/", dirname($_SERVER["PHP_SELF"]))[1];
 if (!isset($_SESSION['usuario'])) {
     //falta solucionar que redirija bien login
     ?>

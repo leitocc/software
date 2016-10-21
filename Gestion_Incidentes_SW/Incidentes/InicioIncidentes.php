@@ -9,40 +9,8 @@ include_once '../limpiarSesion.php';
     <head>
         <meta charset="UTF-8">
         <title>Incidentes</title>
-        <link rel="stylesheet" type="text/css" href="/IncidentesSoftware/css/estilo.css" />
-        <script type="text/javascript" src="/IncidentesSoftware/js/jquery-1.11.1.js"></script>
-        <?php
-        //echo "Pruebo y .. ";
-        /* if(isset($_REQUEST['mjs']) && $_REQUEST['mjs'] != ''){
-          //echo "Entro, ";
-          $codigo = $_REQUEST['mjs'];
-          //echo "codigo: ".$codigo;
-          switch($codigo){
-          case 0:{
-          $msj = "Error. Operación fallida";
-          break;
-          }
-          case 1:{
-          $msj = "Operación realizada con éxito";
-          break;
-          }
-          default :{
-          $msj = "";
-          break;
-          }
-          }
-          //echo "msj: ".$msj;
-          if($msj != ""){
-          ?>
-          <script>
-          $(document).ready(function() {
-          alert("<?php echo $msj?>");
-          });
-          </script>
-          <?php
-          }
-          } */
-        ?>
+        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
+        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
     </head>
     <body id="top">
         <?php include_once '../master.php'; ?>
