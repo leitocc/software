@@ -38,11 +38,26 @@ include_once '../limpiarSesion.php';
                                 }
                             }
                             ?>
-                            <li class="no_lista"><h2>Administraci&oacute;n</h2></li>
-                            <li class="no_lista"><h3><a href="Componente/RegistrarComponente.php">Registrar Componente</a></h3></li>
-                            <li class="no_lista"><h3><a href="Componente/ModificarComponente.php">Modificar Componente</a></h3></li>
-                            <li class="no_lista"><h3><a href="Componente/cargaComponenteXAula.php">Agregar Componente a Aula</a></h3></li>
-                            <li class="no_lista"><h3><a href="Componente/EliminarComponenteXAula.php">Quitar Componente a aula</a></h3></li>
+                            <li class="no_lista"><h2>Administraci&oacute;n Hardware</h2></li>
+                            <!-- Aqui van los de HW -->
+                            <!-- este debe cambiar de ubicacion de SI a Administración -->
+                            <li class="no_lista"><h3><a href="Componentes/ModificarSisitemaInformatico.php">Agregar/Modificar Componente HW a SI</a></h3></li>
+                            <li class="no_lista"><h3><a href="Componentes/RegistrarComponenteGeneral.php">Asignar Componente HW a varios SI</a></h3></li>
+
+
+                            <li class="no_lista"><h3><a href="Marca/ABMMarca.php?modo=ins">Registrar Marca Componente HW</a></h3></li>
+                            <li class="no_lista"><h3><a href="Marca/BuscarMarca.php">Modificar Marca Componente HW</a></h3></li>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div style="clear: both">
+                            <li class="no_lista"><h2>Administraci&oacute;n Software</h2></li>
+
+                            <!-- Aqui van los de SW -->
+                            <li class="no_lista"><h3><a href="ComponenteSW/RegistrarComponente.php">Registrar Componente SW</a></h3></li>
+                            <li class="no_lista"><h3><a href="ComponenteSW/ModificarComponente.php">Modificar Componente SW</a></h3></li>
+                            <li class="no_lista"><h3><a href="ComponenteSW/cargaComponenteXAula.php">Agregar Componente SW a Sala</a></h3></li>
+                            <li class="no_lista"><h3><a href="ComponenteSW/EliminarComponenteXAula.php">Quitar Componente SW a Sala</a></h3></li>
                         </div>
                     </div>
                 </div>

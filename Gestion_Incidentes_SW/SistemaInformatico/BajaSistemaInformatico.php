@@ -59,7 +59,7 @@ include_once '../verificarPermisos.php';
 
                 <div class="main">
                     <div class="post">
-                        <form name="formulario" id="formulario" action="SistemaInformatico.php?modo=del" method="post" class="contact_form">
+                        <form name="formulario" id="formulario" action="SistemaInformatico.php" method="post" class="contact_form">
                             <?php
                             require_once '../Conexion.php';
                             ?>
@@ -87,6 +87,7 @@ include_once '../verificarPermisos.php';
                                 <button class="submit" type="submit" name="Volver" id="Volver">Volver</button>
                                 <button class="submit" type="submit" name="confirmar" id="confirmar">Confirmar</button>
                             </li>
+                            <input type="hidden" value="del" name="modo"/>
                         </form>
                     </div>
                 </div>

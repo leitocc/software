@@ -15,6 +15,13 @@ include_once '../verificarPermisos.php';
         <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/jquery-ui.css" />
         <script>
             $(document).ready(function () {
+                $("#si").change(function (e) {
+                    if($("#si").val() !== ""){
+                        $("#siDestino").val($("#si").val());
+                    }else{
+                        $("#siDestino").val("");
+                    }
+                });
                 $("#sala").change(function (e) {
                     if ($("#sala").val() !== "Seleccione...") {
                         $.ajax({
@@ -23,15 +30,10 @@ include_once '../verificarPermisos.php';
                             data: "sala=" + $("#sala").val(),
                             success: function (opciones) {
                                 $("#si").html(opciones).show("slow");
-                                //$("#agregarProvincia").attr("hidden", false);
-                                //$("#boton").attr("disabled", true);
                             }
                         })
                     } else {
                         $("#si").html("<option>Seleccione...</option>")
-                        //$("#selectLocalidad").html("<option>Seleccione...</option>")
-                        //$("#agregarProvincia").attr("hidden", true);
-                        //$("#boton").attr("disabled", true);
                     }
                 });
                 $("#Volver").click(function (mievento) {
@@ -59,7 +61,7 @@ include_once '../verificarPermisos.php';
 
                 <div class="main">
                     <div class="post">
-                        <form name="formulario" id="formulario" action="SistemaInformatico.php?modo=modi" method="post" class="contact_form">
+                        <form name="formulario" id="formulario" action="SistemaInformatico.php" method="post" class="contact_form">
                             <?php
                             require_once '../Conexion.php';
                             ?>
@@ -91,6 +93,7 @@ include_once '../verificarPermisos.php';
                                 <button class="submit" type="submit" name="Volver" id="Volver">Volver</button>
                                 <button class="submit" type="submit" name="confirmar" id="confirmar">Confirmar</button>
                             </li>
+                            <input type="hidden" value="modi" name="modo"/>
                         </form>
                     </div>
                 </div>

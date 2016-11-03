@@ -31,7 +31,7 @@ require_once '../Conexion.php';
                     <div> 
                         <ul> 
                             <li> <h2>Nuevo Sistema Informático</h2> <span class="required_notification">Los campos con (*) son obligatorios</span> </li> 
-                            <li> <label for="id">ID m&aacute;quina:</label> <input name="id" type="text" placeholder="ID maquina" required/> </li>
+                            <li> <label for="si">ID m&aacute;quina:</label> <input name="si" type="text" placeholder="ID maquina" required/> </li>
                             <li> <label for="sala">Sala:</label> <?php $consulta = mysql_query("select * from sala"); ?>
                                 <select name="sala" required>
                                     <option value="">Seleccione...</option>

@@ -1,6 +1,6 @@
 <?php
 $hoy = getdate();
-$_SESSION['RELATIVE_PATH'] = explode("/", dirname($_SERVER["PHP_SELF"]))[1];
+$_SESSION['RELATIVE_PATH'] = "incidentes";//explode("/", dirname($_SERVER["PHP_SELF"]))[1];
 ?>
 <div id="network">
     <div class="center-wrapper">
@@ -24,4 +24,3 @@ $_SESSION['RELATIVE_PATH'] = explode("/", dirname($_SERVER["PHP_SELF"]))[1];
     <div class="clearer">&nbsp;</div>
     </div>
 </div>
-
