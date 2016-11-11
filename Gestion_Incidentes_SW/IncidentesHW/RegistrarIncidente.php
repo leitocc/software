@@ -57,10 +57,24 @@ include_once '../verificarPermisos.php';
                     }
                 });
 
+                $("#nombreAct").change(function (ev) {
+                    if ($("#nombreAct").val() !== "") {
+                        $.ajax({
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/IncidentesSW/ajax/nivelActividad.php",
+                            type: "POST",
+                            data: "id=" + $("#nombreAct").val(),
+                            success: function (opciones) {
+                                $("#nivel").val(opciones);
+                            }
+                        });
+                    } else {
+                        $("#nivel").val('');
+                    }
+                });
+
                 //Falta hacer que cuando se refresque la pagina quede seleccionado NO
                 $("#preguntaAct").html('<option selected="true" value="0">No</option><option value="1">Si</option>');
                 $("#actividad").attr("hidden", true);
-                //$( "#fecha" ).datepicker();
                 $("#fecha").datetimepicker({
                     lang: 'es',
                     format: 'd/m/Y H:i'
@@ -145,7 +159,7 @@ include_once '../verificarPermisos.php';
                                                     //while ($row = mysql_fetch_array($query2)) {
                                                     while ($row = $resultado2->fetch_assoc()) {
                                                         ?>
-                                                        <option value ="<?php echo $row['id'] ?>"><?php echo $row['nombre'] ?></option>
+                                                        <option value ="<?php echo $row['id'] ?>"><?php echo utf8_encode($row['nombre']) ?></option>
                                                         <?php
                                                     }
                                                 }
@@ -259,6 +273,15 @@ include_once '../verificarPermisos.php';
                                         <td colspan="3">
                                             <select id="indicio" name="indicio" required>
                                                 <option value="">Seleccione...</option>
+                                                <?php
+                                                $consultaIndicio = "SELECT id_tipo_incidente AS 'id', nombre FROM causa_incidente;";
+                                                $resultadoIndicio = $mysqli->query($consultaIndicio);
+                                                if ($resultadoIndicio) {
+                                                    while ($row = $resultadoIndicio->fetch_assoc()) {
+                                                        echo '<option value="' . $row['id'] . '">' . $row['nombre'] . '</option>';
+                                                    }
+                                                }
+                                                ?>
                                             </select>
                                         </td>
                                     </tr>
@@ -332,13 +355,25 @@ include_once '../verificarPermisos.php';
                                     <tr>
                                         <td>Nombre:</td>
                                         <td>
-                                            <input type="text" placeholder="Actividad" id="nombreAct" name="nombreAct" value="" size="20"/>
+                                            <select id="nombreAct" name="nombreAct">
+                                                <option value="">Seleccione...</option>
+                                                <?php
+                                                $consultaActividad = "SELECT id_tipo_actividad AS id, nombre "
+                                                        . "FROM tipo_actividad";
+                                                $resultado2 = $mysqli->query($consultaActividad);
+                                                if ($resultado2) {
+                                                    while ($row = $resultado2->fetch_assoc()) {
+                                                        echo "<option value =\"" . $row['id'] . "\">" . utf8_encode($row['nombre']) . "</option>";
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Nivel:</td>
                                         <td>
-                                            <input type="text" placeholder="Ej: 1" id="nivel" name="nivel" value=""  size="2"/>
+                                            <input type="text" placeholder="Ej: 1" id="nivel" name="nivel" value=""  size="3" disabled="true"/>
                                         </td>
                                     </tr>
                                     <tr>

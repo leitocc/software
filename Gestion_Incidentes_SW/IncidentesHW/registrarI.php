@@ -1,194 +1,75 @@
 <?php
 
 require_once '../formatoFecha.class.php';
-
-function paginaError($nroError) {
-    header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/error.php?error=' . $nroError . '');
-}
-
-#Validacion artesanal
-
-if ($_REQUEST['nroIncidente'] != "") {
-    $nroIncidente = $_REQUEST['nroIncidente'];
-} else {
-    //header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/error.php?error=1'); 
-    paginaError(1);
-}
-
-if ($_REQUEST['fecha'] != "") {
-    $fecha = $_REQUEST['fecha'];
-    $fecha = formatoFecha::convertirAFechaBD($fecha);
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['turno'] != '') {
-    $turno = $_REQUEST['turno'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['institucion'] != '') {
-    $institucion = $_REQUEST['institucion'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['edificio'] != '') {
-    $edificio = $_REQUEST['edificio'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['sala'] != '') {
-    $sala = $_REQUEST['sala'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['si'] != '') {
-    $si = $_REQUEST['si'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['causa'] != '') {
-    $causa = $_REQUEST['causa'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['reporto'] != '') {
-    $reporto = $_REQUEST['reporto'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['area'] != '') {
-    $area = $_REQUEST['area'];
-} else {
-    paginaError(1);
-}
-
-if ($_REQUEST['descripcion'] != '') {
-    $descripcion = $_REQUEST['descripcion'];
-} else {
-    paginaError(1);
-}
-
-if (isset($_REQUEST['preguntaAct']) && $_REQUEST['preguntaAct'] != '') {
-    $preguntaAct = $_REQUEST['preguntaAct'];
-    //echo "Pregunta vale: ".$preguntaAct."<br/>";
-    if ($preguntaAct == "1") { //0: No - 1: Si
-        //echo "ENTRO!!!";
-        if ($_REQUEST['nombreAct'] != '') {
-            $nombreAct = $_REQUEST['nombreAct'];
-        } else {
-            paginaError(1);
-        }
-        if ($_REQUEST['nivel'] != '') {
-            $nivel = $_REQUEST['nivel'];
-        } else {
-            $nivel = "NULL";
-        }
-        if ($_REQUEST['responsable1'] != '') {
-            $responsable1 = $_REQUEST['responsable1'];
-        } else {
+session_start();
+try {
+    require_once '../Conexion2.php';
+    $nroIncidente = filter_input(INPUT_POST, "nroIncidente");
+    $fecha = formatoFecha::convertirAFechaBD(filter_input(INPUT_POST, "fecha"));
+    $turno = filter_input(INPUT_POST, "turno");
+    $institucion = filter_input(INPUT_POST, "institucion");
+    $edificio = filter_input(INPUT_POST, "edificio");
+    $sala = filter_input(INPUT_POST, "sala");
+    $si = filter_input(INPUT_POST, "si");
+    $componenteAfectado = filter_input(INPUT_POST, "componenteAfectado");
+    $indicio = filter_input(INPUT_POST, "indicio");
+    $reporto = filter_input(INPUT_POST, "reporto");
+    $area = filter_input(INPUT_POST, "area");
+    $descripcion = filter_input(INPUT_POST, "descripcion");
+    $idActividad = "NULL";
+    $mysqli->autocommit(FALSE);
+    $preguntaAct = filter_input(INPUT_POST, "preguntaAct");
+    echo $preguntaAct;
+    echo "<br/>";
+    if (isset($preguntaAct) && $preguntaAct == 1) {
+        echo "entro??";
+        echo "<br/>";
+        $idTipoActividad = filter_input(INPUT_POST, "nombreAct");
+        $responsable1 = filter_input(INPUT_POST, "responsable1");
+        $responsable2 = filter_input(INPUT_POST, "responsable2");
+        if (($responsable1) == "") {
             $responsable1 = "NULL";
         }
-        if ($_REQUEST['responsable2'] != '') {
-            $responsable2 = $_REQUEST['responsable2'];
-        } else {
+        if (($responsable2) == "") {
             $responsable2 = "NULL";
         }
-        $idActividad['id'] = "si";
-    } else {
-        //echo "NO ENTRO NADA!!!";
-        $idActividad['id'] = "NULL";
-        //$nombreAct= NULL;
-        /* $nivel=NULL;
-          $responsable1=NULL;
-          $responsable2=NULL; */
+        $actQuery = "INSERT INTO actividad
+            (`tipo_nombre_actividad`,
+            `responsable1`,
+            `responsable2`)
+            VALUES
+            (" . $idTipoActividad . ",\"" . $responsable1 . "\", \"" . $responsable2 . "\");";
+        echo $actQuery . "<br/>";
+        if (!$mysqli->query($actQuery)) {
+            throw new Exception ();
+        }
+        $idActividad = $mysqli->insert_id;
     }
-} else {
-    paginaError(1);
-}
-
-
-require_once '../Conexion.php';
-//mysqli_begin_transaction();
-$consultaNroInc = "SELECT MAX(I.id_incidente) AS id
-                  FROM incidente I";
-$query1 = mysql_query($consultaNroInc);
-if (mysql_errno() == 0) {
-    $id = mysql_fetch_array($query1);
-} else {
-    $id['id'] = 0;
-}
-$id['id'] ++;
-
-//primero debo insertar la actividad si es que hubo alguna
-//echo $idActividad['id'];
-if ($idActividad['id'] != "NULL") {
-    $consultaIdAct = "SELECT MAX(A.id_actividad) AS id
-                     FROM actividad A";
-    $query2 = mysql_query($consultaIdAct);
-    if (mysql_errno() == 0) {
-        $idActividad = mysql_fetch_array($query2);
+    $insertQuery = "INSERT INTO incidente
+        (`id_sistema_informatico_afectado`,
+        `fecha`,
+        `id_turno`,
+        `id_sala`,
+        `descripcion`,
+        `id_causa_incidente`,
+        `id_estado`,
+        `id_actividad_en_desarrollo`,
+        `id_persona_reporto`,
+        `id_rol_persona_reporto`,
+        `id_tipo_componente_afectado`)
+        VALUES(" . $si . ",\"" . $fecha . "\", " . $turno . ", " . $sala . ", '" . $descripcion
+            . "', " . $indicio . ",1, " . $idActividad . ", " . $reporto . ", " . $area . ", " . $componenteAfectado . ");";
+    echo $insertQuery . "<br/>";
+    if ($mysqli->query($insertQuery)) {
+        $msj = 1;
+        $mysqli->commit();
+        echo "Incidentes: " . $mysqli->insert_id;
     } else {
-        $idActividad['id'] = 0;
+        throw new Exception ();
     }
-    $idActividad['id'] ++;
-    $insertQuery = "INSERT INTO `actividad`
-                    (`id_actividad`,
-                    `nombre_actividad`,
-                    `nivel_actividad`,
-                    `responsable1`,
-                    `responsable2`)
-                    VALUES
-                    (" . $idActividad['id'] . ",
-                    \"" . $nombreAct . "\",
-                    " . $nivel . ",
-                    \"" . $responsable1 . "\",
-                    \"" . $responsable2 . "\")";
-    $insertActividad = mysql_query($insertQuery);
-    echo "Actividad: " . $insertQuery . "<br/><br/>";
+} catch (Exception $ex) {
+    $msj = 2;
+    $mysqli->rollback();
 }
-
-
-
-//se debe quietar el id persona que registro
-
-$insertQuery = "INSERT INTO incidente
-(`id_incidente`,
-`id_sistema_informatico_afectado`,
-`fecha`,
-`id_turno`,
-`id_sala`,
-`descripcion`,
-`id_causa_incidente`,
-`id_estado`,
-`id_actividad_en_desarrollo`,
-`id_persona_reporto`,
-`id_rol_persona_reporto`)
-VALUES
-(" . $id['id'] . ",
-" . $si . ",
-\"" . $fecha . "\",
-" . $turno . ",
-" . $sala . ",
-\"" . $descripcion . "\",
-" . $causa . ",
-1,
-" . $idActividad['id'] . ",
-" . $reporto . ",
-" . $area . ")";
-$insert = mysql_query($insertQuery);
-echo "Incidentes: " . $insertQuery;
-//mysqli_commit($insert);
-/**/if (mysql_errno() == 0) {
-    header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesHW/InicioIncidentes.php?msj=1');
-} else {
-    header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesHW/InicioIncidentes.php?msj=0');
-}/**/
-
+echo "<br/>Msj: " . $msj;
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesHW/InicioIncidentes.php?msj=' . $msj . '');

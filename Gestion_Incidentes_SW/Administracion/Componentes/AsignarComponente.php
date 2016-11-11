@@ -163,26 +163,7 @@ $_SESSION['Detalles'] = $vectorDetalles;
         <title>Componentes</title>
         <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
         <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/ajax.js"></script>
-
         <script type="text/javascript">
-
-            window.onload = function () {
-                document.getElementById("sala").onchange = function (e) {
-                    var nrosala = document.getElementById('sala').value;
-                    alert(nrosala);
-                    if (nrosala !== "") {
-                        alert("entre");
-                        valida("/<?php echo $_SESSION['RELATIVE_PATH'] ?>/SistemaInformatico/ajax/mostrarSala.php");
-                    } else {
-                        document.getElementById('sistemaInformatico').innerHTML = "";
-                    }
-                };
-                document.getElementById("volver").onclick = function (mievento) {
-                    mievento.preventDefault();
-                };
-            };
-
-
             function procesaRespuesta() {
                 if (peticion_http.readyState == READY_STATE_COMPLETE) {
                     if (peticion_http.status == 200) {
@@ -195,6 +176,24 @@ $_SESSION['Detalles'] = $vectorDetalles;
                 return "idSala=" + encodeURIComponent(idSala.value) +
                         "&nocache=" + Math.random();
             }
+
+            window.onload = function () {
+                document.getElementById("sala").onchange = function (e) {
+                    var nrosala = document.getElementById("sala").value;
+                    if (nrosala !== "") {
+                        
+                        valida("/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Administracion/Componentes/ajax/mostrarSala.php");
+                    } else {
+                        document.getElementById('sistemaInformatico').innerHTML = "";
+                    }
+                };
+                document.getElementById("volver").onclick = function (mievento) {
+                    mievento.preventDefault();
+                    location.href = "../PrincipalAdministracion.php";
+                };
+            };
+
+
         </script>
     </head>
     <body id="top">
@@ -225,7 +224,7 @@ $_SESSION['Detalles'] = $vectorDetalles;
                             $resultado->free();
                             print '</tr></table></div>';
                             print '<div id="sistemaInformatico"></div>';
-                            print '<button class="submit" name="volver" id="Volver">Volver</button><button class="submit" name="asignar" id="asignar">Asignar</button>';
+                            print '<button class="submit" name="volver" id="volver">Cancelar</button><button class="submit" name="asignar" id="asignar">Asignar</button>';
                             ?>
                         </form>
                     </div>

@@ -304,18 +304,16 @@ $buscarActividad = $mysqli->query($queryActividad);
                                         <td>
                                             <input type="text" id="nombreAct" name="nombreAct" value="<?php echo $actividad['nombre'] ?>" readonly="true"/>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nivel:</td>
-                                        <td>
-                                            <input type="text" id="fecha" name="fecha" value="<?php echo $actividad['nivel'] ?>" readonly="true"/>
-                                        </td>
                                         <td>Responsable 1:</td>
                                         <td>
                                             <input type="text" id="responsable1" name="responsable1" value="<?php echo $actividad['responsable1'] ?>" readonly="true"/>
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Nivel:</td>
+                                        <td>
+                                            <input type="text" id="fecha" name="fecha" value="<?php echo $actividad['nivel'] ?>" readonly="true"/>
+                                        </td>
                                         <td>Responsable 2:</td>
                                         <td>
                                             <input type="text" id="responsable2" name="responsable2" value="<?php echo $actividad['responsable2'] ?>" readonly="true"/>

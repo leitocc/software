@@ -280,9 +280,7 @@ include_once '../verificarPermisos.php';
                                                 $resultadoIndicio = $mysqli->query($consultaIndicio);
                                                 if ($resultadoIndicio) {
                                                     while ($row = $resultadoIndicio->fetch_assoc()) {
-                                                        ?>
-                                                        <option value="<?php echo $row['idCausa'] ?>"><?php echo $row['nombre'] ?></option>
-                                                        <?php
+                                                        echo '<option value="' . $row['idCausa']  . '">' . $row['nombre'] . '</option>';
                                                     }
                                                 }
                                                 ?>

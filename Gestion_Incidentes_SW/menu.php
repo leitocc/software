@@ -1,4 +1,6 @@
-<?php if (isset($_SESSION['usuario'])) { ?>
+<?php if (isset($_SESSION['usuario'])) { 
+    unset($_SESSION['componentes']);
+    ?>
     <div id="header">
         <div class="clearer">&nbsp;</div>
         <div id="site-title">
