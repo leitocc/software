@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../Conexion2.php';
 require_once '../../DetalleComponente.class.php';
 session_start();
@@ -7,105 +8,107 @@ $vectorDetalles = $_SESSION['Detalles'];
 
 $vectorMaquinas = $_POST["SI"];
 
-foreach ($vectorMaquinas as $maquina) {
-    try {
-        $mysqli->autocommit(FALSE);
-        $query11 = "select max(id_componente)as maximo from componente";
-        $resultado = $mysqli->query($query11);
-        if ($row = $resultado->fetch_assoc()) {
-            $numero = $row["maximo"] + 1;
-        }
-        // echo $numero . "</br>";
-        $query10 = "INSERT INTO Componente(id_componente,id_tipo_componente,id_marca,anio_adquisicion,mes_adquisicion,id_proveedor,id_sistema_informatico,baja) values(" . $numero . ", " . $vectorComponente["idTipoComponente"] . ", " . $vectorComponente["marca"] . ", " . $vectorComponente["anio"] . ", " . $vectorComponente["mes"] . ",null, " . $maquina . ", 0)";
-        // echo $query10 . "</br></br></br>";
+print 'vector maquinas: ';
+print_r($vectorMaquinas);
+print '<br/>';
+print 'vector componentes: ';
+print_r($vectorComponente);
+print '<br/>';
+print '<br/>';
+print 'vector detalles: ';
+print_r($vectorDetalles);
+print '<br/>';
+print '<br/>';
 
-        if ($mysqli->query($query10) === TRUE) {
-            echo "nuevo maquina insertada " . $mysqli->insert_id;
-        } else {
-            throw new Exception ();
-            $mysqli->rollback();
-            die();
-        }
-        if ($vectorDetalles != NULL) {
-            foreach ($vectorDetalles as $detalle) {
-                $query12 = "select max(id_detalle_componente)as maximo from detalle_Componente";
-                $resultado = $mysqli->query($query12);
-                if ($row = $resultado->fetch_assoc()) {
-                    $numerodetalle = $row["maximo"] + 1;
-                }
-                //echo $numerodetalle . "</br>";
-                $valor = "null";
-                $valorAlfa = "null";
-
-                $valor = $detalle->getValor();
-                if ($detalle->getValor() != "") {
-                    
-                }
-                if ($detalle->getValor_alfanumerico() != "") {
-                    $valorAlfa = $detalle->getValor_alfanumerico();
-                }
-
-
-                $query11 = "INSERT INTO detalle_Componente(id_Detalle_componente,"
-                        . "id_componente,id_descipcion,valor,valor_alfanumerico,id_unidad_medida) "
-                        . "values (" . $numerodetalle . ", " . $numero . ", " . $detalle->getId_descripcion()
-                        . "," . $valor . ", " . $valorAlfa . ", "
-                        . $detalle->getId_unidad_medida() . ")";
-                //   echo $query11 . "</br>";
-                if ($mysqli->query($query11) === TRUE) {
-                    echo "detalle de la  maquina insertada " . $mysqli->insert_id;
-                } else {
-                    throw new Exception ();
-                    $mysqli->rollback();
-                    die();
+//primero se debe grabar el Componente por maquina
+//luego grababar los detalles de cada componente
+try {
+    $mysqli->autocommit(FALSE);
+    foreach ($vectorMaquinas as $maquina) {
+        $permiteVarios = array(5, 6);
+        if (!in_array($row['id_componente'], $permiteVarios)) {
+            $queryBuscar = "SELECT id_componente 
+            FROM componente
+            WHERE id_sistema_informatico = " . $maquina .
+                    " AND id_tipo_componente = " . $vectorComponente["idTipoComponente"] .
+                    " AND baja = 0";
+            echo $queryBuscar . '<br/>';
+            echo '<br/>';
+            $resultado = $mysqli->query($queryBuscar);
+            if ($resultado->num_rows > 0) {
+                while ($row = $resultado->fetch_assoc()) {
+                    $update = "UPDATE componente SET 
+                        baja = 1,
+                        fecha_baja = " . date("Y-m-d") .
+                        " WHERE id_componente = " . $row['id_componente'];
+                    echo $update . '<br/>';
+                    echo '<br/>';
+                    if (!$mysqli->query($update)) {
+                        throw new Exception ();
+                    }
                 }
             }
         }
-        $mysqli->commit();
-    } catch (exception $e) {
-        echo "todo mal " . $e;
-        $mysqli->rollback();
-        die();
+
+        $query10 = "INSERT INTO componente"
+                . "(id_tipo_componente,"
+                . "id_marca,anio_adquisicion,"
+                . "mes_adquisicion,"
+                . "id_proveedor,"
+                . "id_sistema_informatico,"
+                . "baja) values("
+                . $vectorComponente["idTipoComponente"] . ", "
+                . $vectorComponente["marca"] . ", "
+                . $vectorComponente["anio"] . ", "
+                . $vectorComponente["mes"] . ","
+                . "null, "
+                . $maquina . ","
+                . " 0)";
+        echo $query10 . '<br/>';
+        echo '<br/>';
+        if ($mysqli->query($query10)) {
+            $idComponente = $mysqli->insert_id;
+            echo "nuevo maquina insertada " . $mysqli->insert_id . "<br/>";
+            echo "idCo: " . $idComponente . "<br/>";
+            if ($vectorDetalles != NULL) {
+                foreach ($vectorDetalles as $detalle) {
+                    $valor = "null";
+                    $valorAlfa = "null";
+                    if ($detalle->getValor() != "") {
+                        $valor = $detalle->getValor();
+                    }
+                    if ($detalle->getValor_alfanumerico() != "") {
+                        $valorAlfa = $detalle->getValor_alfanumerico();
+                    }
+                    $query11 = "INSERT INTO detalle_componente"
+                            . "(id_componente,"
+                            . "id_descipcion,"
+                            . "valor,"
+                            . "valor_alfanumerico,"
+                            . "id_unidad_medida) values ("
+                            . $idComponente . ", "
+                            . $detalle->getId_descripcion() . ","
+                            . $valor . ", "
+                            . $valorAlfa . ", "
+                            . $detalle->getId_unidad_medida() . ")";
+                    echo $query11 . "</br>";
+                    echo '<br/>';
+                    if ($mysqli->query($query11)) {
+                        $mysqli->commit();
+                        $msj = 1;
+                    } else {
+                        throw new Exception ();
+                    }
+                }
+            }
+        } else {
+            throw new Exception ();
+        }
     }
+} catch (Exception $ex) {
+    $mysqli->rollback();
+    $msj = 2;
 }
-$mysqli->close();
-?>
+echo 'msj= ' . $msj;
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Administracion/PrincipalAdministracion.php?msj=' . $msj . '');
 
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>RegistrarNuevo</title>
-        <link rel="stylesheet" type="text/css" href="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/css/estilo.css" />
-        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="/<?php echo $_SESSION['RELATIVE_PATH'] ?>/js/ajax.js"></script>
-    </head>
-    <body id="top">
-        <?php include_once '../../master.php'; ?>
-        <div id="site">
-            <div class="center-wrapper">
-                <?php include_once '../../menu.php'; ?>
-
-                <div class="main">
-                    <div class="post">
-
-                        <li class="no_lista">
-                            <h1>Se ha registrado correctamente</h1>
-                        </li>
-                        <table>
-                            <tr>
-
-                                <td colspan="2">
-                                    <form action="../../index.php">
-                                        <button name="volver" id="volver" class="submit">Volver Inicio</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>    
-
-                        <div style="width: 600px" id="datos"></div>
-
-                    </div>
-                    <?php include_once '../../foot.php'; ?>
-                </div>
-                </body>
-                </html>

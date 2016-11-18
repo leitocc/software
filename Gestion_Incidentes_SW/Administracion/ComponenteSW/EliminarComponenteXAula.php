@@ -25,6 +25,7 @@ require_once '../../Conexion2.php';
                 };
                 document.getElementById("volver").onclick = function (mievento) {
                     mievento.preventDefault();
+                    location.href = '../PrincipalAdministracion.php';
                 };
             };
 
@@ -52,7 +53,7 @@ require_once '../../Conexion2.php';
                 <div class="main">
                     <div class="post">
                         <form action="RegistrarEliminacionComponenteXAula.php" method="post" name="formulario" class="contact_form">
-                            <li class="no_lista"><h2>Asignar Componente</h2></li>
+                            <li class="no_lista"><h2>Quitar Componente</h2></li>
                             <h4>Seleccionar aula</h4>
                             <div class="archive-separator"></div>
                             <?php
@@ -71,7 +72,7 @@ require_once '../../Conexion2.php';
                             $resultado->free();
                             print '</tr></table></div>';
                             print '<div id="componenteSoftware"></div>';
-                            print '<button class="submit" name="asignar" id="asignar">Eliminar</button><button class="submit" name="volver" id="Volver">Volver</button>';
+                            print '<button class="submit" name="volver" id="volver">Volver</button><button class="submit" name="asignar" id="asignar">Eliminar</button>';
                             ?>
                         </form>
                     </div>

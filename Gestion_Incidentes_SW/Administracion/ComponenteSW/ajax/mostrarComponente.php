@@ -2,10 +2,7 @@
 $idSala = filter_input(INPUT_POST, "idSala");
 require_once '../../../Conexion2.php';
 ?>
-<br/>
-<h5>Seleccione los componente software que desee asignar aula </h5>
-<br/>
-
+<h4>Seleccione los componente software que desee asignar aula </h4>
 <fieldset><legend>Componente</legend>
     <div style="float: left; width: 750px">
         <?php

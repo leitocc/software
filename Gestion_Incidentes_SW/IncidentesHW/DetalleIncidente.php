@@ -391,7 +391,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                                     $combo = $row['tipo_componente'] . "-> " . $row['marca'];
                                                                     if ($row['nro_patrimonio'] != "" && $row['nro_patrimonio'] != null) {
                                                                         $combo .= " - Patrimonio: " . $row['nro_patrimonio'];
-                                                                    } elseif ($row['ro_serie'] != "" && $row['nro_serie'] != null) {
+                                                                    } elseif ($row['nro_serie'] != "" && $row['nro_serie'] != null) {
                                                                         $combo .= " - Serie:" . $row['nro_serie'];
                                                                     } elseif ($row['descripcion'] != "" && $row['descripcion'] != null) {
                                                                         $combo .= " - Modelo:" . $row['descripcion'];

@@ -1,20 +1,17 @@
 <?php
-$idSala = filter_input(INPUT_POST, "idSala");
-require_once '../../Conexion2.php';
-?>
-<br/>
-<br/>
-<h5>Seleccione los SI que desee asignar el componente general:</h5>
-<br/>
-<br/>
 
+$idSala = filter_input(INPUT_POST, "idSala");
+require_once '../../../Conexion2.php';
+?>
+<h4>Seleccione los SI que desee asignar el componente general:</h4>
 <fieldset><legend>Componente</legend>
     <div style="float: left; width: 750px">
         <div style="clear: right">
-            <input type="checkbox" name="todos" class="Componente" value="TODOS" id="todos">
-            <label for="todos">Todos</label>
+            <input type="checkbox" name="todos" class="Componente" id="todos" onclick="javascript:siTodos();">
+            <label for="todos">TODOS</label>
         </div>
         <br/><br/>
+        <div id="lista">
         <?php
         $query = "SELECT SI.id_sistema_informatico AS 'ISI' FROM sistema_informatico SI where SI.id_Sala = " . $idSala;
         $resultado = $mysqli->query($query);
@@ -29,7 +26,9 @@ require_once '../../Conexion2.php';
             }
         }
         ?>
+        </div>
     </div>
 </fieldset>
-<input type="checkbox" name="todos" id="todos" value="Seleccionar todos"/>
-
+<h6>* ATENCION! El componente que sea del mismo tipo que ya este asignado a los Sistemas Informáticos seleccionados</h6>
+<h6>se daran de baja automáticamente. Ej: Monitor, Teclado, Mouse, etc.</h6>
+<h6>Esto no se aplica en componentes en los que puede haber m&uacute;s de uno por SI. Ej: Discos duros, RAM.</h6>

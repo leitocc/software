@@ -102,6 +102,14 @@ switch ($idTipoComponente) {
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(8);
         $vectorDetalles[] = $detalle;
+        
+        $capacidad = filter_input(INPUT_POST, "capacidad");
+        $detalle->__constructor();
+        $detalle->setId_descripcion(2);
+        $detalle->setValor(capacidad);
+        $detalle->setValor_alfanumerico(null);
+        $detalle->setId_unidad_medida(3);
+        $vectorDetalles[] = $detalle;
         break;
     case 8:
         $capacidadMemoria = filter_input(INPUT_POST, "capacidadMemoria");
@@ -168,6 +176,7 @@ $_SESSION['Detalles'] = $vectorDetalles;
                 if (peticion_http.readyState == READY_STATE_COMPLETE) {
                     if (peticion_http.status == 200) {
                         document.getElementById("sistemaInformatico").innerHTML = peticion_http.responseText;
+                        //document.getElementById("asignar").removeAttribute('disabled');
                     }
                 }
             }
@@ -176,15 +185,30 @@ $_SESSION['Detalles'] = $vectorDetalles;
                 return "idSala=" + encodeURIComponent(idSala.value) +
                         "&nocache=" + Math.random();
             }
-
+            function siTodos() {
+                var todos = document.getElementById("todos");
+                var lista = document.getElementById("lista");
+                var si = lista.getElementsByTagName("input");
+                var item;
+                for(var x=0;x<si.length;x++) 
+                {
+                    item = si[x];
+                    if(todos.checked){
+                        item.setAttribute('checked', true);
+                    }else{
+                        item.removeAttribute('checked');
+                    }
+                }
+            }
             window.onload = function () {
                 document.getElementById("sala").onchange = function (e) {
                     var nrosala = document.getElementById("sala").value;
                     if (nrosala !== "") {
-                        
-                        valida("/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Administracion/Componentes/ajax/mostrarSala.php");
+                        var url2 = "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Administracion/Componentes/ajax/mostrarSala.php";
+                        valida(url2);
                     } else {
                         document.getElementById('sistemaInformatico').innerHTML = "";
+                        //document.getElementById("asignar").setAttribute('disabled', true);
                     }
                 };
                 document.getElementById("volver").onclick = function (mievento) {
@@ -192,8 +216,6 @@ $_SESSION['Detalles'] = $vectorDetalles;
                     location.href = "../PrincipalAdministracion.php";
                 };
             };
-
-
         </script>
     </head>
     <body id="top">

@@ -28,7 +28,7 @@ include_once '../../verificarPermisos.php';
                             }
                         })
                     } else {
-                        $("#si").html("<option>Seleccione...</option>")
+                        $("#si").html("<option>Seleccione...</option>");
                     }
                 });
                 $("#Volver").click(function (mievento) {
@@ -46,7 +46,7 @@ include_once '../../verificarPermisos.php';
 
                 <div class="main">
                     <div class="post">
-                        <form name="formulario" id="formulario" action="ModificarComponentesSI.php" method="post" class="contact_form">
+                        <form name="formulario" id="formulario" action="ComponentesSI.php" method="post" class="contact_form">
                             <?php
                             require_once '../../Conexion.php';
                             ?>
