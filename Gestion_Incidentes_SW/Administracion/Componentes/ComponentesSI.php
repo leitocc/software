@@ -44,6 +44,22 @@ require_once '../../Conexion2.php';
                         <li class="no_lista"><h2>Componentes del Sistema Informático <?php echo $SI ?></h2></li>
                         <li class="no_lista">
                             <?php
+                            $msj = filter_input(INPUT_GET, "msj");
+                            if (isset($msj)) {
+                                switch ($msj) {
+                                    case 1:
+                                        echo '<div class="msj_ok">Se grabó correctamente</div>';
+                                        break;
+                                    case 2:
+                                        echo '<div class="msj_error">Se produjo un error al grabar</div>';
+                                        break;
+                                    case 3:
+                                        echo '<div class="msj_ok">Se realizaron los cambios correctamente</div>';
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                             echo '<table class="listado">
                                 <caption>Componentes Externos</caption>
                                 <thead>
@@ -99,7 +115,7 @@ require_once '../../Conexion2.php';
                                 print '<a href="ComponenteHW.php?idSI=' . $SI . '&idTC=1&mod=ins">Agregar</a>';
                             } else {
                                 print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=mod">Modificar</a>&nbsp;&nbsp;';
-                                print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
+                                print '<a href="QuitarComponenteHW.php">Quitar</a>';
                             }
                             print '     </td>
                                     </tr>';
@@ -142,7 +158,7 @@ require_once '../../Conexion2.php';
                                 print '<a href="ComponenteHW.php?idSI=' . $SI . '&idTC=2&mod=ins">Agregar</a>';
                             } else {
                                 print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=mod">Modificar</a>&nbsp;&nbsp;';
-                                print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
+                                print '<a href="QuitarComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
                             }
                             print '     </td>
                                     </tr>';
@@ -186,7 +202,7 @@ require_once '../../Conexion2.php';
                                 print '<a href="ComponenteHW.php?idSI=' . $SI . '&idTC=3&mod=ins">Agregar</a>';
                             } else {
                                 print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=mod">Modificar</a>&nbsp;&nbsp;';
-                                print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
+                                print '<a href="QuitarComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
                             }
                             print '     </td>
                                     </tr>';
@@ -229,7 +245,7 @@ require_once '../../Conexion2.php';
                                 print '<a href="ComponenteHW.php?idSI=' . $SI . '&idTC=4&mod=ins">Agregar</a>';
                             } else {
                                 print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=mod">Modificar</a>&nbsp;&nbsp;';
-                                print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
+                                print '<a href="QuitarComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
                             }
                             print '     </td>
                                     </tr>';
@@ -287,12 +303,8 @@ require_once '../../Conexion2.php';
                                                     ' . $descripcion . '
                                                 </td>
                                                 <td>';
-                                    if ($nuevo) {
-                                        print '<a href="ComponenteHW.php?idSI=' . $SI . '&idTC=' . $row['id_tipo_componente'] . '&mod=ins">Agregar</a>';
-                                    } else {
-                                        print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=mod">Modificar</a>&nbsp;&nbsp;';
-                                        print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
-                                    }
+                                    print '<a href="ComponenteHW.php?idC=' . $row['id_componente'] . '&mod=mod">Modificar</a>&nbsp;&nbsp;';
+                                    print '<a href="QuitarComponenteHW.php?idC=' . $row['id_componente'] . '&mod=eli">Quitar</a>';
                                     print '     </td>
                                             </tr>';
                                 }

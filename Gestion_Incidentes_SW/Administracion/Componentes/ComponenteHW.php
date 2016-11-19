@@ -20,6 +20,7 @@ if (is_null($modo) || $modo === "ins" || $modo !== "mod") {
 } elseif ($modo === "mod") {
     //aqui deberia tomar el idC y hacer consulta
     $idC = filter_input(INPUT_GET, "idC");
+    $_SESSION['idC'] = $idC;
     //armar el Componente y el DetalleComponente
     $queryBuscarComponente = "SELECT c.id_componente as id ,c.descripcion as modelo, c.id_marca AS marca, "
             . "c.nro_patrimonio as patrimonio, c.nro_serie as serie, c.anio_adquisicion as anio, "

@@ -1,45 +1,47 @@
 <?php
-print 'hellow word';
 
 session_start();
 try {
     require_once '../../Conexion2.php';
     $modo = $_SESSION['modo'];
-    print $modo;
     $idComponente = $_SESSION['idC'];
     if ($modo == "eli") {
-        $consulta = "UPDATE componente SET baja=1, fecha_baja=Sysdate() "
-                . "WHERE id_componente=" . $idComponente;
-        $resultado = $mysqli->query($consulta);
-        $resultado->free();
+        $mysqli->autocommit(FALSE);
+        $consulta = "UPDATE componente SET baja = 1, fecha_baja = Sysdate() "
+                . "WHERE id_componente = " . $idComponente;
+        echo $consulta;
+        if(!$mysqli->query($consulta)){
+            throw new Exception ();
+        }else{
+            $mysqli->commit();
+        }
     } else {
-        print 'entro ins';
+        print 'entro ins / mod';
         print '<br/>';
+        require_once '../../DetalleComponente.class.php';
         $Sistema = $_SESSION['si'];
         $idTC = $_SESSION['idTC'];
-        print $Sistema;
+        print 'SI: ' . $Sistema;
         print '<br/>';
-        print $idTC;
+        print 'TC:' . $idTC;
+        print '<br/>';
         $modelo = filter_input(INPUT_POST, "modelo");
         $nroSerie = filter_input(INPUT_POST, "nroSerie");
-        $nroPatrimonio = filter_input(INPUT_POST, "nroPatrimonio");
+        $nroPatrimonio = filter_input(INPUT_POST, "nroInventario");
         $marca = filter_input(INPUT_POST, "marca");
         $mes = filter_input(INPUT_POST, "mes");
         $año = filter_input(INPUT_POST, "año");
         $proveedor = filter_input(INPUT_POST, "proveedor");
         //Ver el tema de subcomponente (se podria ignorar)
-        if ($idTC > 4) {
-            $idSubcomponente = $_SESSION['idSub'];
-        } else {
-            $idSubcomponente = "null";
-        }
-
-        
+//        if ($idTC > 4) {
+//            $idSubcomponente = $_SESSION['idSub'];
+//        } else {
+        $idSubcomponente = "null";
+//        }
         //Aqui van los detalles
-        $vectorDetalles[];
         $vectorDetalles = new ArrayObject();
         $detalle = new DetalleComponente();
-        switch ($idTipoComponente) {
+        switch ($idTC) {
             case 1:
                 $conexion = filter_input(INPUT_POST, "conexion");
                 $detalle->__constructor();
@@ -47,15 +49,16 @@ try {
                 $detalle->setValor(NULL);
                 $detalle->setValor_alfanumerico($conexion);
                 $detalle->setId_unidad_medida(NULL);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[0] = $detalle;
 
+                $detalle = new DetalleComponente();
                 $tamaño = filter_input(INPUT_POST, "tamaño");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(5);
-                $detalle->setValor($medida);
+                $detalle->setValor($tamaño);
                 $detalle->setValor_alfanumerico(NULL);
                 $detalle->setId_unidad_medida(7);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[1] = $detalle;
                 break;
             case 2:
                 $conexion = filter_input(INPUT_POST, "conexion");
@@ -64,41 +67,44 @@ try {
                 $detalle->setValor(NULL);
                 $detalle->setValor_alfanumerico($conexion);
                 $detalle->setId_unidad_medida(NULL);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[0] = $detalle;
                 break;
             case 3:
+                print 'entro 3';
                 $conexion = filter_input(INPUT_POST, "conexion");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(3);
                 $detalle->setValor(NULL);
                 $detalle->setValor_alfanumerico($conexion);
                 $detalle->setId_unidad_medida(NULL);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[0] = $detalle;
                 break;
             case 5:
                 $tipo_memoria = filter_input(INPUT_POST, "tipo_memoria");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(4);
                 $detalle->setValor(NULL);
-                $detalle->setValor_alfanumerico($tipoMemoria);
+                $detalle->setValor_alfanumerico($tipo_memoria);
                 $detalle->setId_unidad_medida(NULL);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[0] = $detalle;
 
+                $detalle = new DetalleComponente();
                 $capacidad = filter_input(INPUT_POST, "capacidad");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(2);
-                $detalle->setValor(capacidad);
+                $detalle->setValor($capacidad);
                 $detalle->setValor_alfanumerico(null);
                 $detalle->setId_unidad_medida(3);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[1] = $detalle;
 
+                $detalle = new DetalleComponente();
                 $frecuencia = filter_input(INPUT_POST, "frecuencia");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(12);
                 $detalle->setValor($frecuencia);
                 $detalle->setValor_alfanumerico(null);
                 $detalle->setId_unidad_medida(1);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[2] = $detalle;
                 break;
             //discoDuro
             case 6:
@@ -108,7 +114,8 @@ try {
                 $detalle->setValor(NULL);
                 $detalle->setValor_alfanumerico($conexion);
                 $detalle->setId_unidad_medida(NULL);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[0] = $detalle;
+                $detalle = new DetalleComponente();
 
                 $velocidadTransferencia = filter_input(INPUT_POST, "velTransferencia");
                 $detalle->__constructor();
@@ -116,23 +123,25 @@ try {
                 $detalle->setValor($velocidadTransferencia);
                 $detalle->setValor_alfanumerico(NULL);
                 $detalle->setId_unidad_medida(8);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[1] = $detalle;
 
+                $detalle = new DetalleComponente();
                 $capacidad = filter_input(INPUT_POST, "capacidad");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(2);
-                $detalle->setValor(capacidad);
+                $detalle->setValor($capacidad);
                 $detalle->setValor_alfanumerico(null);
                 $detalle->setId_unidad_medida(3);
-                $vectorDetalles[] = $detalle;
+                $vectorDetalles[2] = $detalle;
                 break;
             case 8:
                 $capacidad = filter_input(INPUT_POST, "capacidad");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(2);
-                $detalle->setValor($capacidadMemoria);
+                $detalle->setValor($capacidad);
                 $detalle->setValor_alfanumerico(NULL);
                 $detalle->setId_unidad_medida(4);
+                $vectorDetalles[0] = $detalle;
                 break;
             case 9:
                 $mac = filter_input(INPUT_POST, "mac");
@@ -141,6 +150,7 @@ try {
                 $detalle->setValor(NULL);
                 $detalle->setValor_alfanumerico($mac);
                 $detalle->setId_unidad_medida(NULL);
+                $vectorDetalles[0] = $detalle;
                 break;
             case 11:
                 $tipoLectora = filter_input(INPUT_POST, "tipo_lectora");
@@ -149,21 +159,25 @@ try {
                 $detalle->setValor(NULL);
                 $detalle->setValor_alfanumerico($tipoLectora);
                 $detalle->setId_unidad_medida(NULL);
+                $vectorDetalles[0] = $detalle;
                 break;
             case 13:
                 $cantNucleo = filter_input(INPUT_POST, "cantNucleo");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(6);
-                $detalle->setValor($cantidadNucleo);
+                $detalle->setValor($cantNucleo);
                 $detalle->setValor_alfanumerico(NULL);
                 $detalle->setId_unidad_medida(NULL);
+                $vectorDetalles[0] = $detalle;
 
+                $detalle = new DetalleComponente();
                 $velocidadProcesamiento = filter_input(INPUT_POST, "velocidad");
                 $detalle->__constructor();
                 $detalle->setId_descripcion(7);
                 $detalle->setValor($velocidadProcesamiento);
                 $detalle->setValor_alfanumerico(NULL);
                 $detalle->setId_unidad_medida(2);
+                $vectorDetalles[1] = $detalle;
                 break;
             case 14:
                 $potencia = filter_input(INPUT_POST, "potencia");
@@ -172,6 +186,7 @@ try {
                 $detalle->setValor($potencia);
                 $detalle->setValor_alfanumerico(NULL);
                 $detalle->setId_unidad_medida(10);
+                $vectorDetalles[0] = $detalle;
                 break;
 
             default:
@@ -192,6 +207,7 @@ try {
         print '<br/>Sistema: ' . $Sistema;
         print '<br/>modelo: ' . $modelo;
         print '<br/>nroSerie: ' . $nroSerie;
+        print '<br/>nroPatrimonio: ' . $nroPatrimonio;
         print '<br/>mes: ' . $mes;
         print '<br/>año: ' . $año;
         print '<br/>provee: ' . $proveedor;
@@ -249,11 +265,15 @@ try {
                     foreach ($vectorDetalles as $detalle) {
                         $valor = "null";
                         $valorAlfa = "null";
+                        $unidad_medida = "null";
                         if ($detalle->getValor() != "") {
                             $valor = $detalle->getValor();
                         }
                         if ($detalle->getValor_alfanumerico() != "") {
                             $valorAlfa = "'" . $detalle->getValor_alfanumerico() . "'";
+                        }
+                        if ($detalle->getId_unidad_medida() != "") {
+                            $unidad_medida = "'" . $detalle->getId_unidad_medida() . "'";
                         }
                         $query = "INSERT INTO detalle_componente"
                                 . "(id_componente,"
@@ -265,16 +285,15 @@ try {
                                 . $detalle->getId_descripcion() . ","
                                 . $valor . ", "
                                 . $valorAlfa . ", "
-                                . $detalle->getId_unidad_medida() . ")";
+                                . $unidad_medida . ")";
                         echo $query . "</br>";
                         echo '<br/>';
-                        if ($mysqli->query($query)) {
-                            $mysqli->commit();
-                            $msj = 1;
-                        } else {
+                        if (!$mysqli->query($query)) {
                             throw new Exception ();
                         }
                     }
+                    $mysqli->commit();
+                    $msj = 1;
                 }
 //                $insertDetalle = "INSERT INTO detalle_componente
 //                            (`id_componente`,
@@ -295,15 +314,79 @@ try {
                 throw new Exception ();
             }
         } elseif ($modo == "mod") {
+            $mysqli->autocommit(FALSE);
+            $consulta = "UPDATE componente SET descripcion = '" . $modelo .
+                    "' ,id_marca = '" . $marca . "' ,anio_adquisicion = " . $año . 
+                    " ,mes_adquisicion = " . $mes . ",nro_serie = '" . $nroSerie .
+                    "',nro_patrimonio = '" . $nroPatrimonio .
+                    "' WHERE id_componente =" . $idComponente;
+            echo "actualizar: " . $consulta . "<br/>";
+            if ($mysqli->query($consulta)) {
+                if ($vectorDetalles != NULL) {
+                    foreach ($vectorDetalles as $detalle) {
+                        $consulta = "UPDATE detalle_componente SET ";
+                        switch ($detalle->getId_descripcion()) {
+                            //Velocidad de transferencia
+                            case 1:
+                                $consulta .= "valor = " . $velocidadTransferencia;
+                                break;
+                            //Capacidad
+                            case 2:
+                                $consulta .= "valor = " . $capacidad;
+                                break;
+                            //Tipo de conexion
+                            case 3:
+                                $consulta .= "valor_alfanumerico = '" . $conexion . "'";
+                                break;
+                            //Tipo de memoria
+                            case 4:
+                                $consulta .= "valor_alfanumerico = '" . $tipo_memoria . "'";
+                                break;
+                            //Tamaño
+                            case 5:
+                                $consulta .= "valor = " . $tamaño;
+                                break;
+                            //Nucleos
+                            case 6:
+                                $consulta .= "valor = " . $cantNucleo;
+                                break;
+                            //Velocicdad procesamiento
+                            case 7:
+                                $consulta .= "valor = " . $velocidadProcesamiento;
+                                break;
+                            //Tipo de lectora
+                            case 8:
+                                $consulta .= "valor_alfanumerico = '" . $tipoLectora . "'";
+                                break;
+                            //MAC
+                            case 10:
+                                $consulta .= "valor_alfanumerico = '" . $mac . "'";
+                                break;
+                            //Potencia
+                            case 11:
+                                $consulta .= "valor = " . $potencia;
+                                break;
+                            //Frecuencia
+                            case 12:
+                                $consulta .= "valor = " . $frecuencia;
+                                break;
 
-            $consulta = "UPDATE componente SET descripcion='" . $modelo .
-                    "' ,id_marca=" . $marca . " ,anio_adquisicion=" . $año .
-                    " ,mes_adquisicion=" . $mes . ",nro_serie=" . $nroSerie .
-                    ",nro_patrimonio=" . $nroPatrimonio .
-                    " WHERE id_componente =" . $idComponente;
-
-            $consulta = "UPDATE detalle_componente SET valor=" . $potencia . " where id_componente=" . $idComponente . " and id_descipcion=11";
-            $mensaje = "Se actualizo correctamente el componente";
+                            default:
+                                break;
+                        }
+                        $consulta .= " where id_componente=" . $idComponente . " and id_descipcion = " . $detalle->getId_descripcion();
+                        print '<br/><br/><br/><br/>';
+                        print '' . $consulta;
+                        if (!$mysqli->query($consulta)) {
+                            throw new Exception ();
+                        }
+                    }
+                    $mysqli->commit();
+                    $msj = 1;
+                }
+            } else {
+                throw new Exception ();
+            }
         }
     }
 } catch (mysqli_sql_exception $myE) {
@@ -315,5 +398,5 @@ try {
     $msj = 2;
     $mysqli->rollback();
 }
-echo $mensaje;
-//header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Administracion/PrincipalAdministracion.php?msj=' . $msj . '');
+echo "<br/>msj: ".$msj;
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Administracion/Componentes/ComponentesSI.php?msj=' . $msj . '');

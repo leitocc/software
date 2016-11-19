@@ -32,15 +32,16 @@ switch ($idTipoComponente) {
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($conexion);
         $detalle->setId_unidad_medida(NULL);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[0] = $detalle;
 
-        $medida = filter_input(INPUT_POST, "medida");
+        $detalle = new DetalleComponente();
+        $tamaño = filter_input(INPUT_POST, "tamaño");
         $detalle->__constructor();
         $detalle->setId_descripcion(5);
-        $detalle->setValor($medida);
+        $detalle->setValor($tamaño);
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(7);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[1] = $detalle;
         break;
     case 2:
         $conexion = filter_input(INPUT_POST, "conexion");
@@ -49,7 +50,7 @@ switch ($idTipoComponente) {
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($conexion);
         $detalle->setId_unidad_medida(NULL);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[0] = $detalle;
         break;
     case 3:
         $conexion = filter_input(INPUT_POST, "conexion");
@@ -58,32 +59,34 @@ switch ($idTipoComponente) {
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($conexion);
         $detalle->setId_unidad_medida(NULL);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[0] = $detalle;
         break;
     case 5:
-        $tipoMemoria = filter_input(INPUT_POST, "tipoMemoria");
+        $tipoMemoria = filter_input(INPUT_POST, "tipo_memoria");
         $detalle->__constructor();
         $detalle->setId_descripcion(4);
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($tipoMemoria);
         $detalle->setId_unidad_medida(NULL);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[0] = $detalle;
 
+        $detalle = new DetalleComponente();
         $capacidad = filter_input(INPUT_POST, "capacidad");
         $detalle->__constructor();
         $detalle->setId_descripcion(2);
-        $detalle->setValor(capacidad);
+        $detalle->setValor($capacidad);
         $detalle->setValor_alfanumerico(null);
         $detalle->setId_unidad_medida(3);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[1] = $detalle;
 
+        $detalle = new DetalleComponente();
         $frecuencia = filter_input(INPUT_POST, "frecuencia");
         $detalle->__constructor();
         $detalle->setId_descripcion(12);
         $detalle->setValor($frecuencia);
         $detalle->setValor_alfanumerico(null);
         $detalle->setId_unidad_medida(1);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[2] = $detalle;
         break;
     //discoDuro
     case 6:
@@ -93,31 +96,34 @@ switch ($idTipoComponente) {
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($conexion);
         $detalle->setId_unidad_medida(NULL);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[0] = $detalle;
 
+        $detalle = new DetalleComponente();
         $velocidadTransferencia = filter_input(INPUT_POST, "velTransferencia");
         $detalle->__constructor();
         $detalle->setId_descripcion(1);
         $detalle->setValor($velocidadTransferencia);
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(8);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[1] = $detalle;
         
+        $detalle = new DetalleComponente();
         $capacidad = filter_input(INPUT_POST, "capacidad");
         $detalle->__constructor();
         $detalle->setId_descripcion(2);
-        $detalle->setValor(capacidad);
+        $detalle->setValor($capacidad);
         $detalle->setValor_alfanumerico(null);
         $detalle->setId_unidad_medida(3);
-        $vectorDetalles[] = $detalle;
+        $vectorDetalles[2] = $detalle;
         break;
     case 8:
-        $capacidadMemoria = filter_input(INPUT_POST, "capacidadMemoria");
+        $capacidadMemoria = filter_input(INPUT_POST, "capacidad");
         $detalle->__constructor();
         $detalle->setId_descripcion(2);
         $detalle->setValor($capacidadMemoria);
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(4);
+        $vectorDetalles[0] = $detalle;
         break;
     case 9:
         $mac = filter_input(INPUT_POST, "mac");
@@ -126,14 +132,16 @@ switch ($idTipoComponente) {
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($mac);
         $detalle->setId_unidad_medida(NULL);
+        $vectorDetalles[0] = $detalle;
         break;
     case 11:
-        $tipoLectora = filter_input(INPUT_POST, "tipoLectora");
+        $tipoLectora = filter_input(INPUT_POST, "tipo_lectora");
         $detalle->__constructor();
         $detalle->setId_descripcion(8);
         $detalle->setValor(NULL);
         $detalle->setValor_alfanumerico($tipoLectora);
         $detalle->setId_unidad_medida(NULL);
+        $vectorDetalles[0] = $detalle;
         break;
     case 13:
         $cantidadNucleo = filter_input(INPUT_POST, "cantNucleo");
@@ -142,13 +150,16 @@ switch ($idTipoComponente) {
         $detalle->setValor($cantidadNucleo);
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(NULL);
+        $vectorDetalles[0] = $detalle;
 
+        $detalle = new DetalleComponente();
         $velocidadProcesamiento = filter_input(INPUT_POST, "velocidad");
         $detalle->__constructor();
         $detalle->setId_descripcion(7);
         $detalle->setValor($velocidadProcesamiento);
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(2);
+        $vectorDetalles[1] = $detalle;
         break;
     case 14:
         $potencia = filter_input(INPUT_POST, "potencia");
@@ -157,6 +168,7 @@ switch ($idTipoComponente) {
         $detalle->setValor($potencia);
         $detalle->setValor_alfanumerico(NULL);
         $detalle->setId_unidad_medida(10);
+        $vectorDetalles[0] = $detalle;
         break;
 
     default:

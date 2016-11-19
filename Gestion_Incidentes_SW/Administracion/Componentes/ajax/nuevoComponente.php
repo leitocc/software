@@ -68,13 +68,13 @@ switch ($idTC) {
         print '<td><select name="conexion" id="conexion" required>';
         print '<option value="" >Seleccione...</option>';
         while ($row = $resultado->fetch_assoc()) {
-            print "<option value =" . $row['id_tipo_conexion'] . " >";
+            print "<option value =" . $row['nombre'] . " >";
             print strtoupper($row['nombre']) . "</option>";
         }
         print '</select></td></tr>';
         $resultado->free();
         print '<tr><td>Medida (*)</td>';
-        print '<td><input type="text" id="medida" name="medida" required/>Pulgadas</td>';
+        print '<td><input type="text" id="tamaño" name="tamaño" required/>Pulgadas</td>';
         print '</tr>';
         break;
     case 2:
@@ -85,7 +85,7 @@ switch ($idTC) {
         print '<td><select name="conexion" id="conexion" required>';
         print '<option value="" >Seleccione...</option>';
         while ($row = $resultado->fetch_assoc()) {
-            print "<option value =" . $row['id_tipo_conexion'] . " >";
+            print "<option value =" . $row['nombre'] . " >";
             print strtoupper($row['nombre']) . "</option>";
         }
         print '</select></td></tr>';
@@ -99,7 +99,7 @@ switch ($idTC) {
         print '<td><select name="conexion" id="conexion" required>';
         print '<option value="" >Seleccione...</option>';
         while ($row = $resultado->fetch_assoc()) {
-            print "<option value =" . $row['id_tipo_conexion'] . " >";
+            print "<option value =" . $row['nombre'] . " >";
             print strtoupper($row['nombre']) . "</option>";
         }
         print '</select></td></tr>';
@@ -110,16 +110,16 @@ switch ($idTC) {
         print '<tr><td>Tipo de memoria (*)</td>';
         $query = "select * from tipo_memoria";
         $resultado = $mysqli->query($query);
-        print '<td><select name="tipo_memoria" id="tipoMemoria" required>';
+        print '<td><select name="tipo_memoria" id="tipo_memoria" required>';
         print '<option value="" >Seleccione...</option>';
         while ($row = $resultado->fetch_assoc()) {
-            print "<option value =" . $row['id_tipo_memoria'] . " >";
+            print "<option value =" . $row['nombre'] . " >";
             print strtoupper($row['nombre']) . "</option>";
         }
         print '</select></td></tr>';
         $resultado->free();
         print '<tr><td>Capacidad</td>';
-        print '<td><input type="text" id="capacidad" name="capacidad" required/>Gb</td>';
+        print '<td><input type="text" id="capacidad" name="capacidad" required/>GB</td>';
         print '</tr>';
         print '<tr><td>Frecuencia</td>';
         print '<td><input type="text" id="frecuencia" name="frecuencia" required/>Mhz</td>';
@@ -133,19 +133,22 @@ switch ($idTC) {
         print '<td><select name="conexion" id="conexion" required>';
         print '<option value="" >Seleccione...</option>';
         while ($row = $resultado->fetch_assoc()) {
-            print "<option value =" . $row['id_tipo_conexion'] . " >";
+            print "<option value =" . $row['nombre'] . " >";
             print strtoupper($row['nombre']) . "</option>";
         }
         print '</select></td></tr>';
         $resultado->free();
         print '<tr><td>Velocidad de transferencia(*)</td>';
-        print '<td><input type="text" id="velTransferencia" required/>Rpm</td>';
+        print '<td><input type="text" id="velTransferencia" name="velTransferencia" required/>Rpm</td>';
+        print'</tr>';
+        print '<tr><td>Capacidad</td>';
+        print '<td><input type="text" id="capacidad" name="capacidad" required/>GB</td>';
         print'</tr>';
         break;
     //placa de video
     case 8:
         print '<tr><td>Capacidad de memoria</td>';
-        print '<td><input type="text" id="capacidadMemoria" name="capacidadMemoria" required/>MB</td>';
+        print '<td><input type="text" id="capacidad" name="capacidad" required/>MB</td>';
         print'</tr>';
         break;
     //Placa Red
@@ -175,7 +178,7 @@ switch ($idTC) {
         print '<td><input type="text" id="cantNucleo" name="cantNucleo" required/></td>';
         print'</tr>';
         print '<tr><td>Velocidad</td>';
-        print '<td><input type="text" id="velocidad" name="Velocidad" required/> Ghz</td>';
+        print '<td><input type="text" id="velocidad" name="velocidad" required/> Ghz</td>';
         print'</tr>';
         break;
     //fuente
