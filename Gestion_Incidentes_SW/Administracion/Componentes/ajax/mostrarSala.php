@@ -31,4 +31,4 @@ require_once '../../../Conexion2.php';
 </fieldset>
 <h6>* ATENCION! El componente que sea del mismo tipo que ya este asignado a los Sistemas Informáticos seleccionados</h6>
 <h6>se daran de baja automáticamente. Ej: Monitor, Teclado, Mouse, etc.</h6>
-<h6>Esto no se aplica en componentes en los que puede haber m&uacute;s de uno por SI. Ej: Discos duros, RAM.</h6>
+<h6>Esto no se aplica en componentes en los que puede haber m&aacute;s de uno por SI. Ej: Discos duros, RAM.</h6>

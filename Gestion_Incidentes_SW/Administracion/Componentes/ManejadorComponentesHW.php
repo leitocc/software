@@ -31,7 +31,7 @@ try {
         $marca = filter_input(INPUT_POST, "marca");
         $mes = filter_input(INPUT_POST, "mes");
         $año = filter_input(INPUT_POST, "año");
-        $proveedor = filter_input(INPUT_POST, "proveedor");
+        //$proveedor = filter_input(INPUT_POST, "proveedor");
         //Ver el tema de subcomponente (se podria ignorar)
 //        if ($idTC > 4) {
 //            $idSubcomponente = $_SESSION['idSub'];

@@ -37,7 +37,7 @@ include_once '../../verificarPermisos.php';
                             <li><h2>Buscar Marca</h2></li>
                             <li>
                                 <label for="marca">Marca:</label>
-                                <?php $consulta = "select id_marca As id, descripcion from marca" ?>
+                                <?php $consulta = "select id_marca As id, descripcion from marca order by descripcion" ?>
                                 <?php $resultado10 = $mysqli->query($consulta); ?>
                                 <select name="marca" id="marca" required>
                                     <option value="" >Seleccione...</option>

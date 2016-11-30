@@ -187,8 +187,8 @@ $incidente = $buscarIncidentes->fetch_assoc();
 
                 <div class="main">
                     <div class="post">
-                        <lu><li><h2>Modificar Incidente</h2><span class="required_notification">Los campos con (*) son obligatorios</span></li></lu>
-                        <h4>Datos incidentes</h4>
+                        <lu><li class="no_lista"><h2>Modificar Incidente</h2></li></lu>
+                        <h4>Datos incidentes</h4><span class="required_notification">Los campos con (*) son obligatorios</span>
                         <div class="archive-separator"></div>
                         <div style="width: 300px;">
                             <table>

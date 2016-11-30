@@ -34,7 +34,7 @@ include_once '../verificarPermisos.php';
                 });
 
                 $("#componenteAfectado").change(function (e) {
-                    if ($("#componenteAfectado").val() !== "Seleccione...") {
+                    if ($("#componenteAfectado").val() !== "") {
                         $.ajax({
                             url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/IncidentesHW/ajax/cargarIndicioIncidentes.php",
                             type: "POST",
@@ -47,7 +47,6 @@ include_once '../verificarPermisos.php';
                         $("#indicio").html("<option>Seleccione...</option>");
                     }
                 });
-
 
                 $("#preguntaAct").change(function (ev) {
                     if ($("#preguntaAct").val() !== "1") {
@@ -77,6 +76,7 @@ include_once '../verificarPermisos.php';
                 $("#actividad").attr("hidden", true);
                 $("#fecha").datetimepicker({
                     lang: 'es',
+                    maxDate: "+0D",
                     format: 'd/m/Y H:i'
                             /* i18n:{
                              de:{
@@ -91,6 +91,17 @@ include_once '../verificarPermisos.php';
                             //timeFormat: "HH:mm",
                             //changeMonth: true,
                             //changeYear: true
+                });
+                $("#fecha").change(function (e) {
+                    var fecha = $("#fecha").val();
+                    var hora = fecha.substring(11, 13);
+                    if(hora <= 13){
+                        document.getElementById("turno").selectedIndex = 1;
+                    }else if(hora <= 18){
+                        document.getElementById("turno").selectedIndex = 2;
+                    }else{
+                        document.getElementById("turno").selectedIndex = 3;
+                    }
                 });
                 $("#cancelar").click(function (mievento) {
                     mievento.preventDefault();
@@ -273,14 +284,14 @@ include_once '../verificarPermisos.php';
                                         <td colspan="3">
                                             <select id="indicio" name="indicio" required>
                                                 <option value="">Seleccione...</option>
-                                                <?php
+                                                <?php /*
                                                 $consultaIndicio = "SELECT id_tipo_incidente AS 'id', nombre FROM causa_incidente;";
                                                 $resultadoIndicio = $mysqli->query($consultaIndicio);
                                                 if ($resultadoIndicio) {
                                                     while ($row = $resultadoIndicio->fetch_assoc()) {
                                                         echo '<option value="' . $row['id'] . '">' . $row['nombre'] . '</option>';
                                                     }
-                                                }
+                                                }*/
                                                 ?>
                                             </select>
                                         </td>

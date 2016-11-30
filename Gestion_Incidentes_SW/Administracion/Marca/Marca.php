@@ -6,15 +6,14 @@ try {
     $msj = "";
     $modo = filter_input(INPUT_POST, "modo");
     $nombre = filter_input(INPUT_POST, "nombre");
+    $consultamarca = "SELECT descripcion FROM marca";
+    $resultado = $mysqli->query($consultamarca);
+    while ($row = $resultado->fetch_assoc()) {
+        if($row['descripcion'] == $nombre){
+            throw new Exception ();
+        }
+    }
     if ($modo === "ins") {
-//        $consultamarca = "SELECT MAX(id_marca) AS id FROM marca";
-//        $resultadoMaxId = $mysqli->query($consultamarca);
-//        if ($row = $consulta->fetch_assoc()) {
-//            $idMarca['id'] = $row["id_marca"];
-//        } else {
-//            $idMarca['id'] = 0;
-//        }
-//        $idMarca['id'] ++;
         $queryMarca = "INSERT INTO marca (`descripcion`) VALUES ('" . $nombre . "');";
         $consultaMarca = $mysqli->query($queryMarca);
         $msj = 1;
@@ -29,7 +28,7 @@ try {
 } catch (mysqli_sql_exception $myE) {
     $msj = 2;
 } catch (Exception $e) {
-    $msj = 2;
+    $msj = 4;
 }
 echo $msj;
 header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Administracion/PrincipalAdministracion.php?msj=' . $msj .'');

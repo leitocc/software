@@ -10,11 +10,11 @@ require_once '../../DetalleComponente.class.php';
     <h3>Componente: </h3>
 </li>
 <li>
-    <label for="marca">Marca:</label>
+    <label for="marca">Marca(*):</label>
     <select name="marca" id="marca" required>
         <option value="" >Seleccione...</option>
         <?php
-        $resultado = $mysqli->query("select * from marca");
+        $resultado = $mysqli->query("select * from marca order by descripcion");
         while ($row = $resultado->fetch_assoc()) {
             print '<option value ="' . $row['id_marca'] . '"';
             if ($row['id_marca'] == $Comp->getId_marca()) {
@@ -26,7 +26,7 @@ require_once '../../DetalleComponente.class.php';
     </select>
 </li>
 <li>
-    <label for="modelo">Modelo:</label>
+    <label for="modelo">Modelo(*):</label>
     <input name="modelo" id="modelo" type="text" maxlength="20" size="15" value="<?php echo $Comp->getDescripcion() ?>" required/>
 </li>
 <li>
@@ -50,7 +50,7 @@ if ($Comp->getNro_patrimonio() != "") {
     <div name="inv"><input type="number" name="nroInventario" maxlength="7" size="6" id="nroInventario" value="<?php echo $Comp->getNro_patrimonio() ?>"></div>
 </li>
 <li>
-    <label for="mes">Mes adquisición:</label>
+    <label for="mes">Mes adquisición(*):</label>
     <select name="mes" id="mes" required>
         <option value="" >Seleccione...</option>
         <?php
@@ -119,20 +119,8 @@ if ($Comp->getNro_patrimonio() != "") {
     </select>
 </li>
 <li>
-    <label for="año">Año Adquisición:</label>
+    <label for="año">Año Adquisición(*):</label>
     <input type="number" id="año" name="año" maxlength="4" size="4" minlength="4" value="<?php echo $Comp->getAño() ?>" required/>
-</li>
-<li>
-    <label for="proveedor">Proveedor:</label>
-    <?php $resultado = $mysqli->query("select * from proveedor"); ?>
-    <select name='proveedor' id="proveedor"> 
-        <option value="" >Seleccione...</option>
-        <?php
-        while ($row = $resultado->fetch_assoc()) {
-            echo '<option value ="' . $row['id_proveedor'] . '">' . $row['nombre'] . '</option>';
-        }
-        ?>
-    </select>
 </li>
 <?php
 if (is_null($_SESSION['modo']) || $_SESSION['modo'] == 'ins') {
@@ -179,7 +167,7 @@ if (is_null($_SESSION['modo']) || $_SESSION['modo'] == 'ins') {
             print '</li>';
             print '<li>';
             print '<label for="frecuencia">Frecuencia (*):</label>';
-            print '<input type="number" id="frecuencia" name="frecuencia" maxlength="4" size="4" required/>Mhz';
+            print '<input type="number" id="frecuencia" name="frecuencia" maxlength="4" size="4" required/>MHz';
             print '</li>';
             break;
         //Disco Duro
@@ -265,17 +253,17 @@ if (is_null($_SESSION['modo']) || $_SESSION['modo'] == 'ins') {
                 //Velocidad de transferencia
                 case 1:
                     print '<label for="velTransferencia">Velocidad de transferencia(*):</label>';
-                    print '<input type="text" maxlength="5" size="5" name="velTransferencia" id="velTransferencia" value="' . $detalle->getValor() . '" required/>Rpm';
+                    print '<input type="number" maxlength="5" size="5" name="velTransferencia" id="velTransferencia" value="' . $detalle->getValor() . '" required/>Rpm';
                     break;
                 //Capacidad
                 case 2:
                     //Si es disco duro o memoria
                     if ($idTC == 5 || $idTC == 6) {
                         print '<label for="capacidad">Capacidad (*):</label>';
-                        print '<input type="text" value="' . $detalle->getValor() . '" id="capacidad" name="capacidad" maxlength="5" size="4" required/>GB';
+                        print '<input type="number" value="' . $detalle->getValor() . '" id="capacidad" name="capacidad" maxlength="5" size="4" required/>GB';
                     } elseif ($idTC == 8) { //Si es Placa de video
                         print '<label for="capacidad">Capacidad de memoria (*):</label>';
-                        print '<input type="text" value="' . $detalle->getValor() . '" id="capacidad" name="capacidad" maxlength="5" size="4" required/>MB';
+                        print '<input type="number" value="' . $detalle->getValor() . '" id="capacidad" name="capacidad" maxlength="5" size="4" required/>MB';
                     } else {
                         print 'No se encontro tipo de detalle. Contactar al administrador';
                     }
@@ -319,17 +307,17 @@ if (is_null($_SESSION['modo']) || $_SESSION['modo'] == 'ins') {
                 //Tamaño
                 case 5:
                     print '<label for="tamaño">Medida (*):</label>';
-                    print '<input type="text" value="' . $detalle->getValor() . '" id="tamaño" name="tamaño" maxlength="2" size="2" required/>Pulgadas';
+                    print '<input type="number" value="' . $detalle->getValor() . '" id="tamaño" name="tamaño" maxlength="2" size="2" required/>Pulgadas';
                     break;
                 //Nucleos
                 case 6:
                     print '<label for="cantNucleo">Cantidad  De Nucleo (*):</label>';
-                    print '<input type="text" value="' . $detalle->getValor() . '" id="cantNucleo" name="cantNucleo" maxlength="2" size="2" required/>';
+                    print '<input type="number" value="' . $detalle->getValor() . '" id="cantNucleo" name="cantNucleo" maxlength="2" size="2" required/>';
                     break;
                 //Velocidad de procesamiento
                 case 7:
                     print '<label for="velProcesamiento">Velocidad (*):</label>';
-                    print '<input type="text" value="' . $detalle->getValor() . '" id="velProcesamiento" name="velProcesamiento" maxlength="5" size="4" required/> Ghz';
+                    print '<input type="number" value="' . $detalle->getValor() . '" id="velProcesamiento" name="velProcesamiento" maxlength="5" size="4" required/> Ghz';
                     break;
                 //Tipo de lectura
                 case 8:
@@ -357,12 +345,12 @@ if (is_null($_SESSION['modo']) || $_SESSION['modo'] == 'ins') {
                 //Potencia
                 case 11:
                     print '<label for="potencia">Potencia (*):</label>';
-                    print '<input type="text" value="' . $detalle->getValor() . '" id="potencia" name="potencia" maxlength="5" size="4" required/>Watts';
+                    print '<input type="number" value="' . $detalle->getValor() . '" id="potencia" name="potencia" maxlength="5" size="4" required/>Watts';
                     break;
                 //Frecuencia
                 case 12:
                     print '<label for="frecuencia">Frecuencia (*):</label>';
-                    print '<input type="text" value="' . $detalle->getValor() . '" id="frecuencia" name="frecuencia" maxlength="4" size="4" required/>Mhz';
+                    print '<input type="number" value="' . $detalle->getValor() . '" id="frecuencia" name="frecuencia" maxlength="4" size="4" required/>MHz';
                     break;
                 default:
                     print 'No se encontro tipo de detalle. Contactar al administrador';

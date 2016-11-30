@@ -29,6 +29,7 @@ require_once '../../Conexion2.php';
                         var valor = tipo.options[tipo.selectedIndex].text;
                         var h4 = document.getElementsByTagName("h4");
                         h4[0].innerHTML = "Tipo componente: " + valor;
+                        document.getElementById("volver2").onclick = volver2;
                     }
                 }
             }
@@ -36,6 +37,10 @@ require_once '../../Conexion2.php';
             function volver(mievento) {
                 mievento.preventDefault();
                 location.assign('../PrincipalAdministracion.php');
+            }
+            function volver2(mievento) {
+                mievento.preventDefault();
+                location.assign('RegistrarComponenteGeneral.php');
             }
 
             window.onload = function () {

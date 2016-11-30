@@ -33,6 +33,9 @@ include_once '../limpiarSesion.php';
                                     case 3:
                                         echo '<div class="msj_ok">Se realizaron los cambios correctamente</div>';
                                         break;
+                                    case 4:
+                                        echo '<div class="msj_error">Se produjo un error al grabar o la marca ya esta registrada</div>';
+                                        break;
                                     default:
                                         break;
                                 }

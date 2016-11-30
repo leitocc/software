@@ -72,6 +72,7 @@ $_SESSION['detalles'] = $Detalles;
         <script>
             $(document).ready(function () {
                 $("#anio").spinner();
+                $("#marca").combobox();
                 $("#volver").click(function (mievento) {
                     mievento.preventDefault();
                     window.location = '/<?php echo $_SESSION['RELATIVE_PATH'] ?>/Administracion/Componentes/ComponentesSI.php';
@@ -84,7 +85,7 @@ $_SESSION['detalles'] = $Detalles;
                 $("#nroInventario").attr("readonly", true);
                 $("#mes").attr("disabled", true);
                 $("#año").attr("readonly", true);
-                $("#proveedor").attr("disabled", true);
+                //$("#proveedor").attr("disabled", true);
                 $("#tamaño").attr("readonly", true);
                 $("#conexion").attr("disabled", true);
                 $("#tipo_memoria").attr("disabled", true);

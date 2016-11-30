@@ -7,18 +7,18 @@ $vectorComponente = $_SESSION['Componente'];
 $vectorDetalles = $_SESSION['Detalles'];
 
 $vectorMaquinas = $_POST["SI"];
-
-print 'vector maquinas: ';
-print_r($vectorMaquinas);
-print '<br/>';
-print 'vector componentes: ';
-print_r($vectorComponente);
-print '<br/>';
-print '<br/>';
-print 'vector detalles: ';
-print_r($vectorDetalles);
-print '<br/>';
-print '<br/>';
+//
+//print 'vector maquinas: ';
+//print_r($vectorMaquinas);
+//print '<br/>';
+//print 'vector componentes: ';
+//print_r($vectorComponente);
+//print '<br/>';
+//print '<br/>';
+//print 'vector detalles: ';
+//print_r($vectorDetalles);
+//print '<br/>';
+//print '<br/>';
 
 //primero se debe grabar el Componente por maquina
 //luego grababar los detalles de cada componente
@@ -32,17 +32,17 @@ try {
             WHERE id_sistema_informatico = " . $maquina .
                     " AND id_tipo_componente = " . $vectorComponente["idTipoComponente"] .
                     " AND baja = 0";
-            echo $queryBuscar . '<br/>';
-            echo '<br/>';
+//            echo $queryBuscar . '<br/>';
+//            echo '<br/>';
             $resultado = $mysqli->query($queryBuscar);
             if ($resultado->num_rows > 0) {
                 while ($row = $resultado->fetch_assoc()) {
                     $update = "UPDATE componente SET 
                         baja = 1,
                         fecha_baja = " . date("Y-m-d") .
-                        " WHERE id_componente = " . $row['id_componente'];
-                    echo $update . '<br/>';
-                    echo '<br/>';
+                            " WHERE id_componente = " . $row['id_componente'];
+//                    echo $update . '<br/>';
+//                    echo '<br/>';
                     if (!$mysqli->query($update)) {
                         throw new Exception ();
                     }
@@ -64,12 +64,12 @@ try {
                 . "null, "
                 . $maquina . ","
                 . " 0)";
-        echo $query10 . '<br/>';
-        echo '<br/>';
+//        echo $query10 . '<br/>';
+//        echo '<br/>';
         if ($mysqli->query($query10)) {
             $idComponente = $mysqli->insert_id;
-            echo "nuevo maquina insertada " . $mysqli->insert_id . "<br/>";
-            echo "idCo: " . $idComponente . "<br/>";
+//            echo "nuevo maquina insertada " . $mysqli->insert_id . "<br/>";
+//            echo "idCo: " . $idComponente . "<br/>";
             if ($vectorDetalles != NULL) {
                 foreach ($vectorDetalles as $detalle) {
                     $valor = "null";
@@ -91,16 +91,15 @@ try {
                             . $valor . ", "
                             . $valorAlfa . ", "
                             . $detalle->getId_unidad_medida() . ")";
-                    echo $query11 . "</br>";
+//                    echo $query11 . "</br>";
                     echo '<br/>';
-                    if ($mysqli->query($query11)) {
-                        $mysqli->commit();
-                        $msj = 1;
-                    } else {
+                    if (!$mysqli->query($query11)) {
                         throw new Exception ();
                     }
                 }
             }
+            $mysqli->commit();
+            $msj = 1;
         } else {
             throw new Exception ();
         }
@@ -109,6 +108,6 @@ try {
     $mysqli->rollback();
     $msj = 2;
 }
-echo 'msj= ' . $msj;
+//echo 'msj= ' . $msj;
 header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/Administracion/PrincipalAdministracion.php?msj=' . $msj . '');
-
+//header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesHW/InicioIncidentes.php?msj=' . $msj . '');
