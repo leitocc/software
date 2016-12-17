@@ -5,10 +5,10 @@ require_once '../formatoFecha.class.php';
 
 try {
     $nroIncidente = filter_input(INPUT_POST, "nroIncidente");
-    echo "nIn: " . $nroIncidente . "<br/>";
+    echo "nIncidente: " . $nroIncidente . "<br/>";
     echo "<br/>";
     $nroIntervencion = filter_input(INPUT_POST, "nroInterv");
-    echo "nInter: " . $nroIntervencion . "<br/>";
+    echo "nIntervencion: " . $nroIntervencion . "<br/>";
     echo "<br/>";
     $finicio = formatoFecha::convertirAFechaBD(filter_input(INPUT_POST, "finicio"));
     echo "fini: " . $finicio . "<br/>";
@@ -71,11 +71,13 @@ try {
                         (`id_componente`,
                         `id_incidente`,
                         `id_detalle_intervencion`,
+                        `id_causa`,
                         `id_accion_correctiva`)
                         VALUES
                         (" . $row['idComponente'] . ", "
                         . $nroIncidente . ", "
                         . $nroIntervencion .", "
+                        . $row['idIndicio'] . ", "
                         . $row['idAccion'] . ")";
                     echo $queryComponente;
                     echo "<br/>";
@@ -106,6 +108,6 @@ try {
     $msj = 2;
     $mysqli->rollback();
 }
+//echo "<br/>msj: ". $msj;
 //unset($_SESSION['componentes']);
-echo "<br/>msj: ". $msj;
-//header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesHW/InicioIncidentes.php?msj=' . $msj . '');
+header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesHW/InicioIncidentes.php?msj=' . $msj . '');

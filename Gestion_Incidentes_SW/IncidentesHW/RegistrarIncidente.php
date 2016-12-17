@@ -341,7 +341,7 @@ include_once '../verificarPermisos.php';
                                     <tr>
                                         <td>Descripción del incidente:</td>
                                         <td colspan="3">
-                                            <textarea id="descripcion" name="descripcion" cols="40" rows="4" required></textarea>
+                                            <textarea id="descripcion" name="descripcion" cols="80" rows="8" required></textarea>
                                         </td>
                                     </tr>
                                 </table>

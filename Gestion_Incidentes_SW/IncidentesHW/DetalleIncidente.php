@@ -9,7 +9,7 @@ require_once '../Conexion2.php';
 $queryIncidente = "SELECT I.id_incidente, I.id_sistema_informatico_afectado AS si, I.fecha, T.nombre_turno AS turno,
                     S.nombre AS sala, I.descripcion, CI.nombre AS causa_incidente, I.id_estado AS idEstado, E.nombre_estado AS estado,
                     TA.nombre AS 'nombre_actividad', TA.nivel_actividad, A.responsable1, A.responsable2, P.apellido AS apellido_reporto,
-                    P.nombre AS nombre_reporto, R.nombre AS rol_reporto, TC.descripcion AS 'tipo_componente' 
+                    P.nombre AS nombre_reporto, R.nombre AS rol_reporto, TC.descripcion AS 'tipo_componente'
                     FROM incidente I 
                     INNER JOIN persona P ON I.id_persona_reporto = P.id_persona
                     INNER JOIN causa_incidente CI ON I.id_causa_incidente = CI.id_tipo_incidente
@@ -85,8 +85,17 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                 $("#accion").html(opciones).show("slow");
                             }
                         });
+                        $.ajax({
+                            url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/IncidentesHW/ajax/cargarIndicioDetalle.php",
+                            type: "POST",
+                            data: "tipoComponente=" + selectedTC,
+                            success: function (opciones) {
+                                $("#indicio").html(opciones);
+                            }
+                        });
                     } else {
                         $("#accion").html('<option value="">Seleccione...</option>');
+                        $("#indicio").html('<option value="">Seleccione...</option>');
                     }
                 });
 
@@ -95,16 +104,23 @@ $incidente = $buscarIncidentes->fetch_assoc();
                     var tipoComponente = document.getElementById("tipoComponente");
                     var selectedTC = tipoComponente.options[tipoComponente.selectedIndex].text;
                     var accion = document.getElementById("accion");
+                    var indicio = document.getElementById("indicio");
                     var selectedA = accion.options[accion.selectedIndex].text;
+                    var selectedI = indicio.options[indicio.selectedIndex].text;
                     $.ajax({
                         url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/IncidentesHW/ajax/tablaComponentesAfectados.php",
                         type: "POST",
                         data: "idComponente=" + $("#tipoComponente").val() +
                                 "&idAccion=" + $("#accion").val() +
+                                "&idIndicio=" + $("#indicio").val() +
                                 "&combo=" + selectedTC +
+                                "&indicio=" + selectedI +
                                 "&accion=" + selectedA,
                         success: function (opciones) {
                             $("#tablaCA").html(opciones).show("slow");
+                            tipoComponente[0].selected = true;
+                            $("#accion").html('<option value="">Seleccione...</option>');
+                            $("#indicio").html('<option value="">Seleccione...</option>');
                         }
                     });
                 });
@@ -148,11 +164,11 @@ $incidente = $buscarIncidentes->fetch_assoc();
                 $("#formulario").validate({
                     submitHandler: function (form) {
                         //if (verificarComponentes()) {
-                            if (verificarFechas()) {
-                                $(form).submit();
-                            } else {
-                                alert("Fecha y hora de incio es mayor que fecha y hora de fin");
-                            }
+                        if (verificarFechas()) {
+                            $(form).submit();
+                        } else {
+                            alert("Fecha y hora de incio es mayor que fecha y hora de fin");
+                        }
 //                        } else {
 //                            alert("Seleccione al menos un componente");
 //                        }
@@ -163,12 +179,14 @@ $incidente = $buscarIncidentes->fetch_assoc();
                     if (ninguno.checked) {
                         document.getElementById("tipoComponente").disabled = true;
                         document.getElementById("accion").disabled = true;
+                        document.getElementById("indicio").disabled = true;
                         document.getElementById("btnAgregar").disabled = true;
                         document.getElementById("btnAgregar").hidden = true;
                         document.getElementById("tablaCA").hidden = true;
                     } else {
                         document.getElementById("tipoComponente").disabled = false;
                         document.getElementById("accion").disabled = false;
+                        document.getElementById("indicio").disabled = false;
                         document.getElementById("btnAgregar").disabled = false;
                         document.getElementById("btnAgregar").hidden = false;
                         document.getElementById("tablaCA").hidden = false;
@@ -254,6 +272,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                     <td colspan="3">
                                         <input type="text" id="causa" name="causa" 
                                                value="<?php echo $incidente['causa_incidente'] ?>" 
+                                               size="40"
                                                readonly="true"/>
                                     </td>
                                 </tr>
@@ -272,7 +291,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                 <tr>
                                     <td>Descripción del incidente:</td>
                                     <td colspan="3">
-                                        <textarea id="descripcion" name="descripcion" cols="40" rows="4" readonly="true"><?php echo $incidente['descripcion'] ?></textarea>
+                                        <textarea id="descripcion" name="descripcion" cols="80" rows="8" readonly="true"><?php echo $incidente['descripcion'] ?></textarea>
                                     </td>
                                 </tr>
                             </table>
@@ -313,7 +332,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                             <?php
                         }
                         $queryDetalles = "SELECT DI.id_detalle_intervencion AS id, DI.descripcion, DI.fecha_inicio, DI.hora_inicio, DI.fecha_fin, DI.hora_fin, 
-                        DI.motivo_no_finalizacion AS motivo, P.nombre, P.apellido
+                        DI.motivo_no_finalizacion AS motivo, P.nombre, P.apellido 
                         FROM detalle_intervencion DI 
                         INNER JOIN persona P ON P.id_persona = DI.id_persona_detalle_intervencion
                         WHERE DI.id_incidente = " . $id;
@@ -358,7 +377,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                             <!-- aqui debe ir la consulta de los componentes-->
                                             <?php
                                             $queryComponentes = "SELECT TC.descripcion AS 'tipo_componente', C.descripcion, C.nro_patrimonio, 
-                                                    C.nro_serie, M.descripcion AS 'marca', AC.nombre AS 'accion'
+                                                    C.nro_serie, M.descripcion AS 'marca', AC.nombre AS 'accion', CA.nombre AS 'indicio'
                                                     FROM detalle_intervencion DI 
                                                     INNER JOIN componentexdetalle_intervencion CXDI 
                                                     ON DI.id_detalle_intervencion = CXDI.id_detalle_intervencion 
@@ -367,49 +386,54 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                     INNER JOIN tipo_componente TC ON C.id_tipo_componente = TC.id_tipo_componente 
                                                     INNER JOIN marca M ON M.id_marca = C.id_marca
                                                     INNER JOIN accion_correctiva AC ON AC.id_accion = CXDI.id_accion_correctiva
+                                                    LEFT JOIN causa_incidente CA ON CA.id_tipo_incidente = CXDI.id_causa
                                                     WHERE DI.id_detalle_intervencion = " . $detalles['id'] .
                                                     " AND DI.id_incidente = " . $id;
-                                            //echo ''. $queryComponentes . '<br/>';
+//                                            echo ''. $queryComponentes . '<br/>';
                                             $buscarComponentes = $mysqli->query($queryComponentes);
                                             echo '<tr>';
                                             echo '<td>Componentes afectado:</td>';
                                             echo '<td colspan="3">';
                                             if ($buscarComponentes && $mysqli->affected_rows > 0) {
-                                                    ?>
-                                                    <div>
-                                                        <table class="listado2">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Componente</th>
-                                                                    <th>Acci&oacute;n correctiva</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php
-                                                                while ($row = $buscarComponentes->fetch_assoc()) {
-                                                                    print '<tr>';
-                                                                    $combo = $row['tipo_componente'] . "-> " . $row['marca'];
-                                                                    if ($row['nro_patrimonio'] != "" && $row['nro_patrimonio'] != null) {
-                                                                        $combo .= " - Patrimonio: " . $row['nro_patrimonio'];
-                                                                    } elseif ($row['nro_serie'] != "" && $row['nro_serie'] != null) {
-                                                                        $combo .= " - Serie:" . $row['nro_serie'];
-                                                                    } elseif ($row['descripcion'] != "" && $row['descripcion'] != null) {
-                                                                        $combo .= " - Modelo:" . $row['descripcion'];
-                                                                    }
-                                                                    print '<td>';
-                                                                    print '' . $combo;
-                                                                    print '</td>';
-                                                                    print '<td>';
-                                                                    print '' . $row['accion'];
-                                                                    print '</td>';
-                                                                    print '</tr>';
+                                                ?>
+                                                <div>
+                                                    <table class="listado2">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Componente</th>
+                                                                <th>Indicio/Causa</th>
+                                                                <th>Acci&oacute;n correctiva</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            while ($row = $buscarComponentes->fetch_assoc()) {
+                                                                print '<tr>';
+                                                                $combo = $row['tipo_componente'] . "-> " . $row['marca'];
+                                                                if ($row['nro_patrimonio'] != "" && $row['nro_patrimonio'] != null) {
+                                                                    $combo .= " - Patrimonio: " . $row['nro_patrimonio'];
+                                                                } elseif ($row['nro_serie'] != "" && $row['nro_serie'] != null) {
+                                                                    $combo .= " - Serie:" . $row['nro_serie'];
+                                                                } elseif ($row['descripcion'] != "" && $row['descripcion'] != null) {
+                                                                    $combo .= " - Modelo:" . $row['descripcion'];
                                                                 }
-                                                                ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <?php
-                                            }else{
+                                                                print '<td>';
+                                                                print '' . $combo;
+                                                                print '</td>';
+                                                                print '<td>';
+                                                                print '' . $row['indicio'];
+                                                                print '</td>';
+                                                                print '<td>';
+                                                                print '' . $row['accion'];
+                                                                print '</td>';
+                                                                print '</tr>';
+                                                            }
+                                                            ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <?php
+                                            } else {
                                                 echo '<h5>No se realizo ninguna acción a ningún componente</h5>';
                                             }
                                             echo '</td></tr>';
@@ -515,7 +539,7 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                             WHERE SI.id_sistema_informatico = " . $incidente['si'];
                                                         //echo $qComponentesSI."</br>";
 
-                                                        print '<select name="tipoComponente" id="tipoComponente" required>';
+                                                        print '<select name="tipoComponente" id="tipoComponente">';
                                                         print '<option value="">Seleccione...</option>';
                                                         $buscarComponenteSI = $mysqli->query($qComponentesSI);
                                                         if ($buscarComponenteSI) {
@@ -540,9 +564,17 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>*Indicio/Causa:</td>
+                                                    <td colspan="2">
+                                                        <select id="indicio" name="indicio">
+                                                            <option value="">Seleccione...</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>*Accion correctiva<br/>realizada:</td>
                                                     <td colspan="2">
-                                                        <select name="accion" id="accion" required>
+                                                        <select name="accion" id="accion">
                                                             <option value="">Seleccione...</option>
                                                         </select>
                                                     </td>
@@ -556,9 +588,10 @@ $incidente = $buscarIncidentes->fetch_assoc();
                                                             <table class="listado2">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Tipo de componente</th>
+                                                                        <th>Componente</th>
+                                                                        <th>Indicio/Causa</th>
                                                                         <th>Acci&oacute;n correctiva</th>
-                                                                        <th>Quitar</th>
+                                                                        <th>Acción</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
