@@ -184,16 +184,30 @@ $buscarActividad = $mysqli->query($queryActividad);
                         }
                     });
                 });
+                $("#indicio").change(function (mievento) {
+                    mievento.preventDefault();
+                    var indicio = document.getElementById("indicio");
+                    $.ajax({
+                        url: "/<?php echo $_SESSION['RELATIVE_PATH'] ?>/IncidentesSW/ajax/cargarAccionDetalle.php",
+                        type: "POST",
+                        data: "idCausa=" + indicio.value,
+                        success: function (opciones) {
+                            $("#accion").html(opciones);
+                        }
+                    });
+                });
                 $("#ninguno").click(function (mievento) {
                     var ninguno = document.getElementById("ninguno");
                     if (ninguno.checked) {
                         document.getElementById("accion").disabled = true;
+                        document.getElementById("indicio").disabled = true;
                         document.getElementById("tipoSoftware").disabled = true;
                         document.getElementById("softwareAfectado").disabled = true;
                         document.getElementById("agregarAccion").disabled = true;
                         document.getElementById("agregarAccion").hidden = true;
                     } else {
                         document.getElementById("accion").disabled = false;
+                        document.getElementById("indicio").disabled = false;
                         document.getElementById("tipoSoftware").disabled = false;
                         document.getElementById("softwareAfectado").disabled = false;
                         document.getElementById("agregarAccion").disabled = false;
@@ -332,25 +346,25 @@ $buscarActividad = $mysqli->query($queryActividad);
                             <!-- **-->
                             <!-- Aqui van los detalles ya cargados del incidente-->
                             <?php
-                            $idDetalle = 1;
                             $buscarDetallesIncidentes = "SELECT  DIS.fecha_inicio AS fecha, DIS.hora_inicio AS hora, P.nombre, P.apellido, 
                                 ACS.nombre AS accion, concat(CS.descripcion,' ',IFNULL(CS.version,'')) as descripcionSoftware, 
-                                TCS.descripcion AS tipoComponente, DIS.descripcion AS descripcionDetalle, DIS.id_detalle
+                                TCS.descripcion AS tipoComponente, DIS.descripcion AS descripcionDetalle, DIS.id_detalle, C.nombre AS 'indicio' 
                                 FROM detalle_intervencion_software DIS
                                 INNER JOIN incidente_software I ON DIS.id_incidente = I.idIncidente
                                 INNER JOIN accion_correctiva_software ACS ON DIS.id_accion = ACS.idAccion
                                 LEFT JOIN componente_software CS ON DIS.id_componente_software = CS.idComponente_Software
                                 LEFT JOIN tipo_componente_software TCS ON CS.id_tipo_componente = TCS.idtipoComponente
                                 INNER JOIN persona P ON DIS.id_responsable = P.id_persona
+                                LEFT JOIN causa_incidente_software C ON DIS.id_causa = C.idCausa
                                 WHERE DIS.id_incidente = " . $id . " ORDER BY DIS.id_detalle";
                             //echo $buscarDetallesIncidentes;
+                            $nroIntervencion = 0;
                             $resultadoDetallesIncidentes = $mysqli->query($buscarDetallesIncidentes);
                             if ($resultadoDetallesIncidentes && $resultadoDetallesIncidentes->num_rows > 0 ) {
                                 ?>
                                 <fieldset><legend><h4>Intervenciones</h4></legend>
                                     <div class="archive-separator"></div>
                                     <?php
-                                    $nroIntervencion = 0;
                                     while ($detalles = $resultadoDetallesIncidentes->fetch_assoc()) {
                                         //date_default_timezone_set('America/Argentina/Buenos_Aires');
                                         $nroIntervencion++;
@@ -391,13 +405,19 @@ $buscarActividad = $mysqli->query($queryActividad);
                                                 }
                                                 ?>
                                                 <tr>
-                                                    <td>*Accion correctiva<br/>realizada:</td>
+                                                    <td>Indicio/Causa:</td>
+                                                    <td colspan="2">
+                                                        <input type="text" value="<?php echo $detalles['indicio'] ?>" readonly="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Accion correctiva<br/>realizada:</td>
                                                     <td colspan="2">
                                                         <input type="text" value="<?php echo $detalles['accion'] ?>" readonly="true"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>*Descripci&oacute;n:</td>
+                                                    <td>Descripci&oacute;n:</td>
                                                     <td colspan="3">
                                                         <textarea cols="100" rows="8"><?php echo $detalles['descripcionDetalle'] ?></textarea>
                                                     </td>
@@ -406,7 +426,6 @@ $buscarActividad = $mysqli->query($queryActividad);
                                         </fieldset>
                                         <?php
                                     }
-                                    $idDetalle = $detalles['id_detalle'] + 1;
                                 }
                                 ?>
                             </fieldset>    
@@ -422,7 +441,7 @@ $buscarActividad = $mysqli->query($queryActividad);
                                                 <tr>
                                                     <td>Nro:</td>
                                                     <td colspan="3">
-                                                        <input type="text" id="nroInterv" name="nroInterv" value="<?php echo $idDetalle ?>" required/>
+                                                        <input type="text" id="nroInterv" name="nroInterv" value="<?php echo ++$nroIntervencion ?>" required/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -465,7 +484,7 @@ $buscarActividad = $mysqli->query($queryActividad);
                                                 <tr>
                                                     <td>*Software tratado:</td>
                                                     <td>
-                                                        <select id="softwareAfectado" name="softwareAfectado">
+                                                        <select id="softwareAfectado" name="softwareAfectado" required="">
                                                             <option value="">Seleccione...</option>
                                                         </select>
                                                     </td>
@@ -478,28 +497,27 @@ $buscarActividad = $mysqli->query($queryActividad);
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>Indicio/Causa:</td>
+                                                    <td colspan="2">
+                                                        <select id="indicio" name="indicio" required>
+                                                            <option value="">Seleccione...</option>
+                                                            <?php
+                                                            $consultaIndicio = "SELECT idCausa, nombre FROM causa_incidente_software";
+                                                            $resultadoIndicio = $mysqli->query($consultaIndicio);
+                                                            if ($resultadoIndicio) {
+                                                                while ($row = $resultadoIndicio->fetch_assoc()) {
+                                                                    echo '<option value="' . $row['idCausa']  . '">' . $row['nombre'] . '</option>';
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>*Accion correctiva<br/>realizada:</td>
                                                     <td colspan="2">
                                                         <select name="accion" id="accion" required>
                                                             <option value="">Seleccione...</option>
-                                                            <?php
-                                                            echo $incidente['causa_incidente'];
-                                                            $consultaAccionesCorrectivas = "SELECT acs.idAccion as id, acs.nombre 
-                                                                FROM accion_softwarexcausa_software ascs 
-                                                                INNER JOIN accion_correctiva_software acs  on ascs.id_accion=acs.idAccion 
-                                                                inner join causa_incidente_software cs on ascs.id_causa=cs.idCausa 
-                                                                where cs.nombre='" . $incidente['causa_incidente'] . "'";
-                                                            $resultadoAcccionesCorrectivas = $mysqli->query($consultaAccionesCorrectivas);
-                                                            if ($resultadoAcccionesCorrectivas) {
-                                                                while ($row = $resultadoAcccionesCorrectivas->fetch_assoc()) {
-                                                                    ?>
-                                                                    <option value="<?php echo $row['id'] ?>">
-                                                                        <?php echo $row['nombre'] ?>
-                                                                    </option>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                            ?>
                                                         </select>
                                                         <!--<button class="submit" name="agregarAccion" id="agregarAccion" onclick="javascript:mostrarVentana();">+</button>-->
                                                         <button class="submit" name="agregarAccion" id="agregarAccion">+</button>

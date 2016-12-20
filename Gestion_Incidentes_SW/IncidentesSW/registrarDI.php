@@ -8,9 +8,11 @@ try {
     $fecha = filter_input(INPUT_POST, "fecha");
     $fecha = formatoFecha::convertirAFechaSolaBD($fecha);
     $hora = filter_input(INPUT_POST, "hora");
+    $causa = filter_input(INPUT_POST, "indicio");
     $ninguno = filter_input(INPUT_POST, "ninguno");
     if ($ninguno == "0") {
         $softwareAfectado = "NULL";
+        $causa = "null";
         $accion = 28; //id accion: No se realizo ninguna accion
     } else {
         $softwareAfectado = filter_input(INPUT_POST, "softwareAfectado");
@@ -46,6 +48,7 @@ try {
                 `id_componente_software`,
                 `fecha_inicio`,
                 `hora_inicio`,
+                `id_causa`,
                 `descripcion`)
                 VALUES
                 (" . $idIncidente . ","
@@ -53,7 +56,8 @@ try {
             . $accion . ","
             . $softwareAfectado . ",'"
             . $fecha . "','"
-            . $hora . "','"
+            . $hora . "',"
+            . $causa . ",'"
             . $descripcion . "');";
     echo $queryInsert;
     echo "<br/>";
@@ -81,10 +85,6 @@ try {
 } catch (Exception $ex) {
     $msj = 2;
     $mysqli->rollback();
-    //header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesSW/InicioIncidentes.php?msj=' . $msj . '');
-//    echo "<br/>";
-//    echo "Msj: " . $msj;
-//    die();
 }
 
 header('Location: /' . $_SESSION['RELATIVE_PATH'] . '/IncidentesSW/InicioIncidentes.php?msj=' . $msj . '');
